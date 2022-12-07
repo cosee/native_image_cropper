@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:native_image_cropper/native_image_cropper_platform_interface.dart';
 
-import 'platform.dart';
 
 /// An implementation of [NativeImageCropperPlatform] that uses method channels.
 class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {

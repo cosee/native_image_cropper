@@ -1,6 +1,5 @@
+import 'package:native_image_cropper/src/method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
-import 'method_channel.dart';
 
 abstract class NativeImageCropperPlatform extends PlatformInterface {
   /// Constructs a NativeImageCropperPlatform.
