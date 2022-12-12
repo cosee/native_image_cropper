@@ -8,12 +8,25 @@ class MethodChannelNativeImageCropperAndroid
     extends NativeImageCropperAndroidPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
-  final methodChannel = const MethodChannel('native_image_cropper_android');
+  final methodChannel = const MethodChannel('biz.cosee/native_image_cropper');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
+  Future<Uint8List?> cropRect({
+    required Uint8List bytes,
+    required int x,
+    required int y,
+    required int width,
+    required int height,
+  }) async {
+    final arguments = <String, dynamic>{
+      'bytes': bytes,
+      'x': x,
+      'y': y,
+      'width': width,
+      'height': height,
+    };
+    final croppedImage =
+        await methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
+    return croppedImage;
   }
 }

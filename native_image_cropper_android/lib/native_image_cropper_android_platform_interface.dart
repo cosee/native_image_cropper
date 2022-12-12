@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:native_image_cropper_android/native_image_cropper_android_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -23,7 +25,11 @@ abstract class NativeImageCropperAndroidPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
-  }
+  Future<Uint8List?> cropRect({
+    required Uint8List bytes,
+    required int x,
+    required int y,
+    required int width,
+    required int height,
+  });
 }

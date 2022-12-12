@@ -14,7 +14,7 @@ flutter:
       android:
         package: biz.cosee.native_image_cropper
         pluginClass: NativeImageCropperPlugin
-        dartPluginClass: AndroidNativeImageCropper
+        dartPluginClass: NativeImageCropperAndroid
 
 dependencies:
   flutter:

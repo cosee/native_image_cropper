@@ -5,7 +5,7 @@ import 'package:native_image_cropper_android/native_image_cropper_android_method
 void main() {
   final MethodChannelNativeImageCropperAndroid platform =
       MethodChannelNativeImageCropperAndroid();
-  const MethodChannel channel = MethodChannel('native_image_cropper_android');
+  const MethodChannel channel = MethodChannel('biz.cosee/native_image_cropper');
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -20,6 +20,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await platform.getPlatformVersion(), '42');
+    // TODO
   });
 }

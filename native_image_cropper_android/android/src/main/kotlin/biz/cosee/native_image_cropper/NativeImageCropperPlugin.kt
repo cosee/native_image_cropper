@@ -1,14 +1,16 @@
-package biz.cosee.native_image_cropper_android
+package biz.cosee.native_image_cropper
 
-import androidx.annotation.NonNull
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import java.io.ByteArrayOutputStream
 
-/** NativeImageCropperAndroidPlugin */
+/** NativeImageCropperPlugin */
 class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
@@ -18,59 +20,61 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel =
-            MethodChannel(flutterPluginBinding.binaryMessenger, "native_image_cropper_android")
+            MethodChannel(flutterPluginBinding.binaryMessenger, "biz.cosee/native_image_cropper")
         channel.setMethodCallHandler(this)
     }
 
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-        val cropDimension
+    annotation class NonNull
 
+    override fun onDetachedFromEngine(p0: FlutterPlugin.FlutterPluginBinding) {
+        TODO("Not yet implemented")
+    }
+
+
+    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
             "cropRect" -> {
-               handleCropRect(CropSettings.fromMap(call.arguments));
+                val croppedBytes : ByteArray? = handleCropRect(call)
+                if(croppedBytes != null)
+                    result.success(handleCropRect(call))
+                else
+                    // TODO fill error mesage
+                    result.error("ERROR", "Received null", null)
             }
-                else -> result.notImplemented();
-            }
-        }
-
-    }
-
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-        channel.setMethodCallHandler(null)
-    }
-
-    private fun handleCropRect(settings: CropSettings): ByteArray {
-        val bitmap = BitmapFactory.decodeByteArray(settings.bytes, 0, settings.bytes.count())
-        val croppedBitmap =
-            Bitmap.createBitmap(
-                bitmap,
-                settings.x,
-                settings.y,
-                settings.width,
-                settings.height,
-                null,
-                false
-            )
-        val stream = ByteArrayOutputStream()
-        croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        return stream.toByteArray();
-    }
-
-    data class CropSettings(
-        val bytes: ByteArray,
-        val x: Int,
-        val y: Int,
-        val width: Int,
-        val height: Int
-    ) {
-        companion object {
-            fun fromMap(map: Map<String, Any>): CropSettings =
-                CropSettings(
-                    bytes = map["bytes"] as ByteArray,
-                    x = map["x"] as Int,
-                    y = map["y"] as Int,
-                    width = map["width"] as Int,
-                    height = map["height"] as Int
-                )
+            else -> result.notImplemented()
         }
     }
+
+}
+
+private fun handleCropRect(call: MethodCall): ByteArray? {
+    val bytes: ByteArray? = call.argument("bytes")
+    val x: Int? = call.argument("x")
+    val y: Int? = call.argument("y")
+    val width: Int? = call.argument("width")
+    val height: Int? = call.argument("height")
+    print("bytes: " + bytes);
+    print("x: " + x);
+    print("y: " + y);
+    print("width: " + width);
+    print("height: " + height);
+
+    if(bytes == null || x == null || y == null || width == null || height == null)
+        return null
+
+    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.count())
+    val croppedBitmap =
+        Bitmap.createBitmap(
+            bitmap,
+            x,
+            y,
+            width,
+            height,
+            null,
+            false
+        )
+    val stream = ByteArrayOutputStream()
+    croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+    return stream.toByteArray()
+}
+
