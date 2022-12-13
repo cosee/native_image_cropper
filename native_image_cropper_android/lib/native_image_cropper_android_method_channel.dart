@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
 import 'package:native_image_cropper_android/native_image_cropper_android_platform_interface.dart';
 
 /// An implementation of [NativeImageCropperAndroidPlatform] that uses method channels.
@@ -25,6 +24,7 @@ class MethodChannelNativeImageCropperAndroid
       'width': width,
       'height': height,
     };
+    print('BYTES: $bytes');
     final croppedImage =
         await methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
     return croppedImage;

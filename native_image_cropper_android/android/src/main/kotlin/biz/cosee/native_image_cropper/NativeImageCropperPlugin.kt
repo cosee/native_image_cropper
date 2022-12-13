@@ -2,6 +2,7 @@ package biz.cosee.native_image_cropper
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -34,11 +35,11 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
             "cropRect" -> {
-                val croppedBytes : ByteArray? = handleCropRect(call)
-                if(croppedBytes != null)
+                val croppedBytes: ByteArray? = handleCropRect(call)
+                if (croppedBytes != null)
                     result.success(handleCropRect(call))
                 else
-                    // TODO fill error mesage
+                // TODO fill error mesage
                     result.error("ERROR", "Received null", null)
             }
             else -> result.notImplemented()
@@ -53,13 +54,14 @@ private fun handleCropRect(call: MethodCall): ByteArray? {
     val y: Int? = call.argument("y")
     val width: Int? = call.argument("width")
     val height: Int? = call.argument("height")
-    print("bytes: " + bytes);
-    print("x: " + x);
-    print("y: " + y);
-    print("width: " + width);
-    print("height: " + height);
 
-    if(bytes == null || x == null || y == null || width == null || height == null)
+    Log.i("FLUTTER", "bytes: ${bytes.contentToString()}");
+    Log.i("FLUTTER", "x: $x");
+    Log.i("FLUTTER", "y: $y");
+    Log.i("FLUTTER", "width: $width");
+    Log.i("FLUTTER", "height: $height");
+
+    if (bytes == null || x == null || y == null || width == null || height == null)
         return null
 
     val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.count())
