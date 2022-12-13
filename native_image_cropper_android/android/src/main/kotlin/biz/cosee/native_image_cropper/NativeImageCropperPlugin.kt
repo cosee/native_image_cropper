@@ -55,7 +55,6 @@ private fun handleCropRect(call: MethodCall): ByteArray? {
     val width: Int? = call.argument("width")
     val height: Int? = call.argument("height")
 
-    Log.i("FLUTTER", "bytes: ${bytes.contentToString()}");
     Log.i("FLUTTER", "x: $x");
     Log.i("FLUTTER", "y: $y");
     Log.i("FLUTTER", "width: $width");

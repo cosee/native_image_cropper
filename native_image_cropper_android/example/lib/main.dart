@@ -17,6 +17,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _nativeImageCropperAndroidPlugin = NativeImageCropperAndroid();
+  Uint8List? _inputImage;
+  Uint8List? _outputImage;
 
   @override
   void initState() {
@@ -26,12 +28,22 @@ class _MyAppState extends State<MyApp> {
 
   // TODO real example
   Future<void> initTryOutPlugin() async {
-    Uint8List? image = await _nativeImageCropperAndroidPlugin.cropRect(
-        bytes: Uint8List.fromList([1, 2, 3, 4, 5, 6, 7, 8, 9]),
-        x: 0,
-        y: 0,
-        width: 3,
-        height: 3);
+    final ByteData bytes = await rootBundle.load('assets/test_image.png');
+    Uint8List inputByteList = bytes.buffer.asUint8List();
+    setState(() {
+      _inputImage = inputByteList;
+    });
+
+    Uint8List? croppedByteList =
+        await _nativeImageCropperAndroidPlugin.cropRect(
+            bytes: Uint8List.fromList(inputByteList),
+            x: 200,
+            y: 350,
+            width: 450,
+            height: 450);
+    setState(() {
+      _outputImage = croppedByteList ?? _inputImage;
+    });
   }
 
   @override
@@ -41,7 +53,35 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: const Text("Test"),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            if (_inputImage != null)
+              Column(children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Original"),
+                ),
+                Image.memory(
+                  _inputImage!,
+                  height: 300,
+                )
+              ]),
+            if (_outputImage != null)
+              Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("Cropped"),
+                  ),
+                  Image.memory(
+                    _outputImage!,
+                    height: 200,
+                  ),
+                ],
+              )
+          ],
+        ),
       ),
     );
   }

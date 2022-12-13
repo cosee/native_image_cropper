@@ -24,7 +24,6 @@ class MethodChannelNativeImageCropperAndroid
       'width': width,
       'height': height,
     };
-    print('BYTES: $bytes');
     final croppedImage =
         await methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
     return croppedImage;
