@@ -1,7 +1,6 @@
 package biz.cosee.native_image_cropper
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.util.Log
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -37,18 +36,61 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
             "cropRect" -> {
                 val croppedBytes: ByteArray? = handleCropRect(call)
                 if (croppedBytes != null)
-                    result.success(handleCropRect(call))
+                    result.success(croppedBytes)
                 else
-                // TODO fill error mesage
+                // TODO fill error message
                     result.error("ERROR", "Received null", null)
+            }
+            "cropCircle" -> {
+                val croppedBytes: ByteArray? = handleCropCircle(call)
+                if (croppedBytes != null)
+                    result.success(croppedBytes)
+                else
+                // TODO fill error message
+                    result.error("ERROR", "Received null", null)
+
             }
             else -> result.notImplemented()
         }
     }
-
 }
 
 private fun handleCropRect(call: MethodCall): ByteArray? {
+    val croppedBitmap: Bitmap = getCroppedRectBitmap(call) ?: return null
+    val stream = ByteArrayOutputStream()
+    croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+    return stream.toByteArray()
+}
+
+private fun handleCropCircle(call: MethodCall): ByteArray? {
+
+    val croppedBitmap = getCroppedRectBitmap(call) ?: return null
+    val circleBitMap = croppedBitmap.createCircleBitmap()
+    val stream = ByteArrayOutputStream()
+    circleBitMap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+    return stream.toByteArray()
+}
+
+private fun Bitmap.createCircleBitmap(): Bitmap {
+    val output = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(output)
+    val paint = Paint()
+    val rect = Rect(0, 0, this.width, this.height)
+
+    paint.isAntiAlias = true
+    canvas.drawCircle(
+        (this.width / 2).toFloat(),
+        (this.height / 2).toFloat(),
+        (this.width / 2).toFloat(),
+        paint
+    )
+    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+    canvas.drawBitmap(this, rect, rect, paint)
+
+    return output
+}
+
+private fun getCroppedRectBitmap(call: MethodCall): Bitmap? {
     val bytes: ByteArray? = call.argument("bytes")
     val x: Int? = call.argument("x")
     val y: Int? = call.argument("y")
@@ -64,18 +106,18 @@ private fun handleCropRect(call: MethodCall): ByteArray? {
         return null
 
     val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.count())
-    val croppedBitmap =
-        Bitmap.createBitmap(
-            bitmap,
-            x,
-            y,
-            width,
-            height,
-            null,
-            false
-        )
-    val stream = ByteArrayOutputStream()
-    croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-    return stream.toByteArray()
+    return Bitmap.createBitmap(
+        bitmap,
+        x,
+        y,
+        width,
+        height,
+        null,
+        false
+    )
 }
+
+
+
+
 

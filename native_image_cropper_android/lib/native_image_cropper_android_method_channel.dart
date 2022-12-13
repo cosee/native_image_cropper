@@ -28,4 +28,24 @@ class MethodChannelNativeImageCropperAndroid
         await methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
     return croppedImage;
   }
+
+  @override
+  Future<Uint8List?> cropCircle({
+    required Uint8List bytes,
+    required int x,
+    required int y,
+    required int width,
+    required int height,
+  }) async {
+    final arguments = <String, dynamic>{
+      'bytes': bytes,
+      'x': x,
+      'y': y,
+      'width': width,
+      'height': height,
+    };
+    final croppedImage =
+        await methodChannel.invokeMethod<Uint8List>('cropCircle', arguments);
+    return croppedImage;
+  }
 }

@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     Uint8List? croppedByteList =
-        await _nativeImageCropperAndroidPlugin.cropRect(
+        await _nativeImageCropperAndroidPlugin.cropCircle(
             bytes: Uint8List.fromList(inputByteList),
             x: 200,
             y: 350,

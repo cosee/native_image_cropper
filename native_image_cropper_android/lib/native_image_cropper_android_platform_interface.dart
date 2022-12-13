@@ -32,4 +32,12 @@ abstract class NativeImageCropperAndroidPlatform extends PlatformInterface {
     required int width,
     required int height,
   });
+
+  Future<Uint8List?> cropCircle({
+    required Uint8List bytes,
+    required int x,
+    required int y,
+    required int width,
+    required int height,
+  });
 }

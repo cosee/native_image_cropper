@@ -22,6 +22,17 @@ class MockNativeImageCropperAndroidPlatform
     // TODO: implement cropRect
     throw UnimplementedError();
   }
+
+  @override
+  Future<Uint8List?> cropCircle(
+      {required Uint8List bytes,
+      required int x,
+      required int y,
+      required int width,
+      required int height}) {
+    // TODO: implement cropCircle
+    throw UnimplementedError();
+  }
 }
 
 void main() {
