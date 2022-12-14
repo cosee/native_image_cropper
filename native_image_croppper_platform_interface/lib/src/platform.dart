@@ -1,4 +1,6 @@
-import 'package:native_image_cropper/src/method_channel.dart';
+import 'dart:typed_data';
+
+import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 abstract class NativeImageCropperPlatform extends PlatformInterface {
@@ -23,5 +25,23 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  // TODO Crop rect und crop circle hier hinzufügen?
+  Future<Uint8List> cropRect({
+    required Uint8List bytes,
+    required int x,
+    required int y,
+    required int width,
+    required int height,
+  }) {
+    throw UnimplementedError('cropRect() is not implemented.');
+  }
+
+  Future<Uint8List> cropCircle({
+    required Uint8List bytes,
+    required int x,
+    required int y,
+    required int width,
+    required int height,
+  }) {
+    throw UnimplementedError('cropCircle() is not implemented.');
+  }
 }
