@@ -22,4 +22,6 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
+
+  // TODO Crop rect und crop circle hier hinzufügen?
 }
