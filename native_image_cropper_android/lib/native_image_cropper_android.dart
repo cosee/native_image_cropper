@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:native_image_cropper_android/native_image_cropper_exception.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 class NativeImageCropperAndroid extends NativeImageCropperPlatform {
@@ -29,8 +30,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
           await _methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
       return croppedImage!;
     } on PlatformException catch (e) {
-      // TODO throw NativeImageCropperException
-      throw Exception();
+      throw NativeImageCropperException(e.code, e.message);
     }
   }
 
@@ -54,8 +54,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
           await _methodChannel.invokeMethod<Uint8List>('cropCircle', arguments);
       return croppedImage!;
     } on PlatformException catch (e) {
-      // TODO throw NativeImageCropperException
-      throw Exception();
+      throw NativeImageCropperException(e.code, e.message);
     }
   }
 }

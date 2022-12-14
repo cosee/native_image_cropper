@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:native_image_cropper_android/native_image_cropper_android.dart';
+import 'package:native_image_cropper_android/native_image_cropper_exception.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 import 'method_channel_mock.dart';
@@ -45,13 +46,12 @@ void main() {
       ]);
       expect(croppedBytes, Uint8List.fromList([0, 0, 0, 0]));
     });
-    // TODO adapt "Exception" to "NativeImageCropperException"
     test(
-      'Should throw an Exception when cropRect throws a PlatformException',
+      'Should throw an NativeImageCropperException when cropRect throws a PlatformException',
       () async {
         MethodChannelMock(
           methods: {
-            'cropRect': PlatformException(code: 'Test Error'),
+            'cropRect': PlatformException(code: 'Test Error', message: 'This is a test.'),
           },
         );
         final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
@@ -64,8 +64,7 @@ void main() {
             width: 1,
             height: 1,
           ),
-          // TODO update Exception to NativeImageCropperException
-          throwsA(isA<Exception>()),
+          throwsA(isA<NativeImageCropperException>().having((e) => e.code, 'code', 'Test Error').having((e) => e.description, 'description', 'This is a test.')),
         );
       },
     );
@@ -100,8 +99,7 @@ void main() {
       ]);
       expect(croppedBytes, Uint8List.fromList([0, 0, 0, 0]));
     });
-    // TODO adapt "Exception" to "NativeImageCropperException"
-    test('Should throw an Exception when cropCircle throws a PlatformException',
+    test('Should throw an NativeImageCropperException when cropCircle throws a PlatformException',
         () async {
       MethodChannelMock(
         methods: {
