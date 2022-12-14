@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:native_image_cropper_android/native_image_cropper_android.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
