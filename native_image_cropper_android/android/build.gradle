@@ -1,8 +1,9 @@
-group 'com.example.native_image_cropper_android'
-version '1.0-SNAPSHOT'
-
 buildscript {
-    ext.kotlin_version = '1.7.20'
+    ext {
+        kotlin_version = '1.7.20'
+        ktlintPluginVersion = '11.0.0'
+    }
+
     repositories {
         google()
         mavenCentral()
@@ -14,11 +15,19 @@ buildscript {
     }
 }
 
+plugins {
+    id 'org.jlleitschuh.gradle.ktlint' version "$ktlintPluginVersion"
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
+}
+
+subprojects {
+    apply plugin: 'org.jlleitschuh.gradle.ktlint'
 }
 
 apply plugin: 'com.android.library'

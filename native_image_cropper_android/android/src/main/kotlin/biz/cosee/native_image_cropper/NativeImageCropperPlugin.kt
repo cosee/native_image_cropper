@@ -1,6 +1,12 @@
 package biz.cosee.native_image_cropper
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
 import android.util.Log
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -11,10 +17,10 @@ import java.io.ByteArrayOutputStream
 
 /** NativeImageCropperPlugin */
 class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
-    /// The MethodChannel that will the communication between Flutter and native Android
-    ///
-    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-    /// when the Flutter Engine is detached from the Activity
+    // / The MethodChannel that will the communication between Flutter and native Android
+    // /
+    // / This local reference serves to register the plugin with the Flutter Engine and unregister it
+    // / when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -23,29 +29,29 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
         channel.setMethodCallHandler(this)
     }
 
-
     override fun onDetachedFromEngine(p0: FlutterPlugin.FlutterPluginBinding) {
         TODO("Not yet implemented")
     }
-
 
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "cropRect" -> {
                 val croppedBytes: ByteArray? = handleCropRect(call)
-                if (croppedBytes != null)
+                if (croppedBytes != null) {
                     result.success(croppedBytes)
-                else
-                // TODO fill error message
+                } else {
+                    // TODO fill error message
                     result.error("ERROR", "Received null", null)
+                }
             }
             "cropCircle" -> {
                 val croppedBytes: ByteArray? = handleCropCircle(call)
-                if (croppedBytes != null)
+                if (croppedBytes != null) {
                     result.success(croppedBytes)
-                else
-                // TODO fill error message
+                } else {
+                    // TODO fill error message
                     result.error("ERROR", "Received null", null)
+                }
             }
             else -> result.notImplemented()
         }
@@ -118,12 +124,12 @@ private fun getCroppedRectBitmap(call: MethodCall): Bitmap? {
     Log.i("FLUTTER", "width: $width")
     Log.i("FLUTTER", "height: $height")
 
-    if (bytes == null || x == null || y == null || width == null || height == null)
+    if (bytes == null || x == null || y == null || width == null || height == null) {
         return null
+    }
 
     // TODO: Catch IllegalArgumentException
     val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.count())
-
 
     // TODO Catch IllegalArgumentException ?
     //  -> if the x, y, width, height values are outside of the dimensions of the source bitmap,
