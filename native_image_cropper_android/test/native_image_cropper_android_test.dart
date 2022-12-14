@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:native_image_cropper_android/native_image_cropper_android.dart';
-import 'package:native_image_cropper_android/native_image_cropper_exception.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 import 'method_channel_mock.dart';
@@ -52,7 +51,9 @@ void main() {
         MethodChannelMock(
           methods: {
             'cropRect': PlatformException(
-                code: 'Test Error', message: 'This is a test.'),
+              code: 'Test Error',
+              message: 'This is a test.',
+            ),
           },
         );
         final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
@@ -65,9 +66,11 @@ void main() {
             width: 1,
             height: 1,
           ),
-          throwsA(isA<NativeImageCropperException>()
-              .having((e) => e.code, 'code', 'Test Error')
-              .having((e) => e.description, 'description', 'This is a test.')),
+          throwsA(
+            isA<NativeImageCropperException>()
+                .having((e) => e.code, 'code', 'Test Error')
+                .having((e) => e.description, 'description', 'This is a test.'),
+          ),
         );
       },
     );
@@ -107,7 +110,10 @@ void main() {
       () async {
         MethodChannelMock(
           methods: {
-            'cropCircle': PlatformException(code: 'Test Error'),
+            'cropCircle': PlatformException(
+              code: 'Test Error',
+              message: 'This is a test.',
+            ),
           },
         );
         final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
@@ -120,8 +126,11 @@ void main() {
             width: 1,
             height: 1,
           ),
-          // TODO update Exception to NativeImageCropperException
-          throwsA(isA<Exception>()),
+          throwsA(
+            isA<NativeImageCropperException>()
+                .having((e) => e.code, 'code', 'Test Error')
+                .having((e) => e.description, 'description', 'This is a test.'),
+          ),
         );
       },
     );

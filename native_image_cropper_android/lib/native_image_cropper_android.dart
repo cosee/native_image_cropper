@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:native_image_cropper_android/native_image_cropper_exception.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 class NativeImageCropperAndroid extends NativeImageCropperPlatform {

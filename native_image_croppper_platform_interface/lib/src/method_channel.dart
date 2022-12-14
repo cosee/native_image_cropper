@@ -28,8 +28,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
           await methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
       return croppedImage!;
     } on PlatformException catch (e) {
-      // TODO throw NativeImageCropperException
-      throw Exception();
+      throw NativeImageCropperException(e.code, e.message);
     }
   }
 
@@ -53,8 +52,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
           await methodChannel.invokeMethod<Uint8List>('cropCircle', arguments);
       return croppedImage!;
     } on PlatformException catch (e) {
-      // TODO throw NativeImageCropperException
-      throw Exception();
+      throw NativeImageCropperException(e.code, e.message);
     }
   }
 }

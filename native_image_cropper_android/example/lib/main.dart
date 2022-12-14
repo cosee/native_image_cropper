@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
             width: 450,
             height: 450);
     setState(() {
-      _outputImage = croppedByteList ?? _inputImage;
+      _outputImage = croppedByteList;
     });
   }
 
