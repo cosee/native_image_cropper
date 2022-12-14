@@ -51,7 +51,8 @@ void main() {
       () async {
         MethodChannelMock(
           methods: {
-            'cropRect': PlatformException(code: 'Test Error', message: 'This is a test.'),
+            'cropRect': PlatformException(
+                code: 'Test Error', message: 'This is a test.'),
           },
         );
         final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
@@ -64,7 +65,9 @@ void main() {
             width: 1,
             height: 1,
           ),
-          throwsA(isA<NativeImageCropperException>().having((e) => e.code, 'code', 'Test Error').having((e) => e.description, 'description', 'This is a test.')),
+          throwsA(isA<NativeImageCropperException>()
+              .having((e) => e.code, 'code', 'Test Error')
+              .having((e) => e.description, 'description', 'This is a test.')),
         );
       },
     );
@@ -99,26 +102,28 @@ void main() {
       ]);
       expect(croppedBytes, Uint8List.fromList([0, 0, 0, 0]));
     });
-    test('Should throw an NativeImageCropperException when cropCircle throws a PlatformException',
-        () async {
-      MethodChannelMock(
-        methods: {
-          'cropCircle': PlatformException(code: 'Test Error'),
-        },
-      );
-      final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
+    test(
+      'Should throw an NativeImageCropperException when cropCircle throws a PlatformException',
+      () async {
+        MethodChannelMock(
+          methods: {
+            'cropCircle': PlatformException(code: 'Test Error'),
+          },
+        );
+        final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
 
-      expect(
-        () => cropper.cropCircle(
-          bytes: Uint8List.fromList([0, 0, 0, 0]),
-          x: 0,
-          y: 0,
-          width: 1,
-          height: 1,
-        ),
-        // TODO update Exception to NativeImageCropperException
-        throwsA(isA<Exception>()),
-      );
-    },);
+        expect(
+          () => cropper.cropCircle(
+            bytes: Uint8List.fromList([0, 0, 0, 0]),
+            x: 0,
+            y: 0,
+            width: 1,
+            height: 1,
+          ),
+          // TODO update Exception to NativeImageCropperException
+          throwsA(isA<Exception>()),
+        );
+      },
+    );
   });
 }
