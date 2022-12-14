@@ -12,6 +12,8 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import junit.framework.Assert.assertEquals
+import org.junit.Test
 import java.io.ByteArrayOutputStream
 import kotlin.concurrent.thread
 
@@ -25,7 +27,7 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel =
-            MethodChannel(flutterPluginBinding.binaryMessenger, "biz.cosee/native_image_cropper")
+            MethodChannel(flutterPluginBinding.binaryMessenger, "biz.cosee/native_image_cropper_android")
         channel.setMethodCallHandler(this)
     }
 
@@ -117,4 +119,9 @@ private fun getCroppedRectBitmap(
         null,
         false
     )
+}
+
+@Test
+fun testFoo() {
+    assertEquals(2, 2)
 }

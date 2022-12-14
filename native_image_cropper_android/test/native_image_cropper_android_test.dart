@@ -1,62 +1,126 @@
-/*import 'dart:typed_data';
-
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:native_image_cropper_android/native_image_cropper_android.dart';
-import 'package:native_image_cropper_android/native_image_cropper_android_method_channel.dart';
-import 'package:native_image_cropper_android/native_image_cropper_android_platform_interface.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
-class MockNativeImageCropperAndroidPlatform
-    with MockPlatformInterfaceMixin
-    implements NativeImageCropperAndroidPlatform {
-  @override
-  Future<String?> getPlatformVersion() => Future.value('42');
-
-  @override
-  Future<Uint8List?> cropRect(
-      {required Uint8List bytes,
-      required int x,
-      required int y,
-      required int width,
-      required int height}) {
-    // TODO: implement cropRect
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Uint8List?> cropCircle(
-      {required Uint8List bytes,
-      required int x,
-      required int y,
-      required int width,
-      required int height}) {
-    // TODO: implement cropCircle
-    throw UnimplementedError();
-  }
-}
+import 'method_channel_mock.dart';
 
 void main() {
-  final NativeImageCropperAndroidPlatform initialPlatform =
-      NativeImageCropperAndroidPlatform.instance;
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('$MethodChannelNativeImageCropperAndroid is the default instance', () {
+  test('registers instance', () async {
+    NativeImageCropperAndroid.registerWith();
     expect(
-      initialPlatform,
-      isInstanceOf<MethodChannelNativeImageCropperAndroid>(),
+      NativeImageCropperPlatform.instance,
+      isA<NativeImageCropperAndroid>(),
     );
   });
 
-  /*test('getPlatformVersion', () async {
-    final NativeImageCropperAndroid nativeImageCropperAndroidPlugin =
-        NativeImageCropperAndroid();
-    final MockNativeImageCropperAndroidPlatform fakePlatform =
-        MockNativeImageCropperAndroidPlatform();
-    NativeImageCropperAndroidPlatform.instance = fakePlatform;
+  group('cropRect', () {
+    test('Should send cropping data and receive back a Uint8List', () async {
+      final MethodChannelMock mockChannel = MethodChannelMock(
+        methods: {
+          'cropRect': Uint8List.fromList([0, 0, 0, 0]),
+        },
+      );
+      final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
+      final Uint8List croppedBytes = await cropper.cropRect(
+        bytes: Uint8List.fromList([0, 0, 0, 0]),
+        x: 0,
+        y: 0,
+        width: 1,
+        height: 1,
+      );
+      expect(mockChannel.log, [
+        isMethodCall(
+          'cropRect',
+          arguments: {
+            'bytes': Uint8List.fromList([0, 0, 0, 0]),
+            'x': 0,
+            'y': 0,
+            'width': 1,
+            'height': 1,
+          },
+        ),
+      ]);
+      expect(croppedBytes, Uint8List.fromList([0, 0, 0, 0]));
+    });
+    // TODO adapt "Exception" to "NativeImageCropperException"
+    test(
+      'Should throw an Exception when cropRect throws a PlatformException',
+      () async {
+        MethodChannelMock(
+          methods: {
+            'cropRect': PlatformException(code: 'Test Error'),
+          },
+        );
+        final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
 
-    expect(await nativeImageCropperAndroidPlugin.getPlatformVersion(), '42');
+        expect(
+          () => cropper.cropRect(
+            bytes: Uint8List.fromList([0, 0, 0, 0]),
+            x: 0,
+            y: 0,
+            width: 1,
+            height: 1,
+          ),
+          // TODO update Exception to NativeImageCropperException
+          throwsA(isA<Exception>()),
+        );
+      },
+    );
   });
 
-   */
-}
+  group('cropCircle', () {
+    test('Should send cropping data and receive back a Uint8List', () async {
+      final MethodChannelMock mockChannel = MethodChannelMock(
+        methods: {
+          'cropCircle': Uint8List.fromList([0, 0, 0, 0]),
+        },
+      );
+      final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
+      final Uint8List croppedBytes = await cropper.cropCircle(
+        bytes: Uint8List.fromList([0, 0, 0, 0]),
+        x: 0,
+        y: 0,
+        width: 1,
+        height: 1,
+      );
+      expect(mockChannel.log, [
+        isMethodCall(
+          'cropCircle',
+          arguments: {
+            'bytes': Uint8List.fromList([0, 0, 0, 0]),
+            'x': 0,
+            'y': 0,
+            'width': 1,
+            'height': 1,
+          },
+        ),
+      ]);
+      expect(croppedBytes, Uint8List.fromList([0, 0, 0, 0]));
+    });
+    // TODO adapt "Exception" to "NativeImageCropperException"
+    test('Should throw an Exception when cropCircle throws a PlatformException',
+        () async {
+      MethodChannelMock(
+        methods: {
+          'cropCircle': PlatformException(code: 'Test Error'),
+        },
+      );
+      final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
 
- */
+      expect(
+        () => cropper.cropCircle(
+          bytes: Uint8List.fromList([0, 0, 0, 0]),
+          x: 0,
+          y: 0,
+          width: 1,
+          height: 1,
+        ),
+        // TODO update Exception to NativeImageCropperException
+        throwsA(isA<Exception>()),
+      );
+    },);
+  });
+}
