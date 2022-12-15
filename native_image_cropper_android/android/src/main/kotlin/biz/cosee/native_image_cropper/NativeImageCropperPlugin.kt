@@ -12,8 +12,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import junit.framework.Assert.assertEquals
-import org.junit.Test
 import java.io.ByteArrayOutputStream
 import kotlin.concurrent.thread
 
@@ -119,9 +117,4 @@ private fun getCroppedRectBitmap(
         null,
         false
     )
-}
-
-@Test
-fun testFoo() {
-    assertEquals(2, 2)
 }
