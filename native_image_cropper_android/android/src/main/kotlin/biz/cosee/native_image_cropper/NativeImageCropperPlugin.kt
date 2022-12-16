@@ -25,12 +25,14 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel =
-            MethodChannel(flutterPluginBinding.binaryMessenger, "biz.cosee/native_image_cropper_android")
+            MethodChannel(
+                flutterPluginBinding.binaryMessenger,
+                "biz.cosee/native_image_cropper_android"
+            )
         channel.setMethodCallHandler(this)
     }
 
-    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-    }
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {}
 
     override fun onMethodCall(call: MethodCall, result: Result) {
         thread {
