@@ -20,7 +20,7 @@ void main() {
     test('Should send cropping data and receive back a Uint8List', () async {
       final MethodChannelMock mockChannel = MethodChannelMock(
         methods: {
-          'cropRect': Uint8List.fromList([0, 0, 0, 0]),
+          'cropRect': Uint8List.fromList([0, 0]),
         },
       );
       final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
@@ -43,7 +43,7 @@ void main() {
           },
         ),
       ]);
-      expect(croppedBytes, Uint8List.fromList([0, 0, 0, 0]));
+      expect(croppedBytes, Uint8List.fromList([0, 0]));
     });
     test(
       'Should throw an NativeImageCropperException when cropRect throws a PlatformException',
@@ -80,7 +80,7 @@ void main() {
     test('Should send cropping data and receive back a Uint8List', () async {
       final MethodChannelMock mockChannel = MethodChannelMock(
         methods: {
-          'cropCircle': Uint8List.fromList([0, 0, 0, 0]),
+          'cropCircle': Uint8List.fromList([0, 0]),
         },
       );
       final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
@@ -103,7 +103,7 @@ void main() {
           },
         ),
       ]);
-      expect(croppedBytes, Uint8List.fromList([0, 0, 0, 0]));
+      expect(croppedBytes, Uint8List.fromList([0, 0]));
     });
     test(
       'Should throw an NativeImageCropperException when cropCircle throws a PlatformException',
