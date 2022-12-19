@@ -8,11 +8,14 @@ environment:
   flutter: ">=2.5.0"
 
 dependencies:
-  native_image_cropper: ^0.0.1
+  native_image_cropper_android:
+    path: ../native_image_cropper_android
   flutter:
     sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  lint: ^2.0.1
+  dart_code_metrics: ^5.1.0
 

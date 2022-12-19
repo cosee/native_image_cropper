@@ -1,12 +1,13 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
-/// An implementation of [NativeImageCropperPlatform] that uses method channels.
-class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
-  /// The method channel used to interact with the native platform.
-  @visibleForTesting
-  final methodChannel = const MethodChannel('biz.cosee/native_image_cropper');
+class NativeImageCropperAndroid extends NativeImageCropperPlatform {
+  final MethodChannel _methodChannel =
+      const MethodChannel('biz.cosee/native_image_cropper_android');
+
+  static void registerWith() {
+    NativeImageCropperPlatform.instance = NativeImageCropperAndroid();
+  }
 
   @override
   Future<Uint8List> cropRect({
@@ -25,7 +26,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     };
     try {
       final croppedImage =
-          await methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
+          await _methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
       return croppedImage!;
     } on PlatformException catch (e) {
       throw NativeImageCropperException(e.code, e.message);
@@ -49,7 +50,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     };
     try {
       final croppedImage =
-          await methodChannel.invokeMethod<Uint8List>('cropCircle', arguments);
+          await _methodChannel.invokeMethod<Uint8List>('cropCircle', arguments);
       return croppedImage!;
     } on PlatformException catch (e) {
       throw NativeImageCropperException(e.code, e.message);

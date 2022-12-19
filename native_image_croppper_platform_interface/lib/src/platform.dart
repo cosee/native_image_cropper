@@ -1,6 +1,7 @@
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'dart:typed_data';
 
-import 'method_channel.dart';
+import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 abstract class NativeImageCropperPlatform extends PlatformInterface {
   /// Constructs a NativeImageCropperPlatform.
@@ -22,5 +23,25 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
   static set instance(NativeImageCropperPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
+  }
+
+  Future<Uint8List> cropRect({
+    required Uint8List bytes,
+    required int x,
+    required int y,
+    required int width,
+    required int height,
+  }) {
+    throw UnimplementedError('cropRect() is not implemented.');
+  }
+
+  Future<Uint8List> cropCircle({
+    required Uint8List bytes,
+    required int x,
+    required int y,
+    required int width,
+    required int height,
+  }) {
+    throw UnimplementedError('cropCircle() is not implemented.');
   }
 }

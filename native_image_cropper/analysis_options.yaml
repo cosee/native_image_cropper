@@ -1,0 +1,19 @@
+include: package:lint/analysis_options.yaml
+
+analyzer:
+  plugins:
+    - dart_code_metrics
+
+linter:
+  rules:
+    prefer_single_quotes: true
+    sort_pub_dependencies: false
+    always_use_package_imports: true
+    curly_braces_in_flow_control_structures: true
+    avoid_web_libraries_in_flutter: true
+
+dart_code_metrics:
+  rules:
+    - no-boolean-literal-compare
+    - no-equal-then-else
+    - prefer-trailing-comma
