@@ -19,7 +19,7 @@ import java.util.concurrent.Executors
 /** NativeImageCropperPlugin */
 class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     companion object {
-        val threadPool: ExecutorService = Executors.newCachedThreadPool()
+        private val threadPool: ExecutorService = Executors.newCachedThreadPool()
     }
 
     // / The MethodChannel that will the communication between Flutter and native Android
