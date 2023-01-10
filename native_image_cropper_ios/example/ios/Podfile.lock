@@ -2,10 +2,16 @@ PODS:
   - Flutter (1.0.0)
   - native_image_cropper_ios (0.0.1):
     - Flutter
+  - SwiftLint (0.47.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - native_image_cropper_ios (from `.symlinks/plugins/native_image_cropper_ios/ios`)
+  - SwiftLint
+
+SPEC REPOS:
+  trunk:
+    - SwiftLint
 
 EXTERNAL SOURCES:
   Flutter:
@@ -16,7 +22,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   native_image_cropper_ios: a40a362ffac5d7b45cd157b6c00c4bae49ad1453
+  SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
 
-PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
+PODFILE CHECKSUM: 9db97e5702381557a0442563b599ad91f846f134
 
 COCOAPODS: 1.11.3
