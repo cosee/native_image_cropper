@@ -10,6 +10,8 @@ environment:
 dependencies:
   native_image_cropper_android:
     path: ../native_image_cropper_android
+  native_image_cropper_ios:
+    path: ../native_image_cropper_ios
   flutter:
     sdk: flutter
 
