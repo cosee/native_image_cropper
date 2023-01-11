@@ -63,8 +63,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         if let bytes {
             return FlutterStandardTypedData(bytes: bytes)
         }
-        // TODO: Raise error if nil
-        return FlutterStandardTypedData(bytes: bytes!)
+        throw NativeImageCropperError.uIImageToFlutterStandardTypeDataError
     }
     
     private func flutterStandardTypeDataToUIImage(bytes: FlutterStandardTypedData) throws -> UIImage{
@@ -72,8 +71,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         if let image {
             return image
         }
-        // TODO Raise exception
-        return image!
+        throw NativeImageCropperError.flutterStandardTypeDataToUIImageError
     }
     
     private func getCroppedRectUIImage(image: UIImage,x: Int, y: Int, width: Int, height: Int) throws -> UIImage {
@@ -87,8 +85,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
                 orientation: image.imageOrientation
             )
         }
-        // TODO throw exception
-        return image
+        throw NativeImageCropperError.cgImageNullError
     }
     
     private func getCroppedCircleUIImageimage(image: UIImage, x: Int, y: Int, width: Int, height: Int) throws -> UIImage {
@@ -113,5 +110,28 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
                 croppedRectImage.draw(in: cropRect)
             }
         return circleCroppedImage
+    }
+}
+
+enum NativeImageCropperError: LocalizedError{
+    
+    case flutterStandardTypeDataToUIImageError
+    
+    case uIImageToFlutterStandardTypeDataError
+    
+    case cgImageNullError
+    
+}
+
+extension NativeImageCropperError {
+    public var errorDescription: String?{
+        switch self {
+            case .flutterStandardTypeDataToUIImageError:
+                return "Could not convert FlutterStandardTypeData to UIImage."
+            case .uIImageToFlutterStandardTypeDataError:
+                return "Could not convert UIImage to FlutterStandartTypeData."
+            case .cgImageNullError:
+                return "Could not crop because CGImage is null."
+        }
     }
 }
