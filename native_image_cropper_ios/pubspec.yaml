@@ -1,6 +1,6 @@
-name: native_image_cropper_android
-description: Android implementation of the native_image_cropper plugin.
-repository: https://github.com/cosee/native_image_cropper/native_image_cropper_android
+name: native_image_cropper_ios
+description: iOS implementation of the native_image_cropper plugin.
+repository: https://github.com/cosee/native_image_cropper/native_image_cropper_ios
 homepage: https://pub.dev/publishers/cosee.biz/packages
 version: 0.0.1
 
@@ -12,10 +12,9 @@ flutter:
   plugin:
     implements: native_image_cropper
     platforms:
-      android:
-        package: biz.cosee.native_image_cropper
+      ios:
         pluginClass: NativeImageCropperPlugin
-        dartPluginClass: NativeImageCropperAndroid
+        dartPluginClass: NativeImageCropperIOS
 
 dependencies:
   flutter:
