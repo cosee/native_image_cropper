@@ -1,6 +1,7 @@
 name: native_image_cropper_ios
 description: iOS implementation of the native_image_cropper plugin.
 repository: https://github.com/cosee/native_image_cropper/native_image_cropper_ios
+homepage: https://pub.dev/publishers/cosee.biz/packages
 version: 0.0.1
 
 environment:
