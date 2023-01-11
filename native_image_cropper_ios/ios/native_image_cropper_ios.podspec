@@ -5,17 +5,17 @@
 Pod::Spec.new do |s|
   s.name             = 'native_image_cropper_ios'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'the ios implementation of native_image_cropper.'
   s.description      = <<-DESC
-A new Flutter plugin project.
+the ios implementation of native_image_cropper. it allows you to crop an image to a circle and a rectangle.
                        DESC
-  s.homepage         = 'http://example.com'
-  s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
-  s.source           = { :path => '.' }
+  s.homepage         = 'https://pub.dev/publishers/cosee.biz/packages'
+  s.license          = { :file => '../license' }
+  s.author           = { 'cosee' => 'mobile.cosee@gmail.com' }
+  s.source           = { :git => 'https://github.com/cosee/native_image_cropper.git' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '9.0'
+  s.platform = :ios, '11.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
