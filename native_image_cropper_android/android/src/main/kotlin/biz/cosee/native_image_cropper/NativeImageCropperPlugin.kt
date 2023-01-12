@@ -13,10 +13,15 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import java.io.ByteArrayOutputStream
-import kotlin.concurrent.thread
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /** NativeImageCropperPlugin */
 class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
+    companion object {
+        val threadPool: ExecutorService = Executors.newCachedThreadPool()
+    }
+
     // / The MethodChannel that will the communication between Flutter and native Android
     // /
     // / This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -35,7 +40,7 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {}
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        thread {
+        threadPool.execute {
             when (call.method) {
                 "cropRect" -> handleCropRect(call, result)
                 "cropCircle" -> handleCropCircle(call, result)
