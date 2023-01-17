@@ -8,17 +8,26 @@ environment:
   sdk: '>=2.18.4 <3.0.0'
   flutter: ">=2.5.0"
 
+flutter:
+  plugin:
+    platforms:
+      android:
+        default_package: native_image_cropper_android
+      ios:
+        default_package: native_image_cropper_ios
+
 dependencies:
+  flutter:
+    sdk: flutter
   native_image_cropper_android:
     path: ../native_image_cropper_android
   native_image_cropper_ios:
     path: ../native_image_cropper_ios
-  flutter:
-    sdk: flutter
+  native_image_cropper_platform_interface:
+    path: ../native_image_croppper_platform_interface
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   lint: ^2.0.1
   dart_code_metrics: ^5.1.0
-
