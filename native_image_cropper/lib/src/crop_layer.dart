@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class RectAreaPaint extends CustomPainter {
+class CropLayer extends CustomPainter {
   final Rect rect;
 
-  const RectAreaPaint(this.rect);
+  const CropLayer(this.rect);
 
   @override
   void paint(Canvas canvas, Size size) {
