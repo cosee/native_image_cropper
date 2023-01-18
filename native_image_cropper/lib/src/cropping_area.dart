@@ -16,111 +16,94 @@ class CroppingArea extends StatefulWidget {
 }
 
 class _CroppingAreaState extends State<CroppingArea> {
-  static const double dotSize = 60;
+  static const double dotSize = 20;
   late MemoryImage _image;
-  Rect rect = Rect.largest;
+  Rect croppingRect = Rect.zero;
+
+  Rect imageRect = Rect.zero;
+
+  Rect get backShiftedCroppingRect {
+    return Rect.fromPoints(
+        croppingRect.topLeft - Offset(dotSize / 2, dotSize / 2),
+        croppingRect.bottomRight - Offset(dotSize / 2, dotSize / 2));
+  }
 
   static final GlobalKey _globalKey = GlobalKey();
 
-  Rect _updateRectTopLeft(BuildContext context, Offset globalPosition) {
-    final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box == null) {
-      return Rect.zero;
-    }
-    var localPosition = box.globalToLocal(globalPosition);
-    var x = localPosition.dx;
-    if (x < 0) {
-      x = 0;
-    }
-    if (x > box.size.width) {
-      x = box.size.width;
-    }
-    var y = localPosition.dy;
-    if (y < 0) {
-      y = 0;
-    }
-    if (y > box.size.height) {
-      y = box.size.height;
-    }
-    return Rect.fromPoints(Offset(x, y), rect.bottomRight);
-  }
+  Rect _updateRectBottomLeft(DragUpdateDetails details) {
+    Rect newRect = Rect.fromPoints(
+        croppingRect.topLeft +
+            Offset(
+              details.delta.dx,
+              0,
+            ),
+        croppingRect.bottomRight + Offset(0, details.delta.dy));
 
-  Rect _updateRectTopRight(BuildContext context, Offset globalPosition) {
-    final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box == null) {
-      return Rect.zero;
+    double cropLeft = newRect.left;
+    double cropBottom = newRect.bottom;
+
+    if (cropLeft < imageRect.left) {
+      cropLeft = imageRect.left;
     }
-    var localPosition = box.globalToLocal(globalPosition);
-    var x = localPosition.dx;
-    if (x < 0) {
-      x = 0;
-    }
-    if (x > box.size.width) {
-      x = box.size.width;
-    }
-    var y = localPosition.dy;
-    if (y < 0) {
-      y = 0;
-    }
-    if (y > box.size.height) {
-      y = box.size.height;
+    if (cropBottom > imageRect.bottom) {
+      cropBottom = imageRect.bottom;
     }
     return Rect.fromPoints(
-        Offset(rect.left, y), Offset(x, rect.bottomRight.dy));
+        Offset(cropLeft, newRect.top), Offset(newRect.right, cropBottom));
   }
 
-  Rect _updateRectBottomRight(BuildContext context, Offset globalPosition) {
-    final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box == null) {
-      return Rect.zero;
+  Rect _updateRectTopRight(DragUpdateDetails details) {
+    Rect newRect = Rect.fromPoints(
+        croppingRect.topLeft +
+            Offset(
+              0,
+              details.delta.dy,
+            ),
+        croppingRect.bottomRight + Offset(details.delta.dx, 0));
+
+    double cropRight = newRect.right;
+    double cropTop = newRect.top;
+
+    if (cropTop < imageRect.top) {
+      cropTop = imageRect.top;
     }
-    var localPosition = box.globalToLocal(globalPosition);
-    var x = localPosition.dx;
-    if (x < 0) {
-      x = 0;
+    if (cropRight > imageRect.right) {
+      cropRight = imageRect.right;
     }
-    if (x > box.size.width) {
-      x = box.size.width;
-    }
-    var y = localPosition.dy;
-    if (y < 0) {
-      y = 0;
-    }
-    if (y > box.size.height) {
-      y = box.size.height;
-    }
-    return Rect.fromPoints(rect.topLeft, Offset(x, y));
+    return Rect.fromPoints(
+        Offset(newRect.left, cropTop), Offset(cropRight, newRect.bottom));
   }
 
-  Rect _updateRectBottomLeft(BuildContext context, Offset globalPosition) {
-    final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box == null) {
-      return Rect.zero;
+  Rect _updateRectTopLeft(DragUpdateDetails details) {
+    Rect newRect = Rect.fromPoints(
+        croppingRect.topLeft + details.delta, croppingRect.bottomRight);
+
+    double cropLeft = newRect.left;
+    double cropTop = newRect.top;
+
+    if (cropTop < imageRect.top) {
+      cropTop = imageRect.top;
     }
-    var localPosition = box.globalToLocal(globalPosition);
-    var x = localPosition.dx;
-    if (x < 0) {
-      x = 0;
+    if (cropLeft < imageRect.left) {
+      cropLeft = imageRect.left;
     }
-    if (x > box.size.width) {
-      x = box.size.width;
-    }
-    var y = localPosition.dy;
-    if (y < 0) {
-      y = 0;
-    }
-    if (y > box.size.height) {
-      y = box.size.height;
-    }
-    return Rect.fromPoints(Offset(x, rect.top), Offset(rect.right, y));
+    return Rect.fromPoints(Offset(cropLeft, cropTop), newRect.bottomRight);
   }
 
-  Size getContainerSize(BuildContext context) {
-    final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box == null) {
-      return Size(0, 0);
+  Rect _updateRectBottomRight(DragUpdateDetails details) {
+    Rect newRect = Rect.fromPoints(
+        croppingRect.topLeft, croppingRect.bottomRight + details.delta);
+
+    double cropBottom = newRect.bottom;
+    double cropRight = newRect.right;
+
+    if (cropRight > imageRect.right) {
+      cropRight = imageRect.right;
     }
-    return box.size;
+    if (cropBottom > imageRect.bottom) {
+      cropBottom = imageRect.bottom;
+    }
+    return Rect.fromPoints(newRect.topLeft, Offset(cropRight, cropBottom));
   }
 
   bool isLoading = false;
@@ -145,150 +128,126 @@ class _CroppingAreaState extends State<CroppingArea> {
     super.initState();
     WidgetsFlutterBinding.ensureInitialized();
     _image = MemoryImage(widget.bytes);
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-      box?.markNeedsPaint();
-      box?.markNeedsLayoutForSizedByParentChange();
-      box?.markNeedsLayout();
-      print('addPostFrameCallback');
-      print(box?.size);
-    });
-    WidgetsBinding.instance.endOfFrame.then((_) {
-      final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-      box?.markNeedsPaint();
-      box?.markNeedsLayoutForSizedByParentChange();
-      box?.markNeedsLayout();
-
-      print('endOfFrame');
-      print(box?.size);
-    });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    print('didChangeDependencies');
-    final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-    print(box?.size);
-  }
-
-  @override
-  void didUpdateWidget(covariant CroppingArea oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    print('didUpdateWidget');
-    final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-    print(box?.size);
-  }
-
-  Offset? _startPoint;
+  Offset? startPoint = null;
 
   @override
   Widget build(BuildContext context) {
-    final box = _globalKey.currentContext?.findRenderObject() as RenderBox?;
-    print("BUILD");
-    if (box != null && !isLoading) {
-      final size = box.size;
-      if (size != Size.zero) {
-        rect = box.paintBounds;
-        isLoading = true;
-
-        print('Box: ${size} - ratio: ${size.height / size.width}');
-      }
-    }
-
     return Column(
       children: [
         ElevatedButton(
           onPressed: () async {
-            if (box != null) {
-              final imageSize = await getImageSize();
-              final size = box.size;
-              final x = rect.left / size.width * imageSize.width;
-              final y = rect.top / size.height * imageSize.height;
-              final width = (rect.width) / size.width * imageSize.width;
-              final height = (rect.height) / size.height * imageSize.height;
+            final imageSize = await getImageSize();
+            final size = imageRect.size;
+            final x =
+                backShiftedCroppingRect.left / size.width * imageSize.width;
+            final y =
+                backShiftedCroppingRect.top / size.height * imageSize.height;
+            final width = (croppingRect.width) / size.width * imageSize.width;
+            final height =
+                (croppingRect.height) / size.height * imageSize.height;
 
-              final bytes = await NativeImageCropper.cropRect(
-                  bytes: widget.bytes,
-                  x: x.toInt(),
-                  y: y.toInt(),
-                  width: width.toInt(),
-                  height: height.toInt());
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Result(bytes: bytes)));
-            }
+            final bytes = await NativeImageCropper.cropRect(
+                bytes: widget.bytes,
+                x: x.toInt(),
+                y: y.toInt(),
+                width: width.toInt(),
+                height: height.toInt());
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Result(bytes: bytes)));
           },
           child: Text('CROP'),
         ),
-        Expanded(
+        Container(
           child: Container(
-            color: Colors.green,
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              color: Colors.red,
-              child: Stack(
-                children: [
-                  GestureDetector(
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(dotSize / 2),
+                  child: GestureDetector(
                     onPanStart: (details) {
-                      _startPoint = details.localPosition;
+                      startPoint = details.localPosition;
                     },
                     onPanEnd: (details) {
-                      _startPoint = null;
+                      startPoint = null;
                     },
                     onPanUpdate: (details) {
-                      if (_startPoint != null) {
-                        if (rect.contains(_startPoint!)) {
+                      if (startPoint != null) {
+                        if (backShiftedCroppingRect.contains(startPoint!)) {
                           var localPosition = details.localPosition;
                           var x = localPosition.dx;
 
-                          final box = _globalKey.currentContext
-                              ?.findRenderObject() as RenderBox?;
-                          if (box == null) {
-                            return;
-                          }
                           if (x < 0) {
                             x = 0;
                           }
-                          if (x > box.size.width) {
-                            x = box.size.width;
+                          if (x > imageRect.size.width) {
+                            x = imageRect.size.width;
                           }
                           var y = localPosition.dy;
                           if (y < 0) {
                             y = 0;
                           }
-                          if (y > box.size.height) {
-                            y = box.size.height;
-                          }
-                          Rect newRect = rect.shift(details.delta);
-                          if (newRect.right > box.size.width) {
-                            newRect = Rect.fromPoints(rect.topLeft,
-                                Offset(box.size.width, rect.bottom));
-                          }
-                          if (newRect.left < 0) {
-                            newRect = Rect.fromPoints(
-                                Offset(0, rect.top), rect.bottomRight);
+                          if (y > imageRect.size.height) {
+                            y = imageRect.size.height;
                           }
 
-                          if (newRect.top < 0) {
-                            newRect = Rect.fromPoints(
-                                Offset(rect.left, 0), rect.bottomRight);
+                          Rect newRect = croppingRect.shift(details.delta);
+                          if (newRect.right > imageRect.right) {
+                            newRect = Rect.fromPoints(croppingRect.topLeft,
+                                Offset(imageRect.right, croppingRect.bottom));
                           }
-                          if (newRect.bottom > box.size.height) {
-                            newRect = Rect.fromPoints(rect.topLeft,
-                                Offset(rect.right, box.size.height));
+                          if (newRect.left < imageRect.left) {
+                            newRect = Rect.fromPoints(
+                                Offset(imageRect.left, croppingRect.top),
+                                croppingRect.bottomRight);
                           }
 
-                          _startPoint = Offset(x, y);
-                          rect = newRect;
+                          if (newRect.top < imageRect.top) {
+                            newRect = Rect.fromPoints(
+                                Offset(croppingRect.left, imageRect.top),
+                                croppingRect.bottomRight);
+                          }
+                          if (newRect.bottom > imageRect.bottom) {
+                            newRect = Rect.fromPoints(croppingRect.topLeft,
+                                Offset(croppingRect.right, imageRect.bottom));
+                          }
+
+                          startPoint = Offset(x, y);
+                          croppingRect = newRect;
                           setState(() {});
+                          startPoint = details.localPosition;
                         }
                       }
                     },
                     child: CustomPaint(
-                      foregroundPainter: CropLayer(
-                        rect,
+                      foregroundPainter: CropLayer.CropPainter(
+                        rect: backShiftedCroppingRect,
+                        callback: (Size imageScreenSize) {
+                          if (imageRect == Rect.zero) {
+                            if (imageScreenSize == Size(0, 0)) {
+                              return;
+                            }
+                            imageRect = Rect.fromPoints(
+                                Offset(dotSize / 2, dotSize / 2),
+                                Offset(imageScreenSize.width + dotSize / 2,
+                                    imageScreenSize.height + dotSize / 2));
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((_) async {
+                              setState(() {});
+                            });
+                          }
+                          if (croppingRect == Rect.zero) {
+                            if (imageScreenSize == Size(0, 0)) {
+                              return;
+                            }
+                            croppingRect = imageRect;
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((_) async {
+                              setState(() {});
+                            });
+                          }
+                        },
                       ),
                       willChange: true,
                       child: Image(
@@ -298,76 +257,72 @@ class _CroppingAreaState extends State<CroppingArea> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: rect.left - dotSize / 2,
-                    top: rect.top - dotSize / 2,
-                    child: GestureDetector(
-                      onPanUpdate: (details) {
-                        rect =
-                            _updateRectTopLeft(context, details.globalPosition);
-                        setState(() {});
-                      },
-                      child: Container(
-                        width: dotSize,
-                        height: dotSize,
-                        decoration: BoxDecoration(
-                            color: Colors.yellow, shape: BoxShape.circle),
-                      ),
+                ),
+                Positioned(
+                  left: croppingRect.left - dotSize / 2,
+                  top: croppingRect.top - dotSize / 2,
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      croppingRect = _updateRectTopLeft(details);
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: dotSize,
+                      height: dotSize,
+                      decoration: BoxDecoration(
+                          color: Colors.blue, shape: BoxShape.circle),
                     ),
                   ),
-                  Positioned(
-                    left: rect.left - dotSize / 2,
-                    top: rect.bottom - dotSize / 2,
-                    child: GestureDetector(
-                      onPanUpdate: (details) {
-                        rect = _updateRectBottomLeft(
-                            context, details.globalPosition);
-                        setState(() {});
-                      },
-                      child: Container(
-                        width: dotSize,
-                        height: dotSize,
-                        decoration: BoxDecoration(
-                            color: Colors.yellow, shape: BoxShape.circle),
-                      ),
+                ),
+                Positioned(
+                  left: croppingRect.right - dotSize / 2,
+                  top: croppingRect.bottom - dotSize / 2,
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      croppingRect = _updateRectBottomRight(details);
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: dotSize,
+                      height: dotSize,
+                      decoration: BoxDecoration(
+                          color: Colors.blue, shape: BoxShape.circle),
                     ),
                   ),
-                  Positioned(
-                    left: rect.right - dotSize / 2,
-                    top: rect.top - dotSize / 2,
-                    child: GestureDetector(
-                      onPanUpdate: (details) {
-                        rect = _updateRectTopRight(
-                            context, details.globalPosition);
-                        setState(() {});
-                      },
-                      child: Container(
-                        width: dotSize,
-                        height: dotSize,
-                        decoration: BoxDecoration(
-                            color: Colors.yellow, shape: BoxShape.circle),
-                      ),
+                ),
+                Positioned(
+                  left: croppingRect.right - dotSize / 2,
+                  top: croppingRect.top - dotSize / 2,
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      croppingRect = _updateRectTopRight(details);
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: dotSize,
+                      height: dotSize,
+                      decoration: BoxDecoration(
+                          color: Colors.blue, shape: BoxShape.circle),
                     ),
                   ),
-                  Positioned(
-                    left: rect.right - dotSize / 2,
-                    top: rect.bottom - dotSize / 2,
-                    child: GestureDetector(
-                      onPanUpdate: (details) {
-                        rect = _updateRectBottomRight(
-                            context, details.globalPosition);
-                        setState(() {});
-                      },
-                      child: Container(
-                        width: dotSize,
-                        height: dotSize,
-                        decoration: BoxDecoration(
-                            color: Colors.yellow, shape: BoxShape.circle),
-                      ),
+                ),
+                Positioned(
+                  left: croppingRect.left - dotSize / 2,
+                  top: croppingRect.bottom - dotSize / 2,
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      croppingRect = _updateRectBottomLeft(details);
+                      setState(() {});
+                    },
+                    child: Container(
+                      width: dotSize,
+                      height: dotSize,
+                      decoration: BoxDecoration(
+                          color: Colors.blue, shape: BoxShape.circle),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

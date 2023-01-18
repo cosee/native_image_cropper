@@ -44,11 +44,13 @@ class MyApp extends StatelessWidget {
               if (snapshot.hasData) {
                 return Column(
                   children: [
-                    Expanded(
+                    Padding(
+                      padding: const EdgeInsets.all(30.0),
                       child: CroppingArea(
                         bytes: snapshot.data!,
                       ),
                     ),
+                    // Container(height: 900, color: Colors.grey),
                   ],
                 );
               } else {
