@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CropLayer extends CustomPainter {
-  Rect rect;
-  final Function(Size size) callback;
+  const CropLayer(this.rect);
 
-  CropLayer.CropPainter({required this.rect, required this.callback});
+  final Rect rect;
 
   @override
   void paint(Canvas canvas, Size size) {
-    callback(size);
-    print(size);
-
     final Paint screenPaint = Paint()..color = Colors.black38;
     final Paint borderPaint = Paint()
       ..color = const Color(0xffCCCCCC)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
+
     final Rect screenRect = Offset.zero & size;
 
     final Path areaPath = Path()..addRect(rect);
@@ -24,8 +21,9 @@ class CropLayer extends CustomPainter {
       Path()..addRect(screenRect),
       areaPath,
     );
-    canvas.drawPath(maskPath, screenPaint);
-    canvas.drawPath(areaPath, borderPaint);
+    canvas
+      ..drawPath(maskPath, screenPaint)
+      ..drawPath(areaPath, borderPaint);
   }
 
   @override

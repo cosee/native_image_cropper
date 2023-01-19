@@ -5,31 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   Future<Uint8List> getImage() async {
     final byteData = await rootBundle.load('assets/test_image.png');
-    getImageSize(MemoryImage(byteData.buffer.asUint8List())).then((value) =>
-        print('Original: $value - ratio: ${value.height / value.width}'));
     return byteData.buffer.asUint8List();
   }
 
-  Future<Size> getImageSize(ImageProvider imageProvider) async {
-    final ImageStream stream = imageProvider.resolve(ImageConfiguration.empty);
-    final Completer<Size> completer = Completer<Size>();
-    late ImageStreamListener listener;
-    listener = ImageStreamListener((ImageInfo info, _) {
-      completer.complete(
-          Size(info.image.width.toDouble(), info.image.height.toDouble()));
-      stream.removeListener(listener);
-    });
-    stream.addListener(listener);
-    return completer.future;
-  }
+  final controller = CropController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +31,22 @@ class MyApp extends StatelessWidget {
               if (snapshot.hasData) {
                 return Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: CroppingArea(
+                    ElevatedButton(
+                      onPressed: () async {
+                        final bytes = await controller.crop();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => _Result(bytes: bytes)));
+                      },
+                      child: const Text('CROP'),
+                    ),
+                    Expanded(
+                      child: CropPreview(
+                        controller: controller,
                         bytes: snapshot.data!,
                       ),
                     ),
-                    // Container(height: 900, color: Colors.grey),
                   ],
                 );
               } else {
@@ -61,5 +57,15 @@ class MyApp extends StatelessWidget {
             }),
       ),
     );
+  }
+}
+
+class _Result extends StatelessWidget {
+  const _Result({Key? key, required this.bytes}) : super(key: key);
+  final Uint8List bytes;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Center(child: Image.memory(bytes)));
   }
 }
