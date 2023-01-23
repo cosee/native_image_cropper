@@ -3,8 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper/src/drag_point.dart';
-import 'package:native_image_cropper/src/oval_layer.dart';
-import 'package:native_image_cropper/src/rect_layer.dart';
 import 'package:native_image_cropper/src/utils.dart';
 
 class CropPreview extends StatefulWidget {
@@ -13,11 +11,15 @@ class CropPreview extends StatefulWidget {
     this.controller,
     required this.bytes,
     this.mode = CropMode.rect,
+    this.dragPointSize = 20,
+    this.layerOptions = const CropLayerOptions(),
   });
 
   final CropController? controller;
   final Uint8List bytes;
   final CropMode mode;
+  final double dragPointSize;
+  final CropLayerOptions layerOptions;
 
   @override
   State<CropPreview> createState() => _CropPreviewState();
@@ -30,9 +32,12 @@ class _CropPreviewState extends State<CropPreview> {
   Rect? _cropRect;
   Rect? _imageRect;
   late ImageStreamListener _listener;
-  static const double dotSize = 20;
 
   CropController? get _controller => widget.controller;
+
+  double get _dragPointSize => widget.dragPointSize;
+
+  CropLayerOptions get layerOptions => widget.layerOptions;
 
   @override
   void initState() {
@@ -73,7 +78,7 @@ class _CropPreviewState extends State<CropPreview> {
       return Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(dotSize / 2),
+            padding: EdgeInsets.all(_dragPointSize / 2),
             child: GestureDetector(
               onPanStart: (details) => isMovingCropLayer =
                   _cropRect?.contains(details.localPosition) ?? false,
@@ -105,8 +110,14 @@ class _CropPreviewState extends State<CropPreview> {
 
                   return CustomPaint(
                     foregroundPainter: widget.mode == CropMode.oval
-                        ? CropOvalLayer(cropRect)
-                        : CropRectLayer(cropRect),
+                        ? CropOvalLayer(
+                            rect: cropRect,
+                            layerOptions: layerOptions,
+                          )
+                        : CropRectLayer(
+                            rect: cropRect,
+                            layerOptions: layerOptions,
+                          ),
                     willChange: true,
                     child: Image(
                       image: _image,
@@ -126,7 +137,7 @@ class _CropPreviewState extends State<CropPreview> {
                   delta: details.delta,
                   moveSpecificCropCornerFnc: CropUtils.moveTopLeftCorner,
                 ),
-                child: const CropDragPoint(),
+                child: CropDragPoint(size: _dragPointSize),
               ),
             ),
             Positioned(
@@ -137,7 +148,7 @@ class _CropPreviewState extends State<CropPreview> {
                   delta: details.delta,
                   moveSpecificCropCornerFnc: CropUtils.moveTopRightCorner,
                 ),
-                child: const CropDragPoint(),
+                child: CropDragPoint(size: _dragPointSize),
               ),
             ),
             Positioned(
@@ -148,7 +159,7 @@ class _CropPreviewState extends State<CropPreview> {
                   delta: details.delta,
                   moveSpecificCropCornerFnc: CropUtils.moveBottomLeftCorner,
                 ),
-                child: const CropDragPoint(),
+                child: CropDragPoint(size: _dragPointSize),
               ),
             ),
             Positioned(
@@ -159,7 +170,7 @@ class _CropPreviewState extends State<CropPreview> {
                   delta: details.delta,
                   moveSpecificCropCornerFnc: CropUtils.moveBottomRightCorner,
                 ),
-                child: const CropDragPoint(),
+                child: CropDragPoint(size: _dragPointSize),
               ),
             ),
           ],

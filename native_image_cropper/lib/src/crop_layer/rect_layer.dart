@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:native_image_cropper/src/crop_layer/layer.dart';
 
-class CropOvalLayer extends CustomPainter {
-  const CropOvalLayer(this.rect);
-
-  final Rect rect;
+class CropRectLayer extends CropLayer {
+  const CropRectLayer({
+    required super.rect,
+    required super.layerOptions,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint screenPaint = Paint()..color = Colors.black38;
-    final Paint borderPaint = Paint()
-      ..color = const Color(0xffCCCCCC)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-
     final Rect screenRect = Offset.zero & size;
 
-    final Path areaPath = Path()..addOval(rect);
+    final Path areaPath = Path()..addRect(rect);
     final Path maskPath = Path.combine(
       PathOperation.difference,
       Path()..addRect(screenRect),
       areaPath,
     );
     canvas
-      ..drawPath(maskPath, screenPaint)
+      ..drawPath(maskPath, backgroundPaint)
       ..drawPath(areaPath, borderPaint);
   }
 
