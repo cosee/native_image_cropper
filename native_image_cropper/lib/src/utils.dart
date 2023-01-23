@@ -5,7 +5,10 @@ class CropUtils {
 
   static const Size _minCropRectSize = Size(20, 20);
 
-  static Rect computeImageRect(Size imageSize, Rect availableSpace) {
+  static Rect computeImageRect({
+    required Size imageSize,
+    required Rect availableSpace,
+  }) {
     final fittedSizes =
         applyBoxFit(BoxFit.contain, imageSize, availableSpace.size);
     final destinationSize = fittedSizes.destination;

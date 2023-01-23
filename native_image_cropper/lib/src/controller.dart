@@ -9,6 +9,7 @@ class CropValue {
     required this.imageRect,
     required this.cropRect,
     required this.bytes,
+    required this.mode,
   });
 
   static final CropValue zero = CropValue(
@@ -16,25 +17,31 @@ class CropValue {
     imageRect: Rect.zero,
     cropRect: Rect.zero,
     bytes: Uint8List.fromList([]),
+    mode: CropMode.rect,
   );
 
   final Size imageSize;
   final Rect imageRect;
   final Rect cropRect;
   final Uint8List bytes;
+  final CropMode mode;
 
   CropValue copyWith({
     Size? imageSize,
     Rect? imageRect,
     Rect? cropRect,
     Uint8List? bytes,
+    CropMode? mode,
   }) =>
       CropValue(
         imageSize: imageSize ?? this.imageSize,
         imageRect: imageRect ?? this.imageRect,
         cropRect: cropRect ?? this.cropRect,
         bytes: bytes ?? this.bytes,
+        mode: mode ?? this.mode,
       );
+
+// TODO Add hash and == operator
 }
 
 class CropController extends ValueNotifier<CropValue> {
@@ -46,16 +53,26 @@ class CropController extends ValueNotifier<CropValue> {
     final cropRect = value.cropRect;
     final x = cropRect.left / imageRect.width * imageSize.width;
     final y = cropRect.top / imageRect.height * imageSize.height;
-    final width = (cropRect.width) / imageRect.width * imageSize.width;
-    final height = (cropRect.height) / imageRect.height * imageSize.height;
+    final width = cropRect.width / imageRect.width * imageSize.width;
+    final height = cropRect.height / imageRect.height * imageSize.height;
 
-    return NativeImageCropper.cropOval(
-      bytes: value.bytes,
-      x: x.toInt(),
-      y: y.toInt(),
-      width: width.toInt(),
-      height: height.toInt(),
-    );
+    if (value.mode == CropMode.oval) {
+      return NativeImageCropper.cropOval(
+        bytes: value.bytes,
+        x: x.toInt(),
+        y: y.toInt(),
+        width: width.toInt(),
+        height: height.toInt(),
+      );
+    } else {
+      return NativeImageCropper.cropRect(
+        bytes: value.bytes,
+        x: x.toInt(),
+        y: y.toInt(),
+        width: width.toInt(),
+        height: height.toInt(),
+      );
+    }
   }
 
   void updateValue({
@@ -63,12 +80,14 @@ class CropController extends ValueNotifier<CropValue> {
     Rect? imageRect,
     Rect? cropRect,
     Uint8List? bytes,
+    CropMode? mode,
   }) {
     value = value.copyWith(
       imageSize: imageSize,
       imageRect: imageRect,
       cropRect: cropRect,
       bytes: bytes,
+      mode: mode,
     );
   }
 }

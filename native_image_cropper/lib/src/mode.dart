@@ -1,0 +1,4 @@
+enum CropMode {
+  oval,
+  rect,
+}

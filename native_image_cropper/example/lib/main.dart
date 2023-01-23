@@ -8,15 +8,22 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   Future<Uint8List> getImage() async {
     final byteData = await rootBundle.load('assets/test_image.png');
     return byteData.buffer.asUint8List();
   }
 
   final controller = CropController();
+
+  CropMode mode = CropMode.rect;
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +50,27 @@ class MyApp extends StatelessWidget {
                         child: const Text('CROP'),
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => setState(() => mode = CropMode.rect),
+                          child: const Text('RECT'),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        ElevatedButton(
+                          onPressed: () => setState(() => mode = CropMode.oval),
+                          child: const Text('OVAL'),
+                        ),
+                      ],
+                    ),
                     Expanded(
                       child: CropPreview(
                         controller: controller,
                         bytes: snapshot.data!,
+                        mode: mode,
                       ),
                     ),
                   ],
