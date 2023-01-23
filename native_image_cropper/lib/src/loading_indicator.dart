@@ -6,10 +6,8 @@ class LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Theme.of(context).platform == TargetPlatform.iOS
-          ? const CupertinoActivityIndicator()
-          : const CircularProgressIndicator(),
-    );
+    return Theme.of(context).platform == TargetPlatform.iOS
+        ? const CupertinoActivityIndicator()
+        : const CircularProgressIndicator();
   }
 }

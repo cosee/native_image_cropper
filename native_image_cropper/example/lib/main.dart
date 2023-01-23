@@ -31,15 +31,17 @@ class MyApp extends StatelessWidget {
               if (snapshot.hasData) {
                 return Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        final bytes = await controller.crop();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => _Result(bytes: bytes)));
-                      },
-                      child: const Text('CROP'),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final bytes = await controller.crop();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => _Result(bytes: bytes)));
+                        },
+                        child: const Text('CROP'),
+                      ),
                     ),
                     Expanded(
                       child: CropPreview(
