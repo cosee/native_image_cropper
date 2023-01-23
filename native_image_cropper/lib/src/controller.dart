@@ -41,7 +41,10 @@ class CropValue {
         mode: mode ?? this.mode,
       );
 
-// TODO Add hash and == operator
+  @override
+  String toString() =>
+      'CropValue{imageSize: $imageSize, imageRect: $imageRect, '
+      'cropRect: $cropRect, bytes: $bytes, mode: $mode}';
 }
 
 class CropController extends ValueNotifier<CropValue> {
@@ -81,13 +84,12 @@ class CropController extends ValueNotifier<CropValue> {
     Rect? cropRect,
     Uint8List? bytes,
     CropMode? mode,
-  }) {
-    value = value.copyWith(
-      imageSize: imageSize,
-      imageRect: imageRect,
-      cropRect: cropRect,
-      bytes: bytes,
-      mode: mode,
-    );
-  }
+  }) =>
+      value = value.copyWith(
+        imageSize: imageSize,
+        imageRect: imageRect,
+        cropRect: cropRect,
+        bytes: bytes,
+        mode: mode,
+      );
 }
