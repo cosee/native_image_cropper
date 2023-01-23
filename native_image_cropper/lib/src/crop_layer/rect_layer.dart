@@ -21,7 +21,4 @@ class CropRectLayer extends CropLayer {
       ..drawPath(maskPath, backgroundPaint)
       ..drawPath(areaPath, borderPaint);
   }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

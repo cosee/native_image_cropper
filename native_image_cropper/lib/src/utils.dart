@@ -1,11 +1,11 @@
 import 'package:flutter/rendering.dart';
 
 class CropUtils {
-  const CropUtils._();
+  const CropUtils(this._minCropRectSize);
 
-  static const Size _minCropRectSize = Size(20, 20);
+  final double _minCropRectSize;
 
-  static Rect computeImageRect({
+  Rect computeImageRect({
     required Size imageSize,
     required Rect availableSpace,
   }) {
@@ -18,7 +18,7 @@ class CropUtils {
     );
   }
 
-  static Rect? moveCropRect({
+  Rect? moveCropRect({
     Rect? cropRect,
     Rect? imageRect,
     required Offset delta,
@@ -75,7 +75,7 @@ class CropUtils {
     return resultRect;
   }
 
-  static Rect? moveTopLeftCorner({
+  Rect? moveTopLeftCorner({
     Rect? cropRect,
     Rect? imageRect,
     required Offset delta,
@@ -92,7 +92,7 @@ class CropUtils {
     return imageRect.intersect(newRect);
   }
 
-  static Rect? moveTopRightCorner({
+  Rect? moveTopRightCorner({
     Rect? cropRect,
     Rect? imageRect,
     required Offset delta,
@@ -111,7 +111,7 @@ class CropUtils {
     return imageRect.intersect(newRect);
   }
 
-  static Rect? moveBottomLeftCorner({
+  Rect? moveBottomLeftCorner({
     Rect? cropRect,
     Rect? imageRect,
     required Offset delta,
@@ -130,7 +130,7 @@ class CropUtils {
     return imageRect.intersect(newRect);
   }
 
-  static Rect? moveBottomRightCorner({
+  Rect? moveBottomRightCorner({
     Rect? cropRect,
     Rect? imageRect,
     required Offset delta,
@@ -147,7 +147,6 @@ class CropUtils {
     return imageRect.intersect(newRect);
   }
 
-  static bool _isSmallerThanMinCropRect(Rect rect) =>
-      rect.width < _minCropRectSize.width ||
-      rect.height < _minCropRectSize.height;
+  bool _isSmallerThanMinCropRect(Rect rect) =>
+      rect.width < _minCropRectSize || rect.height < _minCropRectSize;
 }

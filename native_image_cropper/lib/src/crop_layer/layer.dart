@@ -9,6 +9,7 @@ abstract class CropLayer extends CustomPainter {
 
   final Rect rect;
   final CropLayerOptions layerOptions;
+
   Paint get backgroundPaint => Paint()..color = layerOptions.backgroundColor;
 
   Paint get borderPaint => Paint()

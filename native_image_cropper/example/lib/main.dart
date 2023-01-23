@@ -71,6 +71,37 @@ class _MyAppState extends State<MyApp> {
                         controller: controller,
                         bytes: snapshot.data!,
                         mode: mode,
+                        dragPointBuilder: (size, position) {
+                          switch (position) {
+                            case CropDragPointPosition.topLeft:
+                              return Container(
+                                width: size,
+                                height: size,
+                                decoration: const BoxDecoration(
+                                  color: Colors.blue,
+                                  shape: BoxShape.circle,
+                                ),
+                              );
+                            case CropDragPointPosition.topRight:
+                              return Container(
+                                width: size,
+                                height: size,
+                                color: Colors.green,
+                              );
+                            case CropDragPointPosition.bottomLeft:
+                              return Container(
+                                width: size,
+                                height: size,
+                                color: Colors.yellow,
+                              );
+                            case CropDragPointPosition.bottomRight:
+                              return Container(
+                                width: size,
+                                height: size,
+                                color: Colors.red,
+                              );
+                          }
+                        },
                       ),
                     ),
                   ],
