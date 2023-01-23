@@ -21,14 +21,14 @@ class NativeImageCropper {
     );
   }
 
-  static Future<Uint8List> cropCircle({
+  static Future<Uint8List> cropOval({
     required Uint8List bytes,
     required int x,
     required int y,
     required int width,
     required int height,
   }) {
-    return NativeImageCropperPlatform.instance.cropCircle(
+    return NativeImageCropperPlatform.instance.cropOval(
       bytes: bytes,
       x: x,
       y: y,

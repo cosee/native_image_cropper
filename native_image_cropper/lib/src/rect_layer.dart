@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CropLayer extends CustomPainter {
-  const CropLayer(this.rect);
+class CropRectLayer extends CustomPainter {
+  const CropRectLayer(this.rect);
 
   final Rect rect;
 

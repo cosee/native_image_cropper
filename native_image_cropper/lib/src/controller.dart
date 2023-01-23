@@ -49,7 +49,7 @@ class CropController extends ValueNotifier<CropValue> {
     final width = (cropRect.width) / imageRect.width * imageSize.width;
     final height = (cropRect.height) / imageRect.height * imageSize.height;
 
-    return NativeImageCropper.cropRect(
+    return NativeImageCropper.cropOval(
       bytes: value.bytes,
       x: x.toInt(),
       y: y.toInt(),

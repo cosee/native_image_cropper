@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
-import 'package:native_image_cropper/src/crop_layer.dart';
 import 'package:native_image_cropper/src/drag_point.dart';
+import 'package:native_image_cropper/src/oval_layer.dart';
 import 'package:native_image_cropper/src/utils.dart';
 
 class CropPreview extends StatefulWidget {
@@ -141,7 +141,7 @@ class _CropPreviewState extends State<CropPreview> {
                     }
 
                     return CustomPaint(
-                      foregroundPainter: CropLayer(cropRect),
+                      foregroundPainter: CropOvalLayer(cropRect),
                       willChange: true,
                       child: Image(
                         image: _image,

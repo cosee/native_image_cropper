@@ -35,13 +35,13 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
     throw UnimplementedError('cropRect() is not implemented.');
   }
 
-  Future<Uint8List> cropCircle({
+  Future<Uint8List> cropOval({
     required Uint8List bytes,
     required int x,
     required int y,
     required int width,
     required int height,
   }) {
-    throw UnimplementedError('cropCircle() is not implemented.');
+    throw UnimplementedError('cropOval() is not implemented.');
   }
 }

@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.version          = '0.0.1'
   s.summary          = 'the ios implementation of native_image_cropper.'
   s.description      = <<-DESC
-the ios implementation of native_image_cropper. it allows you to crop an image to a circle and a rectangle.
+the ios implementation of native_image_cropper. it allows you to crop an image to an oval and a rectangle.
                        DESC
   s.homepage         = 'https://pub.dev/publishers/cosee.biz/packages'
   s.license          = { :file => '../license' }

@@ -34,7 +34,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
   }
 
   @override
-  Future<Uint8List> cropCircle({
+  Future<Uint8List> cropOval({
     required Uint8List bytes,
     required int x,
     required int y,
@@ -50,7 +50,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
     };
     try {
       final croppedImage =
-          await _methodChannel.invokeMethod<Uint8List>('cropCircle', arguments);
+          await _methodChannel.invokeMethod<Uint8List>('cropOval', arguments);
       return croppedImage!;
     } on PlatformException catch (e) {
       throw NativeImageCropperException(e.code, e.message);

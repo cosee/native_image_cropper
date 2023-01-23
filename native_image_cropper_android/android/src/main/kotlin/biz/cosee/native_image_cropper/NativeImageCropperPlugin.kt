@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
+import android.graphics.RectF
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -43,7 +44,7 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
         threadPool.execute {
             when (call.method) {
                 "cropRect" -> handleCropRect(call, result)
-                "cropCircle" -> handleCropCircle(call, result)
+                "cropOval" -> handleCropOval(call, result)
                 else -> result.notImplemented()
             }
         }
@@ -65,7 +66,7 @@ private fun handleCropRect(call: MethodCall, result: Result) {
     }
 }
 
-private fun handleCropCircle(call: MethodCall, result: Result) {
+private fun handleCropOval(call: MethodCall, result: Result) {
     val bytes: ByteArray = call.argument("bytes")!!
     val x: Int = call.argument("x")!!
     val y: Int = call.argument("y")!!
@@ -74,8 +75,8 @@ private fun handleCropCircle(call: MethodCall, result: Result) {
 
     try {
         val croppedBitmap = getCroppedRectBitmap(bytes, x, y, width, height)
-        val circleBitmap = croppedBitmap.createCircleBitmap()
-        result.success(bitmapToByteArray(circleBitmap))
+        val ovalBitmap = croppedBitmap.createOvalBitmap()
+        result.success(bitmapToByteArray(ovalBitmap))
     } catch (e: IllegalArgumentException) {
         result.error("IllegalArgumentException", e.message, null)
     }
@@ -87,18 +88,16 @@ private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
     return stream.toByteArray()
 }
 
-private fun Bitmap.createCircleBitmap(): Bitmap {
+private fun Bitmap.createOvalBitmap(): Bitmap {
     val output = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(output)
     val paint = Paint()
     val rect = Rect(0, 0, this.width, this.height)
 
     paint.isAntiAlias = true
-    canvas.drawCircle(
-        (this.width / 2).toFloat(),
-        (this.height / 2).toFloat(),
-        (this.width / 2).toFloat(),
-        paint
+    canvas.drawOval(
+        RectF(0f, 0f, width.toFloat(), height.toFloat()),
+        paint,
     )
     paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
     canvas.drawBitmap(this, rect, rect, paint)
