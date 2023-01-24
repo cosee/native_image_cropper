@@ -5,9 +5,8 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
   final MethodChannel _methodChannel =
       const MethodChannel('biz.cosee/native_image_cropper_android');
 
-  static void registerWith() {
-    NativeImageCropperPlatform.instance = NativeImageCropperAndroid();
-  }
+  static void registerWith() =>
+      NativeImageCropperPlatform.instance = NativeImageCropperAndroid();
 
   @override
   Future<Uint8List> cropRect({
@@ -17,7 +16,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
     required int width,
     required int height,
   }) async {
-    final arguments = <String, dynamic>{
+    final arguments = {
       'bytes': bytes,
       'x': x,
       'y': y,
@@ -27,7 +26,13 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
     try {
       final croppedImage =
           await _methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
-      return croppedImage!;
+      if (croppedImage == null) {
+        throw NativeImageCropperException(
+          'NullPointerException',
+          'Method channel cropRect returns null!',
+        );
+      }
+      return croppedImage;
     } on PlatformException catch (e) {
       throw NativeImageCropperException(e.code, e.message);
     }
@@ -41,7 +46,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
     required int width,
     required int height,
   }) async {
-    final arguments = <String, dynamic>{
+    final arguments = {
       'bytes': bytes,
       'x': x,
       'y': y,
@@ -51,7 +56,13 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
     try {
       final croppedImage =
           await _methodChannel.invokeMethod<Uint8List>('cropOval', arguments);
-      return croppedImage!;
+      if (croppedImage == null) {
+        throw NativeImageCropperException(
+          'NullPointerException',
+          'Method channel cropOval returns null!',
+        );
+      }
+      return croppedImage;
     } on PlatformException catch (e) {
       throw NativeImageCropperException(e.code, e.message);
     }
