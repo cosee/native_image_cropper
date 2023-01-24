@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -52,7 +53,10 @@ class _CropPreviewState extends State<CropPreview> {
     super.initState();
     widget.controller?.updateValue(bytes: widget.bytes, mode: widget.mode);
     _image = MemoryImage(widget.bytes);
-    _cropUtils = CropUtils(_hitAreaSize);
+    _cropUtils = CropUtils(
+      minCropRectSize: max(_hitAreaSize, widget.layerOptions.minSize),
+      aspectRatio: widget.layerOptions.aspectRatio,
+    );
   }
 
   @override
@@ -112,7 +116,8 @@ class _CropPreviewState extends State<CropPreview> {
                   if (cropRect == null) {
                     WidgetsBinding.instance.addPostFrameCallback(
                       (_) {
-                        setState(() => _cropRect = _imageRect);
+                        setState(() =>
+                            _cropRect = _cropUtils.getInitialRect(_imageRect));
                         widget.controller?.updateValue(cropRect: _cropRect);
                       },
                     );
