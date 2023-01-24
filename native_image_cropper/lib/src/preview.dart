@@ -71,6 +71,13 @@ class _CropPreviewState extends State<CropPreview> {
     if (oldWidget.mode != widget.mode) {
       widget.controller?.updateValue(mode: widget.mode);
     }
+    if (oldWidget.layerOptions.aspectRatio != widget.layerOptions.aspectRatio) {
+      _cropUtils = CropUtils(
+        minCropRectSize: max(_hitAreaSize, widget.layerOptions.minSize),
+        aspectRatio: widget.layerOptions.aspectRatio,
+      );
+      _cropRect = _cropUtils.getInitialRect(_imageRect);
+    }
   }
 
   @override
@@ -89,128 +96,131 @@ class _CropPreviewState extends State<CropPreview> {
       return loadingWidget;
     } else {
       final cropRect = _cropRect;
-      return Stack(
-        children: [
-          Padding(
-            padding:
-                EdgeInsets.all(widget.dragPointSize / 2 + widget.hitSize / 2),
-            child: GestureDetector(
-              onPanStart: (details) => isMovingCropLayer =
-                  _cropRect?.contains(details.localPosition) ?? false,
-              onPanUpdate: _onMoveCropRectUpdate,
-              onPanEnd: (_) => isMovingCropLayer = false,
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final image = imageInfo.image;
-                  final availableSpace = Offset.zero &
-                      Size(constraints.maxWidth, constraints.maxHeight);
-                  _imageRect = _cropUtils.computeImageRect(
-                    imageSize: Size(
-                      image.width.toDouble(),
-                      image.height.toDouble(),
-                    ),
-                    availableSpace: availableSpace,
-                  );
-                  widget.controller?.updateValue(imageRect: _imageRect);
-
-                  if (cropRect == null) {
-                    WidgetsBinding.instance.addPostFrameCallback(
-                      (_) {
-                        setState(() =>
-                            _cropRect = _cropUtils.getInitialRect(_imageRect));
-                        widget.controller?.updateValue(cropRect: _cropRect);
-                      },
+      return Center(
+        child: Stack(
+          children: [
+            Padding(
+              padding:
+                  EdgeInsets.all(widget.dragPointSize / 2 + widget.hitSize / 2),
+              child: GestureDetector(
+                onPanStart: (details) => isMovingCropLayer =
+                    _cropRect?.contains(details.localPosition) ?? false,
+                onPanUpdate: _onMoveCropRectUpdate,
+                onPanEnd: (_) => isMovingCropLayer = false,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final image = imageInfo.image;
+                    final availableSpace = Offset.zero &
+                        Size(constraints.maxWidth, constraints.maxHeight);
+                    _imageRect = _cropUtils.computeImageRect(
+                      imageSize: Size(
+                        image.width.toDouble(),
+                        image.height.toDouble(),
+                      ),
+                      availableSpace: availableSpace,
                     );
-                    return loadingWidget;
-                  }
+                    widget.controller?.updateValue(imageRect: _imageRect);
 
-                  return CustomPaint(
-                    foregroundPainter: widget.mode == CropMode.oval
-                        ? CropOvalLayer(
-                            rect: cropRect,
-                            layerOptions: widget.layerOptions,
-                          )
-                        : CropRectLayer(
-                            rect: cropRect,
-                            layerOptions: widget.layerOptions,
-                          ),
-                    willChange: true,
-                    child: Image(
-                      image: _image,
-                      fit: BoxFit.contain,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          if (cropRect != null) ...[
-            Positioned(
-              left: cropRect.left,
-              top: cropRect.top,
-              child: ExtendedPanDetector(
-                size: _hitAreaSize,
-                onPanUpdate: (details) => _onMoveCropCorner(
-                  delta: details.delta,
-                  moveSpecificCropCornerFnc: _cropUtils.moveTopLeftCorner,
+                    if (cropRect == null) {
+                      WidgetsBinding.instance.addPostFrameCallback(
+                        (_) {
+                          setState(
+                            () => _cropRect =
+                                _cropUtils.getInitialRect(_imageRect),
+                          );
+                          widget.controller?.updateValue(cropRect: _cropRect);
+                        },
+                      );
+                      return loadingWidget;
+                    }
+
+                    return CustomPaint(
+                      foregroundPainter: widget.mode == CropMode.oval
+                          ? CropOvalLayer(
+                              rect: cropRect,
+                              layerOptions: widget.layerOptions,
+                            )
+                          : CropRectLayer(
+                              rect: cropRect,
+                              layerOptions: widget.layerOptions,
+                            ),
+                      willChange: true,
+                      child: Image(
+                        image: _image,
+                      ),
+                    );
+                  },
                 ),
-                child: widget.dragPointBuilder?.call(
-                      widget.dragPointSize,
-                      CropDragPointPosition.topLeft,
-                    ) ??
-                    CropDragPoint(size: widget.dragPointSize),
               ),
             ),
-            Positioned(
-              left: cropRect.right,
-              top: cropRect.top,
-              child: ExtendedPanDetector(
-                size: _hitAreaSize,
-                onPanUpdate: (details) => _onMoveCropCorner(
-                  delta: details.delta,
-                  moveSpecificCropCornerFnc: _cropUtils.moveTopRightCorner,
+            if (cropRect != null) ...[
+              Positioned(
+                left: cropRect.left,
+                top: cropRect.top,
+                child: ExtendedPanDetector(
+                  size: _hitAreaSize,
+                  onPanUpdate: (details) => _onMoveCropCorner(
+                    delta: details.delta,
+                    moveSpecificCropCornerFnc: _cropUtils.moveTopLeftCorner,
+                  ),
+                  child: widget.dragPointBuilder?.call(
+                        widget.dragPointSize,
+                        CropDragPointPosition.topLeft,
+                      ) ??
+                      CropDragPoint(size: widget.dragPointSize),
                 ),
-                child: widget.dragPointBuilder?.call(
-                      widget.dragPointSize,
-                      CropDragPointPosition.topRight,
-                    ) ??
-                    CropDragPoint(size: widget.dragPointSize),
               ),
-            ),
-            Positioned(
-              left: cropRect.left,
-              top: cropRect.bottom,
-              child: ExtendedPanDetector(
-                size: _hitAreaSize,
-                onPanUpdate: (details) => _onMoveCropCorner(
-                  delta: details.delta,
-                  moveSpecificCropCornerFnc: _cropUtils.moveBottomLeftCorner,
+              Positioned(
+                left: cropRect.right,
+                top: cropRect.top,
+                child: ExtendedPanDetector(
+                  size: _hitAreaSize,
+                  onPanUpdate: (details) => _onMoveCropCorner(
+                    delta: details.delta,
+                    moveSpecificCropCornerFnc: _cropUtils.moveTopRightCorner,
+                  ),
+                  child: widget.dragPointBuilder?.call(
+                        widget.dragPointSize,
+                        CropDragPointPosition.topRight,
+                      ) ??
+                      CropDragPoint(size: widget.dragPointSize),
                 ),
-                child: widget.dragPointBuilder?.call(
-                      widget.dragPointSize,
-                      CropDragPointPosition.bottomLeft,
-                    ) ??
-                    CropDragPoint(size: widget.dragPointSize),
               ),
-            ),
-            Positioned(
-              left: cropRect.right,
-              top: cropRect.bottom,
-              child: ExtendedPanDetector(
-                size: _hitAreaSize,
-                onPanUpdate: (details) => _onMoveCropCorner(
-                  delta: details.delta,
-                  moveSpecificCropCornerFnc: _cropUtils.moveBottomRightCorner,
+              Positioned(
+                left: cropRect.left,
+                top: cropRect.bottom,
+                child: ExtendedPanDetector(
+                  size: _hitAreaSize,
+                  onPanUpdate: (details) => _onMoveCropCorner(
+                    delta: details.delta,
+                    moveSpecificCropCornerFnc: _cropUtils.moveBottomLeftCorner,
+                  ),
+                  child: widget.dragPointBuilder?.call(
+                        widget.dragPointSize,
+                        CropDragPointPosition.bottomLeft,
+                      ) ??
+                      CropDragPoint(size: widget.dragPointSize),
                 ),
-                child: widget.dragPointBuilder?.call(
-                      widget.dragPointSize,
-                      CropDragPointPosition.bottomRight,
-                    ) ??
-                    CropDragPoint(size: widget.dragPointSize),
               ),
-            ),
+              Positioned(
+                left: cropRect.right,
+                top: cropRect.bottom,
+                child: ExtendedPanDetector(
+                  size: _hitAreaSize,
+                  onPanUpdate: (details) => _onMoveCropCorner(
+                    delta: details.delta,
+                    moveSpecificCropCornerFnc: _cropUtils.moveBottomRightCorner,
+                  ),
+                  child: widget.dragPointBuilder?.call(
+                        widget.dragPointSize,
+                        CropDragPointPosition.bottomRight,
+                      ) ??
+                      CropDragPoint(size: widget.dragPointSize),
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       );
     }
   }
