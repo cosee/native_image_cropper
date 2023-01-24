@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  native_image_cropper_ios: 34420a1882aa5697456d9ede295cd47dc12cca36
+  native_image_cropper_ios: f7bffccb5cce111851d38fab12902ca3999ddf04
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
 
 PODFILE CHECKSUM: 9db97e5702381557a0442563b599ad91f846f134

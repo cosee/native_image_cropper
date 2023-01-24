@@ -1,4 +1,4 @@
-# native\_image\_cropper\_ios
+# native_image_cropper_ios
 
 The iOS implementation of [`native_image_cropper`][1].
 

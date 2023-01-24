@@ -8,7 +8,7 @@ import 'method_channel_mock.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('registers instance', () async {
+  test('Registers instance', () {
     NativeImageCropperIOS.registerWith();
     expect(
       NativeImageCropperPlatform.instance,
@@ -46,8 +46,9 @@ void main() {
       expect(croppedBytes, Uint8List.fromList([0, 0]));
     });
     test(
-      'Should throw an NativeImageCropperException when cropRect throws a PlatformException',
-      () async {
+      'Should throw an NativeImageCropperException when cropRect throws a '
+      'PlatformException',
+      () {
         MethodChannelMock(
           methods: {
             'cropRect': PlatformException(
@@ -106,8 +107,9 @@ void main() {
       expect(croppedBytes, Uint8List.fromList([0, 0]));
     });
     test(
-      'Should throw an NativeImageCropperException when cropOval throws a PlatformException',
-      () async {
+      'Should throw an NativeImageCropperException when cropOval throws a '
+      'PlatformException',
+      () {
         MethodChannelMock(
           methods: {
             'cropOval': PlatformException(
