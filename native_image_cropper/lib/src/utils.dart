@@ -10,6 +10,7 @@ class CropUtils {
 
   final double minCropRectSize;
   final double? aspectRatio;
+  static const double _tolerance = 0.1;
 
   Rect? getInitialRect(Rect? imageRect) {
     if (imageRect == null) {
@@ -59,15 +60,40 @@ class CropUtils {
     if (cropRect == null || imageRect == null) {
       return null;
     }
-    final newRect = cropRect.shift(delta);
-    return constraintCropRect(
+
+    final newRect = _shiftRectConsideringBoundaries(
+      imageRect: imageRect,
+      cropRect: cropRect,
+      delta: delta,
+    );
+
+    return _constraintCropRect(
       newRect: newRect,
       cropRect: cropRect,
       imageRect: imageRect,
     );
   }
 
-  static Rect constraintCropRect({
+  Rect _shiftRectConsideringBoundaries({
+    required Rect cropRect,
+    required Rect imageRect,
+    required Offset delta,
+  }) {
+    if (cropRect.top < _tolerance && delta.dy < 0) {
+      return cropRect.shift(Offset(delta.dx, 0));
+    } else if (cropRect.bottom > imageRect.height - _tolerance &&
+        delta.dy > 0) {
+      return cropRect.shift(Offset(delta.dx, 0));
+    } else if (cropRect.left < _tolerance && delta.dx < 0) {
+      return cropRect.shift(Offset(0, delta.dy));
+    } else if (cropRect.right > imageRect.right - _tolerance && delta.dx > 0) {
+      return cropRect.shift(Offset(0, delta.dy));
+    } else {
+      return cropRect.shift(delta);
+    }
+  }
+
+  static Rect _constraintCropRect({
     required Rect newRect,
     required Rect cropRect,
     required Rect imageRect,
