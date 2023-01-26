@@ -1,67 +1,55 @@
-import 'dart:typed_data';
+import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
+import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
-class CropValue {
-  const CropValue({
-    required this.imageSize,
-    required this.imageRect,
-    required this.cropRect,
-    required this.bytes,
-    required this.mode,
-  });
+class CropController {
+  final imageSizeNotifier = ValueNotifier<Size?>(null);
+  final modeNotifier = ValueNotifier<CropMode>(CropMode.rect);
+  final imageRectNotifier = ValueNotifier<Rect?>(null);
+  final cropRectNotifier = ValueNotifier<Rect?>(null);
+  Uint8List? bytes;
 
-  static final CropValue zero = CropValue(
-    imageSize: Size.zero,
-    imageRect: Rect.zero,
-    cropRect: Rect.zero,
-    bytes: Uint8List.fromList([]),
-    mode: CropMode.rect,
-  );
+  Size? get imageSize => imageSizeNotifier.value;
 
-  final Size imageSize;
-  final Rect imageRect;
-  final Rect cropRect;
-  final Uint8List bytes;
-  final CropMode mode;
+  set imageSize(Size? value) => imageSizeNotifier.value = value;
 
-  CropValue copyWith({
-    Size? imageSize,
-    Rect? imageRect,
-    Rect? cropRect,
-    Uint8List? bytes,
-    CropMode? mode,
-  }) =>
-      CropValue(
-        imageSize: imageSize ?? this.imageSize,
-        imageRect: imageRect ?? this.imageRect,
-        cropRect: cropRect ?? this.cropRect,
-        bytes: bytes ?? this.bytes,
-        mode: mode ?? this.mode,
-      );
+  Rect? get imageRect => imageRectNotifier.value;
 
-  @override
-  String toString() =>
-      'CropValue{imageSize: $imageSize, imageRect: $imageRect, '
-      'cropRect: $cropRect, bytes: $bytes, mode: $mode}';
-}
+  set imageRect(Rect? value) => imageRectNotifier.value = value;
 
-class CropController extends ValueNotifier<CropValue> {
-  CropController() : super(CropValue.zero);
+  Rect? get cropRect => cropRectNotifier.value;
+
+  set cropRect(Rect? value) => cropRectNotifier.value = value;
+
+  CropMode get mode => modeNotifier.value;
+
+  set mode(CropMode value) => modeNotifier.value = value;
 
   Future<Uint8List> crop() {
-    final imageSize = value.imageSize;
-    final imageRect = value.imageRect;
-    final cropRect = value.cropRect;
+    final cropRect = this.cropRect;
+    final imageRect = this.imageRect;
+    final imageSize = this.imageSize;
+    final bytes = this.bytes;
+    if (bytes == null ||
+        imageSize == null ||
+        cropRect == null ||
+        imageRect == null) {
+      throw NativeImageCropperException(
+        'NullPointerException',
+        'Bytes, crop rect, image rect and image size canot be null!',
+      );
+    }
+
     final x = cropRect.left / imageRect.width * imageSize.width;
     final y = cropRect.top / imageRect.height * imageSize.height;
     final width = cropRect.width / imageRect.width * imageSize.width;
     final height = cropRect.height / imageRect.height * imageSize.height;
 
-    if (value.mode == CropMode.oval) {
+    if (modeNotifier.value == CropMode.oval) {
       return NativeImageCropper.cropOval(
-        bytes: value.bytes,
+        bytes: bytes,
         x: x.toInt(),
         y: y.toInt(),
         width: width.toInt(),
@@ -69,7 +57,7 @@ class CropController extends ValueNotifier<CropValue> {
       );
     } else {
       return NativeImageCropper.cropRect(
-        bytes: value.bytes,
+        bytes: bytes,
         x: x.toInt(),
         y: y.toInt(),
         width: width.toInt(),
@@ -78,18 +66,9 @@ class CropController extends ValueNotifier<CropValue> {
     }
   }
 
-  void updateValue({
-    Size? imageSize,
-    Rect? imageRect,
-    Rect? cropRect,
-    Uint8List? bytes,
-    CropMode? mode,
-  }) =>
-      value = value.copyWith(
-        imageSize: imageSize,
-        imageRect: imageRect,
-        cropRect: cropRect,
-        bytes: bytes,
-        mode: mode,
-      );
+  void dispose() {
+    imageSizeNotifier.dispose();
+    imageRectNotifier.dispose();
+    cropRectNotifier.dispose();
+  }
 }
