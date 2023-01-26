@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
-import 'package:native_image_cropper_example/theme.dart';
+import 'package:native_image_cropper_example/themes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: CustomTheme.theme,
+      theme: CustomThemes.theme(context),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Native Image Cropper Example'),
@@ -48,6 +48,7 @@ class _MyAppState extends State<MyApp> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final bytes = snapshot.data;
+                final secondaryColor = Theme.of(context).colorScheme.secondary;
                 if (bytes != null) {
                   return Column(
                     children: [
@@ -57,6 +58,10 @@ class _MyAppState extends State<MyApp> {
                         mode: _mode,
                         layerOptions:
                             CropLayerOptions(aspectRatio: _aspectRatio),
+                        dragPointBuilder: (size, position) => CropDragPoint(
+                          size: size,
+                          color: secondaryColor,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,8 +93,9 @@ class _MyAppState extends State<MyApp> {
                             child: Container(
                               padding: const EdgeInsets.all(2),
                               decoration: BoxDecoration(
-                                color:
-                                    _mode == CropMode.rect ? Colors.grey : null,
+                                color: _mode == CropMode.rect
+                                    ? secondaryColor
+                                    : null,
                                 border:
                                     const Border.fromBorderSide(BorderSide()),
                               ),
@@ -104,8 +110,9 @@ class _MyAppState extends State<MyApp> {
                               padding: const EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color:
-                                    _mode == CropMode.oval ? Colors.grey : null,
+                                color: _mode == CropMode.oval
+                                    ? secondaryColor
+                                    : null,
                                 border:
                                     const Border.fromBorderSide(BorderSide()),
                               ),

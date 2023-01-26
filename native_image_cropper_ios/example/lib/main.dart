@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:native_image_cropper_ios/native_image_cropper_ios.dart';
+import 'package:native_image_cropper_ios_example/themes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,10 +22,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
+      theme: CustomThemes.theme,
       home: CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
           middle: Text('Native Image Cropper iOS Example'),
-          backgroundColor: CupertinoColors.white,
         ),
         child: FutureBuilder<Uint8List>(
           future: _getBytes(),

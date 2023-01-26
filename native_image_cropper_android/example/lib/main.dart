@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_image_cropper_android/native_image_cropper_android.dart';
+import 'package:native_image_cropper_android_example/themes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +22,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: CustomThemes.theme(context),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Native Image Cropper Android Example'),
