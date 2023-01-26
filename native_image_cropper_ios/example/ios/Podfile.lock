@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - native_image_cropper_ios (0.0.1):
+  - native_image_cropper_ios (0.1.0):
     - Flutter
   - SwiftLint (0.47.1)
 
@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  native_image_cropper_ios: f7bffccb5cce111851d38fab12902ca3999ddf04
+  native_image_cropper_ios: ede1edf57d43174a769c4a6efb8399d80e4fed65
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
 
 PODFILE CHECKSUM: 9db97e5702381557a0442563b599ad91f846f134

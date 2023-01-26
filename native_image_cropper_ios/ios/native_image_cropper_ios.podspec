@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'native_image_cropper_ios'
-  s.version          = '0.0.1'
+  s.version          = '0.1.0'
   s.summary          = 'the ios implementation of native_image_cropper.'
   s.description      = <<-DESC
 the ios implementation of native_image_cropper. it allows you to crop an image to an oval and a rectangle.

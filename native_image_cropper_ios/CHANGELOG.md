@@ -1,4 +1,3 @@
-## 0.0.1
+## 0.1.0
 
-* Add oval cropping
-* Add rectangle cropping
+* Initial release.
