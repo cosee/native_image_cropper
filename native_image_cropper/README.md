@@ -2,6 +2,8 @@
 
 A Flutter plugin which supports native rectangular and circular cropping.
 
+![Preview example](example/screenshots/example.gif "Example")
+
 ## Features
 
 * Better performance, since it is written in Kotlin/Swift
