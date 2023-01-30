@@ -16,7 +16,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     required int width,
     required int height,
   }) async {
-    final arguments = <String, dynamic>{
+    final arguments = {
       'bytes': bytes,
       'x': x,
       'y': y,
@@ -26,21 +26,27 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     try {
       final croppedImage =
           await methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
-      return croppedImage!;
+      if (croppedImage == null) {
+        throw NativeImageCropperException(
+          'NullPointerException',
+          'Method channel cropRect returns null!',
+        );
+      }
+      return croppedImage;
     } on PlatformException catch (e) {
       throw NativeImageCropperException(e.code, e.message);
     }
   }
 
   @override
-  Future<Uint8List> cropCircle({
+  Future<Uint8List> cropOval({
     required Uint8List bytes,
     required int x,
     required int y,
     required int width,
     required int height,
   }) async {
-    final arguments = <String, dynamic>{
+    final arguments = {
       'bytes': bytes,
       'x': x,
       'y': y,
@@ -49,8 +55,14 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     };
     try {
       final croppedImage =
-          await methodChannel.invokeMethod<Uint8List>('cropCircle', arguments);
-      return croppedImage!;
+          await methodChannel.invokeMethod<Uint8List>('cropOval', arguments);
+      if (croppedImage == null) {
+        throw NativeImageCropperException(
+          'NullPointerException',
+          'Method channel cropOval returns null!',
+        );
+      }
+      return croppedImage;
     } on PlatformException catch (e) {
       throw NativeImageCropperException(e.code, e.message);
     }

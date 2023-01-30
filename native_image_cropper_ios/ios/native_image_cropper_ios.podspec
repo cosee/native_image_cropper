@@ -4,14 +4,14 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'native_image_cropper_ios'
-  s.version          = '0.0.1'
+  s.version          = '0.1.0'
   s.summary          = 'the ios implementation of native_image_cropper.'
   s.description      = <<-DESC
-the ios implementation of native_image_cropper. it allows you to crop an image to a circle and a rectangle.
+the ios implementation of native_image_cropper. it allows you to crop an image to an oval and a rectangle.
                        DESC
   s.homepage         = 'https://pub.dev/publishers/cosee.biz/packages'
   s.license          = { :file => '../license' }
-  s.author           = { 'cosee' => 'mobile.cosee@gmail.com' }
+  s.author           = { 'cosee GmbH' => 'mobile.cosee@gmail.com' }
   s.source           = { :git => 'https://github.com/cosee/native_image_cropper.git' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'

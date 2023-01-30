@@ -8,7 +8,7 @@ import 'method_channel_mock.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('registers instance', () async {
+  test('Registers instance', () {
     NativeImageCropperAndroid.registerWith();
     expect(
       NativeImageCropperPlatform.instance,
@@ -46,8 +46,9 @@ void main() {
       expect(croppedBytes, Uint8List.fromList([0, 0]));
     });
     test(
-      'Should throw an NativeImageCropperException when cropRect throws a PlatformException',
-      () async {
+      'Should throw an NativeImageCropperException when cropRect throws a '
+      'PlatformException',
+      () {
         MethodChannelMock(
           methods: {
             'cropRect': PlatformException(
@@ -76,15 +77,15 @@ void main() {
     );
   });
 
-  group('cropCircle', () {
+  group('cropOval', () {
     test('Should send cropping data and receive back a Uint8List', () async {
       final MethodChannelMock mockChannel = MethodChannelMock(
         methods: {
-          'cropCircle': Uint8List.fromList([0, 0]),
+          'cropOval': Uint8List.fromList([0, 0]),
         },
       );
       final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
-      final Uint8List croppedBytes = await cropper.cropCircle(
+      final Uint8List croppedBytes = await cropper.cropOval(
         bytes: Uint8List.fromList([0, 0, 0, 0]),
         x: 0,
         y: 0,
@@ -93,7 +94,7 @@ void main() {
       );
       expect(mockChannel.log, [
         isMethodCall(
-          'cropCircle',
+          'cropOval',
           arguments: {
             'bytes': Uint8List.fromList([0, 0, 0, 0]),
             'x': 0,
@@ -106,11 +107,12 @@ void main() {
       expect(croppedBytes, Uint8List.fromList([0, 0]));
     });
     test(
-      'Should throw an NativeImageCropperException when cropCircle throws a PlatformException',
-      () async {
+      'Should throw an NativeImageCropperException when cropOval throws a '
+      'PlatformException',
+      () {
         MethodChannelMock(
           methods: {
-            'cropCircle': PlatformException(
+            'cropOval': PlatformException(
               code: 'Test Error',
               message: 'This is a test.',
             ),
@@ -119,7 +121,7 @@ void main() {
         final NativeImageCropperAndroid cropper = NativeImageCropperAndroid();
 
         expect(
-          () => cropper.cropCircle(
+          () => cropper.cropOval(
             bytes: Uint8List.fromList([0, 0, 0, 0]),
             x: 0,
             y: 0,

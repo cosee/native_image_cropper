@@ -9,8 +9,8 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
-            case "cropCircle":
-                handleCropCircle(call,  result)
+            case "cropOval":
+                handleCropOval(call,  result)
             case "cropRect":
                 handleCropRect(call,  result)
             default:
@@ -38,7 +38,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         }
     }
     
-    private func handleCropCircle(_ call: FlutterMethodCall,_ result: @escaping FlutterResult){
+    private func handleCropOval(_ call: FlutterMethodCall,_ result: @escaping FlutterResult){
         DispatchQueue.main.async {
             do {
                 let args = call.arguments as! [String: Any]
@@ -49,7 +49,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
                 let height = args["height"] as! Int
                 
                 let image = try self.flutterStandardTypeDataToUIImage(bytes: bytes)
-                let croppedImage = try self.getCroppedCircleUIImageimage(image: image, x: x, y: y, width: width, height: height)
+                let croppedImage = try self.getCroppedOvalUIImage(image: image, x: x, y: y, width: width, height: height)
                 let croppedBytes = try self.uiImageToFlutterStandardTypedData(image: croppedImage)
                 result(croppedBytes)
             } catch {
@@ -88,14 +88,14 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         throw NativeImageCropperError.cgImageNullError
     }
     
-    private func getCroppedCircleUIImageimage(image: UIImage, x: Int, y: Int, width: Int, height: Int) throws -> UIImage {
+    private func getCroppedOvalUIImage(image: UIImage, x: Int, y: Int, width: Int, height: Int) throws -> UIImage {
         let croppedRectImage = try getCroppedRectUIImage(image: image, x: x, y: y, width: width, height: height)
         
         // Ensure that the cropped image does not include a background fill
         let imageRendererFormat = image.imageRendererFormat
         imageRendererFormat.opaque = false
         
-        let circleCroppedImage = UIGraphicsImageRenderer(
+        let ovalCroppedImage = UIGraphicsImageRenderer(
             size: croppedRectImage.size,
             format: imageRendererFormat).image { _ in
                 let cropRect = CGRect(
@@ -103,13 +103,13 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
                     size: croppedRectImage.size
                 )
                 
-                // Draws the circle inside the cropRect
+                // Draws the oval inside the cropRect
                 UIBezierPath(ovalIn: cropRect).addClip()
                 
-                // Draws the image inside the circle
+                // Draws the image inside the oval
                 croppedRectImage.draw(in: cropRect)
             }
-        return circleCroppedImage
+        return ovalCroppedImage
     }
 }
 

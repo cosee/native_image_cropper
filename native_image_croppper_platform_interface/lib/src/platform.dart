@@ -7,6 +7,7 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
   /// Constructs a NativeImageCropperPlatform.
   NativeImageCropperPlatform() : super(token: _token);
 
+  // ignore: no-object-declaration, see https://pub.dev/packages/plugin_platform_interface
   static final Object _token = Object();
 
   static NativeImageCropperPlatform _instance =
@@ -21,7 +22,7 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
   /// platform-specific class that extends [NativeImageCropperPlatform] when
   /// they register themselves.
   static set instance(NativeImageCropperPlatform instance) {
-    PlatformInterface.verifyToken(instance, _token);
+    PlatformInterface.verify(instance, _token);
     _instance = instance;
   }
 
@@ -35,13 +36,13 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
     throw UnimplementedError('cropRect() is not implemented.');
   }
 
-  Future<Uint8List> cropCircle({
+  Future<Uint8List> cropOval({
     required Uint8List bytes,
     required int x,
     required int y,
     required int width,
     required int height,
   }) {
-    throw UnimplementedError('cropCircle() is not implemented.');
+    throw UnimplementedError('cropOval() is not implemented.');
   }
 }

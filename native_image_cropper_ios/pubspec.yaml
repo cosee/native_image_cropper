@@ -2,7 +2,8 @@ name: native_image_cropper_ios
 description: iOS implementation of the native_image_cropper plugin.
 repository: https://github.com/cosee/native_image_cropper/native_image_cropper_ios
 homepage: https://pub.dev/publishers/cosee.biz/packages
-version: 0.0.1
+issue_tracker: https://github.com/cosee/native_image_cropper/issues
+version: 0.1.0
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
@@ -25,6 +26,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  lint: ^2.0.1
-  dart_code_metrics: ^5.1.0
-
+  cosee_lints: ^0.1.1
+  dart_code_metrics: ^5.5.1
