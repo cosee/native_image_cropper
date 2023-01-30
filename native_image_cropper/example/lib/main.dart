@@ -84,6 +84,14 @@ class _MyAppState extends State<MyApp> {
                                 value: 16 / 9,
                                 child: Text('16:9'),
                               ),
+                              DropdownMenuItem(
+                                value: 3 / 4,
+                                child: Text('3:4'),
+                              ),
+                              DropdownMenuItem(
+                                value: 9 / 16,
+                                child: Text('9:16'),
+                              ),
                             ],
                             onChanged: (value) =>
                                 setState(() => _aspectRatio = value),

@@ -7,7 +7,7 @@ import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper/src/crop_preview/drag_points.dart';
 import 'package:native_image_cropper/src/crop_preview/image.dart';
 import 'package:native_image_cropper/src/drag_point/enum.dart';
-import 'package:native_image_cropper/src/utils.dart';
+import 'package:native_image_cropper/src/utils/crop.dart';
 
 typedef CropDragPointBuilder = Widget Function(
   double size,
@@ -49,6 +49,8 @@ class _CropPreviewState extends State<CropPreview> {
 
   double get _hitAreaSize => widget.dragPointSize + widget.hitSize;
 
+  double get _minCropRectSize => max(_hitAreaSize, widget.layerOptions.minSize);
+
   @override
   void initState() {
     super.initState();
@@ -56,10 +58,8 @@ class _CropPreviewState extends State<CropPreview> {
       ..mode = widget.mode
       ..bytes = widget.bytes;
     _image = MemoryImage(widget.bytes);
-    _cropUtils = CropUtils(
-      minCropRectSize: max(_hitAreaSize, widget.layerOptions.minSize),
-      aspectRatio: widget.layerOptions.aspectRatio,
-    );
+    _cropUtils =
+        _getCropUtilsDependingOnAspectRatio(widget.layerOptions.aspectRatio);
   }
 
   @override
@@ -71,17 +71,6 @@ class _CropPreviewState extends State<CropPreview> {
   @override
   void didUpdateWidget(covariant CropPreview oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.mode != oldWidget.mode) {
-      _controller.modeNotifier.value = widget.mode;
-    }
-    final aspectRatio = widget.layerOptions.aspectRatio;
-    if (aspectRatio != oldWidget.layerOptions.aspectRatio) {
-      _cropUtils = CropUtils(
-        minCropRectSize: max(_hitAreaSize, widget.layerOptions.minSize),
-        aspectRatio: aspectRatio,
-      );
-      _controller.cropRect = _cropUtils.getInitialRect(_controller.imageRect);
-    }
 
     if (widget.bytes.length != oldWidget.bytes.length) {
       _image = MemoryImage(widget.bytes);
@@ -91,6 +80,18 @@ class _CropPreviewState extends State<CropPreview> {
         ..cropRect = null;
       _imageStream.removeListener(_listener);
       _setupImageStream();
+    } else {
+      if (widget.mode != oldWidget.mode) {
+        _controller.modeNotifier.value = widget.mode;
+      }
+      final aspectRatio = widget.layerOptions.aspectRatio;
+      if (aspectRatio != oldWidget.layerOptions.aspectRatio) {
+        _cropUtils = _getCropUtilsDependingOnAspectRatio(aspectRatio);
+        _controller.cropRect = _cropUtils.computeCropRectWithNewAspectRatio(
+          oldCropRect: _controller.cropRect,
+          imageRect: _controller.imageRect,
+        );
+      }
     }
   }
 
@@ -141,5 +142,21 @@ class _CropPreviewState extends State<CropPreview> {
     final image = info.image;
     final imageSize = Size(image.width.toDouble(), image.height.toDouble());
     _controller.imageSize = imageSize;
+  }
+
+  CropUtils _getCropUtilsDependingOnAspectRatio(double? aspectRatio) {
+    if (aspectRatio == null) {
+      return CropUtilsAspectRatioNull(minCropRectSize: _minCropRectSize);
+    } else if (aspectRatio < 1) {
+      return CropUtilsAspectRatioSmallerOne(
+        minCropRectSize: _minCropRectSize,
+        aspectRatio: aspectRatio,
+      );
+    } else {
+      return CropUtilsAspectRatioGreaterEqualsOne(
+        minCropRectSize: _minCropRectSize,
+        aspectRatio: aspectRatio,
+      );
+    }
   }
 }

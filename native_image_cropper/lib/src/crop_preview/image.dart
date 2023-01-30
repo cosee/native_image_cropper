@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper/src/crop_layer/oval_layer.dart';
 import 'package:native_image_cropper/src/crop_layer/rect_layer.dart';
-import 'package:native_image_cropper/src/utils.dart';
+import 'package:native_image_cropper/src/utils/crop.dart';
 
 class CropImage extends StatefulWidget {
   const CropImage({
@@ -62,7 +62,8 @@ class _CropImageState extends State<CropImage> {
                 WidgetsBinding.instance.addPostFrameCallback(
                   (_) {
                     widget.controller.imageRect = imageRect;
-                    widget.controller.cropRect ??= imageRect;
+                    widget.controller.cropRect ??=
+                        widget.cropUtils.getInitialRect(imageRect);
                   },
                 );
 

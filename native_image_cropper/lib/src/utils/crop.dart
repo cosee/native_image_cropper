@@ -2,42 +2,29 @@ import 'dart:math';
 
 import 'package:flutter/rendering.dart';
 
-class CropUtils {
+part 'aspect_greater_equals_one.dart';
+part 'aspect_ratio_null.dart';
+part 'aspect_smaller_one.dart';
+
+abstract class CropUtils {
   const CropUtils({
     required this.minCropRectSize,
-    this.aspectRatio,
   });
 
   final double minCropRectSize;
-  final double? aspectRatio;
   static const double _tolerance = 0.1;
 
-  Rect? getInitialRect(Rect? imageRect) {
-    if (imageRect == null) {
-      return null;
-    }
+  Rect? getInitialRect(Rect? imageRect);
 
-    final ar = aspectRatio;
-    if (ar == null) {
-      return imageRect;
-    }
+  Rect? computeCropRectWithNewAspectRatio({
+    Rect? oldCropRect,
+    Rect? imageRect,
+  });
 
-    if (ar < 1) {
-      final width = min(imageRect.width, imageRect.height * ar);
-      return Rect.fromCenter(
-        center: imageRect.center,
-        width: width,
-        height: width / ar,
-      );
-    } else {
-      final height = min(imageRect.width / ar, imageRect.height);
-      return Rect.fromCenter(
-        center: imageRect.center,
-        width: height * ar,
-        height: height,
-      );
-    }
-  }
+  Offset _calculateAspectRatioOffset({
+    required Rect cropRect,
+    required Rect newRect,
+  });
 
   Rect computeImageRect({
     required Size imageSize,
@@ -233,34 +220,6 @@ class CropUtils {
       return cropRect;
     }
     return imageRect.intersect(newRect);
-  }
-
-  Offset _calculateAspectRatioOffset({
-    required Rect cropRect,
-    required Rect newRect,
-  }) {
-    final ar = aspectRatio;
-    if (ar == null) {
-      return Offset(newRect.size.width, newRect.size.height);
-    }
-
-    if (ar < 1) {
-      double width;
-      if (newRect.area < cropRect.area) {
-        width = max(newRect.width, newRect.height * ar);
-      } else {
-        width = min(newRect.width, newRect.height * ar);
-      }
-      return Offset(width, width / ar);
-    } else {
-      double height;
-      if (newRect.area < cropRect.area) {
-        height = max(newRect.width / ar, newRect.height);
-      } else {
-        height = min(newRect.width / ar, newRect.height);
-      }
-      return Offset(height * ar, height);
-    }
   }
 
   bool _isSmallerThanMinCropRect(Rect rect) =>
