@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CropLayerOptions {
-  const CropLayerOptions({
+class MaskOptions {
+  const MaskOptions({
     this.backgroundColor = Colors.black38,
     this.borderColor = Colors.grey,
     this.strokeWidth = 2,

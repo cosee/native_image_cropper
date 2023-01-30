@@ -42,7 +42,7 @@ Scaffold(
 
 ```dart
 
-final layerOptions = const CropLayerOptions(
+final maskOptions = const MaskOptions(
   backgroundColor: Colors.black38,
   borderColor: Colors.grey,
   strokeWidth: 2,
@@ -54,7 +54,7 @@ CropPreview(
   mode: CropMode.rect,
   dragPointSize: 20,
   hitSize: 20,
-  layerOptions: layerOptions,
+  maskOptions: maskOptions,
   dragPointBuilder: (size, position) {
     if (position == CropDragPointPosition.topLeft) {
       return CropDragPoint(size: size, color: Colors.red);

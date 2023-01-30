@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:native_image_cropper/src/crop_layer/layer.dart';
+import 'package:native_image_cropper/src/mask/mask.dart';
 
-class CropOvalLayer extends CropLayer {
-  const CropOvalLayer({
+class RectMask extends CropMask {
+  const RectMask({
     required super.rect,
-    required super.layerOptions,
+    required super.maskOptions,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final Rect screenRect = Offset.zero & size;
 
-    final Path areaPath = Path()..addOval(rect);
+    final Path areaPath = Path()..addRect(rect);
     final Path maskPath = Path.combine(
       PathOperation.difference,
       Path()..addRect(screenRect),

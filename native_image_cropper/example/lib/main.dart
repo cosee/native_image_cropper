@@ -56,8 +56,7 @@ class _MyAppState extends State<MyApp> {
                         controller: _controller,
                         bytes: bytes,
                         mode: _mode,
-                        layerOptions:
-                            CropLayerOptions(aspectRatio: _aspectRatio),
+                        maskOptions: MaskOptions(aspectRatio: _aspectRatio),
                         dragPointBuilder: (size, position) => CropDragPoint(
                           size: size,
                           color: secondaryColor,

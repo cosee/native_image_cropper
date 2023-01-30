@@ -21,7 +21,7 @@ class CropPreview extends StatefulWidget {
     required this.bytes,
     this.mode = CropMode.rect,
     this.dragPointSize = 20,
-    this.layerOptions = const CropLayerOptions(),
+    this.maskOptions = const MaskOptions(),
     this.dragPointBuilder,
     this.loadingWidget,
     this.hitSize = 20,
@@ -31,7 +31,7 @@ class CropPreview extends StatefulWidget {
   final Uint8List bytes;
   final CropMode mode;
   final double dragPointSize;
-  final CropLayerOptions layerOptions;
+  final MaskOptions maskOptions;
   final CropDragPointBuilder? dragPointBuilder;
   final Widget? loadingWidget;
   final double hitSize;
@@ -49,7 +49,7 @@ class _CropPreviewState extends State<CropPreview> {
 
   double get _hitAreaSize => widget.dragPointSize + widget.hitSize;
 
-  double get _minCropRectSize => max(_hitAreaSize, widget.layerOptions.minSize);
+  double get _minCropRectSize => max(_hitAreaSize, widget.maskOptions.minSize);
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _CropPreviewState extends State<CropPreview> {
       ..bytes = widget.bytes;
     _image = MemoryImage(widget.bytes);
     _cropUtils =
-        _getCropUtilsDependingOnAspectRatio(widget.layerOptions.aspectRatio);
+        _getCropUtilsDependingOnAspectRatio(widget.maskOptions.aspectRatio);
   }
 
   @override
@@ -84,8 +84,8 @@ class _CropPreviewState extends State<CropPreview> {
       if (widget.mode != oldWidget.mode) {
         _controller.modeNotifier.value = widget.mode;
       }
-      final aspectRatio = widget.layerOptions.aspectRatio;
-      if (aspectRatio != oldWidget.layerOptions.aspectRatio) {
+      final aspectRatio = widget.maskOptions.aspectRatio;
+      if (aspectRatio != oldWidget.maskOptions.aspectRatio) {
         _cropUtils = _getCropUtilsDependingOnAspectRatio(aspectRatio);
         _controller.cropRect = _cropUtils.computeCropRectWithNewAspectRatio(
           oldCropRect: _controller.cropRect,
@@ -117,7 +117,7 @@ class _CropPreviewState extends State<CropPreview> {
             controller: _controller,
             loadingWidget: widget.loadingWidget,
             cropUtils: _cropUtils,
-            layerOptions: widget.layerOptions,
+            maskOptions: widget.maskOptions,
             image: _image,
           ),
           CropDragPoints(

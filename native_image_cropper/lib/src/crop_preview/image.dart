@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
-import 'package:native_image_cropper/src/crop_layer/oval_layer.dart';
-import 'package:native_image_cropper/src/crop_layer/rect_layer.dart';
+import 'package:native_image_cropper/src/mask/oval_layer.dart';
+import 'package:native_image_cropper/src/mask/rect_layer.dart';
 import 'package:native_image_cropper/src/utils/crop.dart';
 
 class CropImage extends StatefulWidget {
@@ -12,7 +12,7 @@ class CropImage extends StatefulWidget {
     required this.controller,
     required this.loadingWidget,
     required this.cropUtils,
-    required this.layerOptions,
+    required this.maskOptions,
     required this.image,
   });
 
@@ -21,7 +21,7 @@ class CropImage extends StatefulWidget {
   final CropController controller;
   final Widget? loadingWidget;
   final CropUtils cropUtils;
-  final CropLayerOptions layerOptions;
+  final MaskOptions maskOptions;
   final MemoryImage image;
 
   @override
@@ -84,13 +84,13 @@ class _CropImageState extends State<CropImage> {
             }
             return CustomPaint(
               foregroundPainter: widget.controller.mode == CropMode.oval
-                  ? CropOvalLayer(
+                  ? OvalMask(
                       rect: cropRect,
-                      layerOptions: widget.layerOptions,
+                      maskOptions: widget.maskOptions,
                     )
-                  : CropRectLayer(
+                  : RectMask(
                       rect: cropRect,
-                      layerOptions: widget.layerOptions,
+                      maskOptions: widget.maskOptions,
                     ),
               willChange: true,
               child: child,
