@@ -1,13 +1,15 @@
 import 'package:flutter/services.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
+/// The iOS implementation of [NativeImageCropperPlatform].
 class NativeImageCropperIOS extends NativeImageCropperPlatform {
   final MethodChannel _methodChannel =
       const MethodChannel('biz.cosee/native_image_cropper_ios');
 
-  static void registerWith() {
-    NativeImageCropperPlatform.instance = NativeImageCropperIOS();
-  }
+  /// Registers this class as the default instance
+  /// of [NativeImageCropperPlatform].
+  static void registerWith() =>
+      NativeImageCropperPlatform.instance = NativeImageCropperIOS();
 
   @override
   Future<Uint8List> cropRect({
@@ -30,7 +32,7 @@ class NativeImageCropperIOS extends NativeImageCropperPlatform {
       if (croppedImage == null) {
         throw const NativeImageCropperException(
           'NullPointerException',
-          'Method channel cropRect returns null!',
+          'Method channel cropRect() returns null!',
         );
       }
       return croppedImage;
@@ -60,7 +62,7 @@ class NativeImageCropperIOS extends NativeImageCropperPlatform {
       if (croppedImage == null) {
         throw const NativeImageCropperException(
           'NullPointerException',
-          'Method channel cropOval returns null!',
+          'Method channel cropOval() returns null!',
         );
       }
       return croppedImage;
