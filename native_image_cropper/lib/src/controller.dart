@@ -36,7 +36,7 @@ class CropController {
         imageSize == null ||
         cropRect == null ||
         imageRect == null) {
-      throw NativeImageCropperException(
+      throw const NativeImageCropperException(
         'NullPointerException',
         'Bytes, crop rect, image rect or image size are not initialized!',
       );

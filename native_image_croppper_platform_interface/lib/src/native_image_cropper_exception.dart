@@ -1,8 +1,14 @@
+/// This error is thrown when the plugin reports an error.
 class NativeImageCropperException implements Exception {
-  NativeImageCropperException(this.code, this.description);
+  /// Create a new native_image_cropper exception with the given error code
+  /// and description.
+  const NativeImageCropperException(this.code, [this.description]);
 
-  String code;
-  String? description;
+  /// Error code.
+  final String code;
+
+  /// Textual description of the error.
+  final String? description;
 
   @override
   String toString() => 'NativeImageCropperException($code, $description)';

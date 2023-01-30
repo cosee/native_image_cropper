@@ -28,7 +28,7 @@ class NativeImageCropperIOS extends NativeImageCropperPlatform {
       final croppedImage =
           await _methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
       if (croppedImage == null) {
-        throw NativeImageCropperException(
+        throw const NativeImageCropperException(
           'NullPointerException',
           'Method channel cropRect returns null!',
         );
@@ -58,7 +58,7 @@ class NativeImageCropperIOS extends NativeImageCropperPlatform {
       final croppedImage =
           await _methodChannel.invokeMethod<Uint8List>('cropOval', arguments);
       if (croppedImage == null) {
-        throw NativeImageCropperException(
+        throw const NativeImageCropperException(
           'NullPointerException',
           'Method channel cropOval returns null!',
         );

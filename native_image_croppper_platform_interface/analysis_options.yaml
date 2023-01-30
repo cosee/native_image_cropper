@@ -1,4 +1,4 @@
-include: package:cosee_lints/analysis_options.yaml
+include: package:cosee_lints/analysis_options_package.yaml
 
 dart_code_metrics:
   extends:
