@@ -38,7 +38,7 @@ class CropController {
         imageRect == null) {
       throw NativeImageCropperException(
         'NullPointerException',
-        'Bytes, crop rect, image rect and image size canot be null!',
+        'Bytes, crop rect, image rect or image size are not initialized!',
       );
     }
 

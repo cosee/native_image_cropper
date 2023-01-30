@@ -72,29 +72,27 @@ class _CropImageState extends State<CropImage> {
             ),
           );
         },
-        child: ValueListenableBuilder(
-          valueListenable: widget.controller.cropRectNotifier,
-          builder: (context, cropRect, child) {
+        child: AnimatedBuilder(
+          animation: Listenable.merge([
+            widget.controller.cropRectNotifier,
+            widget.controller.modeNotifier,
+          ]),
+          builder: (context, child) {
+            final cropRect = widget.controller.cropRect;
             if (cropRect == null) {
               return widget.loadingWidget ?? const SizedBox.shrink();
             }
-            return ValueListenableBuilder(
-              valueListenable: widget.controller.modeNotifier,
-              builder: (context, mode, child) {
-                return CustomPaint(
-                  foregroundPainter: mode == CropMode.oval
-                      ? CropOvalLayer(
-                          rect: cropRect,
-                          layerOptions: widget.layerOptions,
-                        )
-                      : CropRectLayer(
-                          rect: cropRect,
-                          layerOptions: widget.layerOptions,
-                        ),
-                  willChange: true,
-                  child: child,
-                );
-              },
+            return CustomPaint(
+              foregroundPainter: widget.controller.mode == CropMode.oval
+                  ? CropOvalLayer(
+                      rect: cropRect,
+                      layerOptions: widget.layerOptions,
+                    )
+                  : CropRectLayer(
+                      rect: cropRect,
+                      layerOptions: widget.layerOptions,
+                    ),
+              willChange: true,
               child: child,
             );
           },

@@ -119,11 +119,10 @@ class CropDragPoints extends StatelessWidget {
       required Offset delta,
     })
         moveSpecificCropCornerFnc,
-  }) {
-    controller.cropRect = moveSpecificCropCornerFnc(
-      cropRect: controller.cropRect,
-      imageRect: controller.imageRectNotifier.value,
-      delta: delta,
-    );
-  }
+  }) =>
+      controller.cropRect = moveSpecificCropCornerFnc(
+        cropRect: controller.cropRect,
+        imageRect: controller.imageRectNotifier.value,
+        delta: delta,
+      );
 }
