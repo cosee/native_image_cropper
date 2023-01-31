@@ -11,14 +11,14 @@ class CropController {
   /// Stores the size of the image to be cropped.
   final imageSizeNotifier = ValueNotifier<Size?>(null);
 
-  /// Stores the [CropMode] of the image to be cropped.
-  final modeNotifier = ValueNotifier<CropMode>(CropMode.rect);
-
   /// Stores the image's position and size within the view.
   final imageRectNotifier = ValueNotifier<Rect?>(null);
 
   /// Stores the selected crop area within the view.
   final cropRectNotifier = ValueNotifier<Rect?>(null);
+
+  /// Stores the [CropMode] of the image to be cropped.
+  final modeNotifier = ValueNotifier<CropMode>(CropMode.rect);
 
   /// Stores the image data to be cropped.
   Uint8List? bytes;
@@ -96,4 +96,9 @@ class CropController {
     imageRectNotifier.dispose();
     cropRectNotifier.dispose();
   }
+
+  @override
+  String toString() =>
+      'CropController{bytes: ${bytes?.lengthInBytes}, imageSize: $imageSize, '
+      'imageRect: $imageRect, cropRect: $cropRect, mode: $mode}';
 }

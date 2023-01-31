@@ -28,4 +28,10 @@ class MaskOptions {
 
   /// The minimum size allowed for the cropped area.
   final double minSize;
+
+  @override
+  String toString() =>
+      'MaskOptions{backgroundColor: $backgroundColor, borderColor: '
+      '$borderColor, strokeWidth: $strokeWidth, aspectRatio: $aspectRatio, '
+      'minSize: $minSize}';
 }

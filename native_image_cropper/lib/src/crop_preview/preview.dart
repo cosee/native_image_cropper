@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,35 +8,76 @@ import 'package:native_image_cropper/src/crop_preview/image.dart';
 import 'package:native_image_cropper/src/drag_point/enum.dart';
 import 'package:native_image_cropper/src/utils/crop.dart';
 
+/// Type alias for a callback function.
+/// Used to build a custom drag point in a [CropPreview].
 typedef CropDragPointBuilder = Widget Function(
   double size,
   CropDragPointPosition position,
 );
 
+/// The [CropPreview] implements a preview screen for image cropping.
+/// It allows the user to crop the image using a movable and resizable
+/// rectangle.
 class CropPreview extends StatefulWidget {
+  /// Constructs a [CropPreview].
   const CropPreview({
     super.key,
     this.controller,
     required this.bytes,
     this.mode = CropMode.rect,
-    this.dragPointSize = 20,
     this.maskOptions = const MaskOptions(),
+    this.dragPointSize = 20,
     this.dragPointBuilder,
-    this.loadingWidget,
     this.hitSize = 20,
+    this.loadingWidget = const SizedBox.shrink(),
   });
 
+  /// Controls the behaviour of the [CropPreview].
   final CropController? controller;
+
+  /// Represents the image data to be displayed in the [CropPreview].
   final Uint8List bytes;
+
+  /// Determines the type of cropping that will be applied to the image.
   final CropMode mode;
-  final double dragPointSize;
+
+  /// Options to customize the crop mask. Defaults to [MaskOptions]
   final MaskOptions maskOptions;
+
+  /// Determines the size of the drag points. Defaults to 20.
+  final double dragPointSize;
+
+  /// Allows customization of the crop drag points. Defaults to [CropDragPoint].
   final CropDragPointBuilder? dragPointBuilder;
-  final Widget? loadingWidget;
+
+  /// The size of the hit area around each drag point where it can be
+  /// interacted with. Defaults to 20.
   final double hitSize;
+
+  /// Widget which should be shown while the image is being loaded.
+  /// Defaults [SizedBox.shrink].
+  final Widget loadingWidget;
 
   @override
   State<CropPreview> createState() => _CropPreviewState();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty<CropController?>('controller', controller))
+      ..add(IntProperty('bytes', bytes.lengthInBytes))
+      ..add(EnumProperty<CropMode>('mode', mode))
+      ..add(DoubleProperty('dragPointSize', dragPointSize))
+      ..add(DiagnosticsProperty<MaskOptions>('maskOptions', maskOptions))
+      ..add(
+        ObjectFlagProperty<CropDragPointBuilder?>.has(
+          'dragPointBuilder',
+          dragPointBuilder,
+        ),
+      )
+      ..add(DoubleProperty('hitSize', hitSize));
+  }
 }
 
 class _CropPreviewState extends State<CropPreview> {
@@ -103,8 +143,6 @@ class _CropPreviewState extends State<CropPreview> {
     }
     super.dispose();
   }
-
-  bool isMovingCropLayer = false;
 
   @override
   Widget build(BuildContext context) {
