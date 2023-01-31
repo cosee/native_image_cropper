@@ -15,8 +15,7 @@ class ExtendedPanDetector extends StatelessWidget {
   /// The size of the extended hit area.
   final double size;
 
-  /// A pointer that is in contact with the screen with a primary button and
-  /// moving has moved again.
+  /// Handles updates during a pan gesture.
   final GestureDragUpdateCallback onPanUpdate;
 
   /// The widget below this widget in the tree.
