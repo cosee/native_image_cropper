@@ -1,15 +1,7 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:native_image_cropper/native_image_cropper.dart';
-import 'package:native_image_cropper/src/mask/oval_layer.dart';
-import 'package:native_image_cropper/src/mask/rect_layer.dart';
-import 'package:native_image_cropper/src/utils/crop.dart';
+part of 'preview.dart';
 
-/// The [CropImage] represents the image to be cropped with its [CropMask].
-class CropImage extends StatefulWidget {
-  /// Constructs a [CropImage].
-  const CropImage({
-    super.key,
+class _CropImage extends StatefulWidget {
+  const _CropImage({
     required this.controller,
     required this.image,
     required this.maskOptions,
@@ -19,30 +11,16 @@ class CropImage extends StatefulWidget {
     required this.cropUtils,
   });
 
-  /// Controls the behaviour of the [CropPreview].
   final CropController controller;
-
-  /// Displays the image in the [CropPreview].
   final MemoryImage image;
-
-  /// Options to customize the crop mask
   final MaskOptions maskOptions;
-
-  /// Determines the size of the drag points.
   final double dragPointSize;
-
-  /// The size of the hit area around each drag point where it can be
-  /// interacted with.
   final double hitSize;
-
-  /// Widget which should be shown while the image is being loaded.
   final Widget loadingWidget;
-
-  /// Helper functions for cropping and resizing an image.
   final CropUtils cropUtils;
 
   @override
-  State<CropImage> createState() => _CropImageState();
+  State<_CropImage> createState() => _CropImageState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -57,7 +35,7 @@ class CropImage extends StatefulWidget {
   }
 }
 
-class _CropImageState extends State<CropImage> {
+class _CropImageState extends State<_CropImage> {
   bool _isMovingCropLayer = false;
 
   @override

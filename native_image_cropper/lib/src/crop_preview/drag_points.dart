@@ -1,36 +1,19 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:native_image_cropper/native_image_cropper.dart';
-import 'package:native_image_cropper/src/drag_point/enum.dart';
-import 'package:native_image_cropper/src/extended_pan_detector.dart';
-import 'package:native_image_cropper/src/utils/crop.dart';
+part of 'preview.dart';
 
-/// The [CropDragPoints] represents the four drag points for cropping an image.
-class CropDragPoints extends StatelessWidget {
-  /// Constructs a [CropDragPoints].
-  const CropDragPoints({
-    super.key,
+class _CropDragPoints extends StatelessWidget {
+  const _CropDragPoints({
     required this.controller,
-    required this.cropUtils,
     required this.dragPointSize,
-    required this.hitSize,
     this.dragPointBuilder,
+    required this.hitSize,
+    required this.cropUtils,
   });
 
-  /// Holds the crop information.
   final CropController controller;
-
-  /// Provides utility functions for moving the drag points.
-  final CropUtils cropUtils;
-
-  /// The size of the drag points.
   final double dragPointSize;
-
-  /// The extended hit size of a drag point.
-  final double hitSize;
-
-  /// Optional builder to provude custom drag points.
   final CropDragPointBuilder? dragPointBuilder;
+  final double hitSize;
+  final CropUtils cropUtils;
 
   @override
   Widget build(BuildContext context) {

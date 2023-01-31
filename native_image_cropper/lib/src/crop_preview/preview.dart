@@ -3,10 +3,14 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
-import 'package:native_image_cropper/src/crop_preview/drag_points.dart';
-import 'package:native_image_cropper/src/crop_preview/image.dart';
 import 'package:native_image_cropper/src/drag_point/enum.dart';
+import 'package:native_image_cropper/src/extended_pan_detector.dart';
+import 'package:native_image_cropper/src/mask/oval_layer.dart';
+import 'package:native_image_cropper/src/mask/rect_layer.dart';
 import 'package:native_image_cropper/src/utils/crop.dart';
+
+part 'drag_points.dart';
+part 'image.dart';
 
 /// Type alias for a callback function.
 /// Used to build a custom drag point in a [CropPreview].
@@ -149,7 +153,7 @@ class _CropPreviewState extends State<CropPreview> {
     return Center(
       child: Stack(
         children: [
-          CropImage(
+          _CropImage(
             dragPointSize: widget.dragPointSize,
             hitSize: widget.hitSize,
             controller: _controller,
@@ -158,7 +162,7 @@ class _CropPreviewState extends State<CropPreview> {
             maskOptions: widget.maskOptions,
             image: _image,
           ),
-          CropDragPoints(
+          _CropDragPoints(
             dragPointBuilder: widget.dragPointBuilder,
             controller: _controller,
             cropUtils: _cropUtils,
