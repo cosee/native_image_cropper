@@ -6,26 +6,42 @@ part 'aspect_greater_equals_one.dart';
 part 'aspect_ratio_null.dart';
 part 'aspect_smaller_one.dart';
 
+/// The [CropUtils] class is an interface for performing crop operations on an
+/// image.
+///
+/// Classes that are designed for crop utility should inherit from this class.
 abstract class CropUtils {
+  /// Constructs a [CropUtils]
   const CropUtils({
     required this.minCropRectSize,
   });
 
+  /// Represents the minimum size of the crop rectangle that should be
+  /// maintained while cropping an image.
   final double minCropRectSize;
+
+  /// Used to improve the smoothness of the movement of the crop rectangle.
   static const double _tolerance = 0.1;
 
+  /// Returns the initial rect for cropping.
   Rect? getInitialRect(Rect? imageRect);
 
+  /// Returns a new crop [Rect] from an [oldCropRect] after applying
+  /// the aspect ratio if given.
   Rect? computeCropRectWithNewAspectRatio({
     Rect? oldCropRect,
     Rect? imageRect,
   });
 
+  /// Calculates the [Offset] needed to maintain the aspect ratio for
+  /// the [newCropRect] based on the [oldCropRect].
   Offset _calculateAspectRatioOffset({
-    required Rect cropRect,
-    required Rect newRect,
+    required Rect oldCropRect,
+    required Rect newCropRect,
   });
 
+  /// Computes a [Rect] from the given [imageSize] and [availableSpace],
+  /// which fits the screen.
   Rect computeImageRect({
     required Size imageSize,
     required Rect availableSpace,
@@ -39,6 +55,8 @@ abstract class CropUtils {
     );
   }
 
+  /// Move the [cropRect] by the given [delta], considering the boundaries of
+  /// the image.
   Rect? moveCropRect({
     Rect? cropRect,
     Rect? imageRect,
@@ -48,20 +66,22 @@ abstract class CropUtils {
       return null;
     }
 
-    final newRect = _shiftRectConsideringBoundaries(
+    final newCropRect = _smoothShiftRect(
       imageRect: imageRect,
       cropRect: cropRect,
       delta: delta,
     );
 
     return _constraintCropRect(
-      newRect: newRect,
+      newCropRect: newCropRect,
       cropRect: cropRect,
       imageRect: imageRect,
     );
   }
 
-  Rect _shiftRectConsideringBoundaries({
+  /// Smoothly shifts the [cropRect] by the given [delta] within
+  /// the [imageRect], considering a [_tolerance].
+  Rect _smoothShiftRect({
     required Rect cropRect,
     required Rect imageRect,
     required Offset delta,
@@ -80,12 +100,14 @@ abstract class CropUtils {
     }
   }
 
+  /// Constraints the [newCropRect] to make sure it is within the bounds of
+  /// the [imageRect].
   static Rect _constraintCropRect({
-    required Rect newRect,
+    required Rect newCropRect,
     required Rect cropRect,
     required Rect imageRect,
   }) {
-    Rect resultRect = newRect;
+    Rect resultRect = newCropRect;
     if (resultRect.right > imageRect.right) {
       final dx = imageRect.right - cropRect.right;
       resultRect = Rect.fromPoints(
@@ -121,6 +143,9 @@ abstract class CropUtils {
     return resultRect;
   }
 
+  /// Moves the top left corner of the [cropRect] by the given [delta] while
+  /// maintaining the aspect ratio and making sure it stays within
+  /// the [imageRect].
   Rect? moveTopLeftCorner({
     Rect? cropRect,
     Rect? imageRect,
@@ -130,22 +155,27 @@ abstract class CropUtils {
       return null;
     }
 
-    Rect newRect =
+    Rect newCropRect =
         Rect.fromPoints(cropRect.topLeft + delta, cropRect.bottomRight);
-    final aspectRatioOffset =
-        _calculateAspectRatioOffset(cropRect: cropRect, newRect: newRect);
-    newRect = Rect.fromPoints(
-      newRect.bottomRight - aspectRatioOffset,
-      newRect.bottomRight,
+    final aspectRatioOffset = _calculateAspectRatioOffset(
+      oldCropRect: cropRect,
+      newCropRect: newCropRect,
+    );
+    newCropRect = Rect.fromPoints(
+      newCropRect.bottomRight - aspectRatioOffset,
+      newCropRect.bottomRight,
     );
 
-    if (_isSmallerThanMinCropRect(newRect)) {
+    if (_isSmallerThanMinCropRect(newCropRect)) {
       return cropRect;
     }
 
-    return imageRect.intersect(newRect);
+    return imageRect.intersect(newCropRect);
   }
 
+  /// Moves the top right corner of the [cropRect] by the given [delta] while
+  /// maintaining the aspect ratio and making sure it stays within
+  /// the [imageRect].
   Rect? moveTopRightCorner({
     Rect? cropRect,
     Rect? imageRect,
@@ -155,23 +185,28 @@ abstract class CropUtils {
       return null;
     }
 
-    Rect newRect = Rect.fromPoints(
+    Rect newCropRect = Rect.fromPoints(
       cropRect.topLeft + Offset(0, delta.dy),
       cropRect.bottomRight + Offset(delta.dx, 0),
     );
-    final aspectRatioOffset =
-        _calculateAspectRatioOffset(cropRect: cropRect, newRect: newRect);
-    newRect = Rect.fromPoints(
-      newRect.bottomLeft + Offset(0, -aspectRatioOffset.dy),
-      newRect.bottomLeft + Offset(aspectRatioOffset.dx, 0),
+    final aspectRatioOffset = _calculateAspectRatioOffset(
+      oldCropRect: cropRect,
+      newCropRect: newCropRect,
+    );
+    newCropRect = Rect.fromPoints(
+      newCropRect.bottomLeft + Offset(0, -aspectRatioOffset.dy),
+      newCropRect.bottomLeft + Offset(aspectRatioOffset.dx, 0),
     );
 
-    if (_isSmallerThanMinCropRect(newRect)) {
+    if (_isSmallerThanMinCropRect(newCropRect)) {
       return cropRect;
     }
-    return imageRect.intersect(newRect);
+    return imageRect.intersect(newCropRect);
   }
 
+  /// Moves the bottom left corner of the [cropRect] by the given [delta] while
+  /// maintaining the aspect ratio and making sure it stays within
+  /// the [imageRect].
   Rect? moveBottomLeftCorner({
     Rect? cropRect,
     Rect? imageRect,
@@ -181,23 +216,28 @@ abstract class CropUtils {
       return null;
     }
 
-    Rect newRect = Rect.fromPoints(
+    Rect newCropRect = Rect.fromPoints(
       cropRect.topLeft + Offset(delta.dx, 0),
       cropRect.bottomRight + Offset(0, delta.dy),
     );
-    final aspectRatioOffset =
-        _calculateAspectRatioOffset(cropRect: cropRect, newRect: newRect);
-    newRect = Rect.fromPoints(
-      newRect.topRight - Offset(aspectRatioOffset.dx, 0),
-      newRect.topRight + Offset(0, aspectRatioOffset.dy),
+    final aspectRatioOffset = _calculateAspectRatioOffset(
+      oldCropRect: cropRect,
+      newCropRect: newCropRect,
+    );
+    newCropRect = Rect.fromPoints(
+      newCropRect.topRight - Offset(aspectRatioOffset.dx, 0),
+      newCropRect.topRight + Offset(0, aspectRatioOffset.dy),
     );
 
-    if (_isSmallerThanMinCropRect(newRect)) {
+    if (_isSmallerThanMinCropRect(newCropRect)) {
       return cropRect;
     }
-    return imageRect.intersect(newRect);
+    return imageRect.intersect(newCropRect);
   }
 
+  /// Moves the bottom right corner of the [cropRect] by the given [delta] while
+  /// maintaining the aspect ratio and making sure it stays within
+  /// the [imageRect].
   Rect? moveBottomRightCorner({
     Rect? cropRect,
     Rect? imageRect,
@@ -207,25 +247,31 @@ abstract class CropUtils {
       return null;
     }
 
-    Rect newRect =
+    Rect newCropRect =
         Rect.fromPoints(cropRect.topLeft, cropRect.bottomRight + delta);
-    final aspectRatioOffset =
-        _calculateAspectRatioOffset(cropRect: cropRect, newRect: newRect);
-    newRect = Rect.fromPoints(
-      newRect.topLeft,
-      newRect.topLeft + aspectRatioOffset,
+    final aspectRatioOffset = _calculateAspectRatioOffset(
+      oldCropRect: cropRect,
+      newCropRect: newCropRect,
+    );
+    newCropRect = Rect.fromPoints(
+      newCropRect.topLeft,
+      newCropRect.topLeft + aspectRatioOffset,
     );
 
-    if (_isSmallerThanMinCropRect(newRect)) {
+    if (_isSmallerThanMinCropRect(newCropRect)) {
       return cropRect;
     }
-    return imageRect.intersect(newRect);
+    return imageRect.intersect(newCropRect);
   }
 
+  /// Checks if the width or height of the [rect] is less
+  /// than [minCropRectSize].
   bool _isSmallerThanMinCropRect(Rect rect) =>
       rect.width < minCropRectSize || rect.height < minCropRectSize;
 }
 
 extension on Rect {
+  /// Calculates the area of a [Rect] by returning the product of
+  /// [width] and [height].
   double get area => width * height;
 }

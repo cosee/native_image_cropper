@@ -1,6 +1,9 @@
 part of 'crop.dart';
 
+/// The implementation of [CropUtils] with an aspect ratio constraint greater
+/// than or equals to 1.
 class CropUtilsAspectRatioGreaterEqualsOne extends CropUtils {
+  /// Constructs a [CropUtilsAspectRatioGreaterEqualsOne].
   const CropUtilsAspectRatioGreaterEqualsOne({
     required super.minCropRectSize,
     required this.aspectRatio,
@@ -9,6 +12,8 @@ class CropUtilsAspectRatioGreaterEqualsOne extends CropUtils {
           'Aspect ratio must be greater than or equals to 1!',
         );
 
+  /// The aspect ratio of the cropped image.
+  /// Must be greater than or equals to 1.
   final double aspectRatio;
 
   @override
@@ -35,31 +40,31 @@ class CropUtilsAspectRatioGreaterEqualsOne extends CropUtils {
     }
 
     final height = min(imageRect.width / aspectRatio, oldCropRect.height);
-    final newRect = Rect.fromCenter(
+    final newCropRect = Rect.fromCenter(
       center: oldCropRect.center,
       width: height * aspectRatio,
       height: height,
     );
 
     double dx = 0;
-    if (newRect.left < 0) {
-      dx = imageRect.left - newRect.left;
-    } else if (newRect.right > imageRect.right) {
-      dx = imageRect.right - newRect.right;
+    if (newCropRect.left < 0) {
+      dx = imageRect.left - newCropRect.left;
+    } else if (newCropRect.right > imageRect.right) {
+      dx = imageRect.right - newCropRect.right;
     }
-    return newRect.shift(Offset(dx, 0));
+    return newCropRect.shift(Offset(dx, 0));
   }
 
   @override
   Offset _calculateAspectRatioOffset({
-    required Rect cropRect,
-    required Rect newRect,
+    required Rect oldCropRect,
+    required Rect newCropRect,
   }) {
     double height;
-    if (newRect.area < cropRect.area) {
-      height = max(newRect.width / aspectRatio, newRect.height);
+    if (newCropRect.area < oldCropRect.area) {
+      height = max(newCropRect.width / aspectRatio, newCropRect.height);
     } else {
-      height = min(newRect.width / aspectRatio, newRect.height);
+      height = min(newCropRect.width / aspectRatio, newCropRect.height);
     }
     return Offset(height * aspectRatio, height);
   }
