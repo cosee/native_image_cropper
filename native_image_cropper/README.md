@@ -1,5 +1,10 @@
 # native_image_cropper
 
+[![pub package][pub_badge]][pub_badge_link]
+[![package publisher][publisher_badge]][publisher_badge_link]
+[![style][style_badge]][style_link]
+[![license][license_badge]][license_link]
+
 A Flutter plugin which supports native rectangular and circular cropping.
 
 ![Preview example](example/screenshots/example.gif "Example")
@@ -87,3 +92,20 @@ final croppedImage = await NativeImageCropper.cropRect(
   width: 500,
   height: 500,
 );
+```
+
+[pub_badge]: https://img.shields.io/pub/v/native_image_cropper.svg
+
+[pub_badge_link]: https://pub.dartlang.org/packages/native_image_cropper
+
+[publisher_badge]: https://img.shields.io/pub/publisher/native_image_cropper.svg
+
+[publisher_badge_link]: https://pub.dev/publishers/cosee.biz/packages
+
+[license_badge]: https://img.shields.io/github/license/cosee/native_image_cropper
+
+[license_link]: https://github.com/cosee/native_image_cropper/blob/main/native_image_cropper/LICENSE
+
+[style_badge]: https://img.shields.io/badge/style-cosee__lints-brightgreen
+
+[style_link]: https://pub.dev/packages/cosee_lints
