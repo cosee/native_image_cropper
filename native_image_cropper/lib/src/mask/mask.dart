@@ -16,11 +16,11 @@ abstract class CropMask extends CustomPainter {
   /// Options for customizing the appearance of the mask.
   final MaskOptions maskOptions;
 
-  /// Get a [Paint] object with its color set to the background color
+  /// Gets a [Paint] object with its color set to the background color
   /// of the [maskOptions].
   Paint get backgroundPaint => Paint()..color = maskOptions.backgroundColor;
 
-  /// Get a [Paint] object with its color set to the border color of the
+  /// Gets a [Paint] object with its color set to the border color of the
   /// [maskOptions], style set to [PaintingStyle.stroke] and stroke width set
   /// to the stroke width of the [maskOptions].
   Paint get borderPaint => Paint()

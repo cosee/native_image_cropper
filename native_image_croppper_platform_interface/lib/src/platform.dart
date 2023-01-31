@@ -34,7 +34,7 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Completes with a [Uint8List] of the cropped bytes in a rectangle shape.
+  /// Completes with an [Uint8List] of the cropped bytes in a rectangle shape.
   Future<Uint8List> cropRect({
     required Uint8List bytes,
     required int x,
@@ -45,7 +45,7 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
     throw UnimplementedError('cropRect() is not implemented.');
   }
 
-  /// Completes with a [Uint8List] of the cropped bytes in a oval shape.
+  /// Completes with an [Uint8List] of the cropped bytes in an oval shape.
   Future<Uint8List> cropOval({
     required Uint8List bytes,
     required int x,

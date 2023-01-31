@@ -22,7 +22,7 @@ class NativeImageCropper {
         height: height,
       );
 
-  /// Completes with a [Uint8List] of the cropped bytes in a oval shape.
+  /// Completes with a [Uint8List] of the cropped bytes in an oval shape.
   static Future<Uint8List> cropOval({
     required Uint8List bytes,
     required int x,

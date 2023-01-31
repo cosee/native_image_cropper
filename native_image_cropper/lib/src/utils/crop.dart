@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/rendering.dart';
 
-part 'aspect_greater_equals_one.dart';
+part 'aspect_ratio_greater_equals_one.dart';
 part 'aspect_ratio_null.dart';
-part 'aspect_smaller_one.dart';
+part 'aspect_ratio_smaller_one.dart';
 
 /// The [CropUtils] class is an interface for performing crop operations on an
 /// image.
@@ -86,18 +86,21 @@ abstract class CropUtils {
     required Rect imageRect,
     required Offset delta,
   }) {
+    double dx = delta.dx;
+    double dy = delta.dy;
+
     if (cropRect.top < _tolerance && delta.dy < 0) {
-      return cropRect.shift(Offset(delta.dx, 0));
+      dy = 0;
     } else if (cropRect.bottom > imageRect.height - _tolerance &&
         delta.dy > 0) {
-      return cropRect.shift(Offset(delta.dx, 0));
+      dy = 0;
     } else if (cropRect.left < _tolerance && delta.dx < 0) {
-      return cropRect.shift(Offset(0, delta.dy));
+      dx = 0;
     } else if (cropRect.right > imageRect.right - _tolerance && delta.dx > 0) {
-      return cropRect.shift(Offset(0, delta.dy));
-    } else {
-      return cropRect.shift(delta);
+      dx = 0;
     }
+
+    return cropRect.shift(Offset(dx, dy));
   }
 
   /// Constraints the [newCropRect] to make sure it is within the bounds of
