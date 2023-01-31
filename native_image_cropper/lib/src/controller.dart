@@ -4,29 +4,53 @@ import 'package:flutter/foundation.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
+/// The [CropController] manages the state and behaviour of image cropping.
+/// It holds data such as image size, crop mode, image rectangle, and crop
+/// rectangle, as well as a reference to the image data.
 class CropController {
+  /// Stores the size of the image to be cropped.
   final imageSizeNotifier = ValueNotifier<Size?>(null);
+
+  /// Stores the [CropMode] of the image to be cropped.
   final modeNotifier = ValueNotifier<CropMode>(CropMode.rect);
+
+  /// Stores the image's position and size within the view.
   final imageRectNotifier = ValueNotifier<Rect?>(null);
+
+  /// Stores the selected crop area within the view.
   final cropRectNotifier = ValueNotifier<Rect?>(null);
+
+  /// Stores the image data to be cropped.
   Uint8List? bytes;
 
+  /// Gets the image [Size] stored in the [ValueNotifier].
   Size? get imageSize => imageSizeNotifier.value;
 
+  /// Sets the new image [Size] in the [ValueNotifier].
   set imageSize(Size? value) => imageSizeNotifier.value = value;
 
+  /// Gets the image [Rect] stored in the [ValueNotifier].
   Rect? get imageRect => imageRectNotifier.value;
 
+  /// Sets the new image [Rect] in the [ValueNotifier].
   set imageRect(Rect? value) => imageRectNotifier.value = value;
 
+  /// Gets the crop [Rect] stored in the [ValueNotifier].
   Rect? get cropRect => cropRectNotifier.value;
 
+  /// Sets the new crop [Rect] in the [ValueNotifier].
   set cropRect(Rect? value) => cropRectNotifier.value = value;
 
+  /// Gets the [CropMode] stored in the [ValueNotifier].
   CropMode get mode => modeNotifier.value;
 
+  /// Sets the new [CropMode]]in the [ValueNotifier].
   set mode(CropMode value) => modeNotifier.value = value;
 
+  /// Performs the actual cropping by calling the corresponding
+  /// [NativeImageCropper] method.
+  /// The crop() method calculates the crop coordinates based on the relative
+  /// positions of the crop rectangle and the image rectangle.
   Future<Uint8List> crop() {
     final cropRect = this.cropRect;
     final imageRect = this.imageRect;
@@ -66,6 +90,7 @@ class CropController {
     }
   }
 
+  /// Releases the resources held by the [ValueNotifier].
   void dispose() {
     imageSizeNotifier.dispose();
     imageRectNotifier.dispose();
