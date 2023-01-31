@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/src/mask/mask.dart';
 
+/// The [OvalMask] provides a custom painter to create an oval [CropMask].
 class OvalMask extends CropMask {
+  /// Constructs an [OvalMask].
   const OvalMask({
     required super.rect,
     required super.maskOptions,

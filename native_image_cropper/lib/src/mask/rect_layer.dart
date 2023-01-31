@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/src/mask/mask.dart';
 
+/// The [RectMask] provides a custom painter to create an rectangle [CropMask].
 class RectMask extends CropMask {
+  /// Constructs an [RectMask].
   const RectMask({
     required super.rect,
     required super.maskOptions,
