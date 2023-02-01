@@ -59,7 +59,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
     }
     
     private func uiImageToFlutterStandardTypedData(image: UIImage) throws -> FlutterStandardTypedData {
-        let bytes = image.jpegData(compressionQuality: 1)
+        let bytes = image.pngData()
         if let bytes {
             return FlutterStandardTypedData(bytes: bytes)
         }
