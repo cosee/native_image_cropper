@@ -20,9 +20,8 @@ class CropUtilsAspectRatioNull extends CropUtils {
   }
 
   @override
-  Offset _calculateAspectRatioOffset({
-    required Rect oldCropRect,
-    required Rect newCropRect,
-  }) =>
-      Offset(newCropRect.size.width, newCropRect.size.height);
+  Offset _computeAspectRatioDeltaRightDiagonal(Offset delta) => delta;
+
+  @override
+  Offset _computeAspectRatioDeltaLeftDiagonal(Offset delta) => delta;
 }

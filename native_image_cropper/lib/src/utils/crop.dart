@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/rendering.dart';
 
 part 'aspect_ratio_greater_equals_one.dart';
+part 'aspect_ratio_not_null.dart';
 part 'aspect_ratio_null.dart';
 part 'aspect_ratio_smaller_one.dart';
 
@@ -26,18 +27,19 @@ abstract class CropUtils {
   /// Returns the initial rect for cropping.
   Rect? getInitialRect(Rect? imageRect);
 
+  /// Computes the aspect ratio delta for a left diagonal movement.
+  /// To be precise a top left or bottom right movement.
+  Offset _computeAspectRatioDeltaLeftDiagonal(Offset delta);
+
+  /// Computes the aspect ratio delta for a right diagonal movement.
+  /// To be precise a top right or bottom left movement.
+  Offset _computeAspectRatioDeltaRightDiagonal(Offset delta);
+
   /// Returns a new crop [Rect] from an [oldCropRect] after applying
   /// the aspect ratio if given.
   Rect? computeCropRectWithNewAspectRatio({
     Rect? oldCropRect,
     Rect? imageRect,
-  });
-
-  /// Calculates the [Offset] needed to maintain the aspect ratio for
-  /// the [newCropRect] based on the [oldCropRect].
-  Offset _calculateAspectRatioOffset({
-    required Rect oldCropRect,
-    required Rect newCropRect,
   });
 
   /// Computes a [Rect] from the given [imageSize] and [availableSpace],
@@ -158,22 +160,18 @@ abstract class CropUtils {
       return null;
     }
 
-    Rect newCropRect =
-        Rect.fromPoints(cropRect.topLeft + delta, cropRect.bottomRight);
-    final aspectRatioOffset = _calculateAspectRatioOffset(
-      oldCropRect: cropRect,
-      newCropRect: newCropRect,
-    );
-    newCropRect = Rect.fromPoints(
-      newCropRect.bottomRight - aspectRatioOffset,
-      newCropRect.bottomRight,
+    final deltaWithAspectRatio = _computeAspectRatioDeltaLeftDiagonal(delta);
+    final newCropRect = Rect.fromPoints(
+      cropRect.topLeft + deltaWithAspectRatio,
+      cropRect.bottomRight,
     );
 
-    if (_isSmallerThanMinCropRect(newCropRect)) {
+    if (imageRect.doesNotContain(newCropRect) ||
+        _isSmallerThanMinCropRect(newCropRect)) {
       return cropRect;
     }
 
-    return imageRect.intersect(newCropRect);
+    return newCropRect;
   }
 
   /// Moves the top right corner of the [cropRect] by the given [delta] while
@@ -188,23 +186,18 @@ abstract class CropUtils {
       return null;
     }
 
-    Rect newCropRect = Rect.fromPoints(
-      cropRect.topLeft + Offset(0, delta.dy),
-      cropRect.bottomRight + Offset(delta.dx, 0),
-    );
-    final aspectRatioOffset = _calculateAspectRatioOffset(
-      oldCropRect: cropRect,
-      newCropRect: newCropRect,
-    );
-    newCropRect = Rect.fromPoints(
-      newCropRect.bottomLeft + Offset(0, -aspectRatioOffset.dy),
-      newCropRect.bottomLeft + Offset(aspectRatioOffset.dx, 0),
+    final deltaWithAspectRatio = _computeAspectRatioDeltaRightDiagonal(delta);
+    final newCropRect = Rect.fromPoints(
+      cropRect.topLeft + Offset(0, deltaWithAspectRatio.dy),
+      cropRect.bottomRight + Offset(deltaWithAspectRatio.dx, 0),
     );
 
-    if (_isSmallerThanMinCropRect(newCropRect)) {
+    if (imageRect.doesNotContain(newCropRect) ||
+        _isSmallerThanMinCropRect(newCropRect)) {
       return cropRect;
     }
-    return imageRect.intersect(newCropRect);
+
+    return newCropRect;
   }
 
   /// Moves the bottom left corner of the [cropRect] by the given [delta] while
@@ -219,23 +212,18 @@ abstract class CropUtils {
       return null;
     }
 
-    Rect newCropRect = Rect.fromPoints(
-      cropRect.topLeft + Offset(delta.dx, 0),
-      cropRect.bottomRight + Offset(0, delta.dy),
-    );
-    final aspectRatioOffset = _calculateAspectRatioOffset(
-      oldCropRect: cropRect,
-      newCropRect: newCropRect,
-    );
-    newCropRect = Rect.fromPoints(
-      newCropRect.topRight - Offset(aspectRatioOffset.dx, 0),
-      newCropRect.topRight + Offset(0, aspectRatioOffset.dy),
+    final deltaWithAspectRatio = _computeAspectRatioDeltaRightDiagonal(delta);
+    final newCropRect = Rect.fromPoints(
+      cropRect.topLeft + Offset(deltaWithAspectRatio.dx, 0),
+      cropRect.bottomRight + Offset(0, deltaWithAspectRatio.dy),
     );
 
-    if (_isSmallerThanMinCropRect(newCropRect)) {
+    if (imageRect.doesNotContain(newCropRect) ||
+        _isSmallerThanMinCropRect(newCropRect)) {
       return cropRect;
     }
-    return imageRect.intersect(newCropRect);
+
+    return newCropRect;
   }
 
   /// Moves the bottom right corner of the [cropRect] by the given [delta] while
@@ -250,21 +238,18 @@ abstract class CropUtils {
       return null;
     }
 
-    Rect newCropRect =
-        Rect.fromPoints(cropRect.topLeft, cropRect.bottomRight + delta);
-    final aspectRatioOffset = _calculateAspectRatioOffset(
-      oldCropRect: cropRect,
-      newCropRect: newCropRect,
-    );
-    newCropRect = Rect.fromPoints(
-      newCropRect.topLeft,
-      newCropRect.topLeft + aspectRatioOffset,
+    final deltaWithAspectRatio = _computeAspectRatioDeltaLeftDiagonal(delta);
+    final newCropRect = Rect.fromPoints(
+      cropRect.topLeft,
+      cropRect.bottomRight + deltaWithAspectRatio,
     );
 
-    if (_isSmallerThanMinCropRect(newCropRect)) {
+    if (imageRect.doesNotContain(newCropRect) ||
+        _isSmallerThanMinCropRect(newCropRect)) {
       return cropRect;
     }
-    return imageRect.intersect(newCropRect);
+
+    return newCropRect;
   }
 
   /// Checks if the width or height of the [rect] is less
@@ -274,7 +259,10 @@ abstract class CropUtils {
 }
 
 extension on Rect {
-  /// Calculates the area of a [Rect] by returning the product of
-  /// [width] and [height].
-  double get area => width * height;
+  /// Indicating of this [Rect] does not contain [other].
+  bool doesNotContain(Rect other) =>
+      other.top < top ||
+      other.bottom > bottom ||
+      other.left < left ||
+      other.right > right;
 }

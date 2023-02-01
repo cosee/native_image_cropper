@@ -1,20 +1,16 @@
 part of 'crop.dart';
 
-/// The implementation of [CropUtils] with an aspect ratio constraint greater
-/// than or equals to 1.
-class CropUtilsAspectRatioGreaterEqualsOne extends CropUtils {
+/// The implementation of [CropUtilsAspectRatioNotNull] with an aspect ratio
+/// constraint greater than or equals to 1.
+class CropUtilsAspectRatioGreaterEqualsOne extends CropUtilsAspectRatioNotNull {
   /// Constructs a [CropUtilsAspectRatioGreaterEqualsOne].
   const CropUtilsAspectRatioGreaterEqualsOne({
     required super.minCropRectSize,
-    required this.aspectRatio,
+    required super.aspectRatio,
   }) : assert(
           aspectRatio >= 1,
           'Aspect ratio must be greater than or equals to 1!',
         );
-
-  /// The aspect ratio of the cropped image.
-  /// Must be greater than or equals to 1.
-  final double aspectRatio;
 
   @override
   Rect? getInitialRect(Rect? imageRect) {
@@ -53,19 +49,5 @@ class CropUtilsAspectRatioGreaterEqualsOne extends CropUtils {
       dx = imageRect.right - newCropRect.right;
     }
     return newCropRect.shift(Offset(dx, 0));
-  }
-
-  @override
-  Offset _calculateAspectRatioOffset({
-    required Rect oldCropRect,
-    required Rect newCropRect,
-  }) {
-    double height;
-    if (newCropRect.area < oldCropRect.area) {
-      height = max(newCropRect.width / aspectRatio, newCropRect.height);
-    } else {
-      height = min(newCropRect.width / aspectRatio, newCropRect.height);
-    }
-    return Offset(height * aspectRatio, height);
   }
 }
