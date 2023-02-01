@@ -84,8 +84,11 @@ private fun handleCropOval(call: MethodCall, result: Result) {
 
 private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
     val stream = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-    return stream.toByteArray()
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+    val byteArray = stream.toByteArray()
+    stream.flush()
+    stream.close()
+    return byteArray
 }
 
 private fun Bitmap.createOvalBitmap(): Bitmap {
