@@ -5,7 +5,7 @@
 [![style][style_badge]][style_link]
 [![license][license_badge]][license_link]
 
-A Flutter plugin which supports native rectangular and circular cropping.
+A Flutter plugin which supports native circular and rectangular cropping.
 
 ![Preview example](example/screenshots/example.gif "Example")
 
@@ -13,9 +13,9 @@ A Flutter plugin which supports native rectangular and circular cropping.
 
 * Better performance, since it is written in Kotlin/Swift
 * Usable without widget
-* Rectangular and circular cropping
+* Circular and rectangular cropping
 * Customizable drag points
-* Customizable crop layer
+* Customizable crop mask
 * Customizable hit size
 
 ## Usage
@@ -79,18 +79,28 @@ final controller = CropController();
 
 CropPreview(controller: controller, bytes: imageData);
 
-final croppedImage = await controller.crop();
+final croppedBytes = await controller.crop();
 ```
 
-or call it directly using MethodChannel:
+or call it directly using `MethodChannels`:
 
 ```dart
-final croppedImage = await NativeImageCropper.cropRect(
+final croppedBytes = await NativeImageCropper.cropRect(
   bytes: imageData,
   x: 0,
   y: 0,
   width: 500,
   height: 500,
+);
+```
+
+```dart
+final croppedBytes = await NativeImageCropper.cropOval(
+bytes: imageData,
+x: 0,
+y: 0,
+width: 500,
+height: 500,
 );
 ```
 
