@@ -5,6 +5,7 @@ class CustomThemes {
 
   static const CupertinoThemeData theme = CupertinoThemeData(
     barBackgroundColor: Color(0xFF4faf47),
-    primaryColor: Color(0xFFd4d800),
+    primaryColor: CupertinoColors.white,
   );
+  static const Color yellow = Color(0xFFd4d800);
 }

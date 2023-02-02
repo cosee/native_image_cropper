@@ -6,7 +6,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         let instance = SwiftNativeImageCropperPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
-    
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
             case "cropOval":
@@ -17,7 +17,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
                 result(FlutterMethodNotImplemented)
         }
     }
-    
+
     private func handleCropRect(_ call: FlutterMethodCall,_ result: @escaping FlutterResult){
         DispatchQueue.main.async {
             do {
@@ -27,17 +27,18 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
                 let y = args["y"] as! Int
                 let width = args["width"] as! Int
                 let height = args["height"] as! Int
+                let imageFormat = ImageFormat(rawValue: (args["imageFormat"] as! String).uppercased())!
                 
                 let image = try self.flutterStandardTypeDataToUIImage(bytes: bytes)
                 let croppedImage = try self.getCroppedRectUIImage(image: image, x: x, y: y, width: width, height: height)
-                let croppedBytes = try self.uiImageToFlutterStandardTypedData(image: croppedImage)
+                let croppedBytes = try self.uiImageToFlutterStandardTypedData(image: croppedImage, format: imageFormat)
                 result(croppedBytes)
             } catch {
                 result(FlutterError.init(code: String(describing: error.self), message: error.localizedDescription, details:nil))
             }
         }
     }
-    
+
     private func handleCropOval(_ call: FlutterMethodCall,_ result: @escaping FlutterResult){
         DispatchQueue.main.async {
             do {
@@ -47,25 +48,32 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
                 let y = args["y"] as! Int
                 let width = args["width"] as! Int
                 let height = args["height"] as! Int
+                let imageFormat = ImageFormat(rawValue: (args["imageFormat"] as! String).uppercased())!
                 
                 let image = try self.flutterStandardTypeDataToUIImage(bytes: bytes)
                 let croppedImage = try self.getCroppedOvalUIImage(image: image, x: x, y: y, width: width, height: height)
-                let croppedBytes = try self.uiImageToFlutterStandardTypedData(image: croppedImage)
+                let croppedBytes = try self.uiImageToFlutterStandardTypedData(image: croppedImage, format: imageFormat)
                 result(croppedBytes)
             } catch {
                 result(FlutterError.init(code: String(describing: error.self), message: error.localizedDescription, details:nil))
             }
         }
     }
-    
-    private func uiImageToFlutterStandardTypedData(image: UIImage) throws -> FlutterStandardTypedData {
-        let bytes = image.pngData()
+
+    private func uiImageToFlutterStandardTypedData(image: UIImage, format: ImageFormat) throws -> FlutterStandardTypedData {
+        let bytes: Data?
+        if case .JPG = format {
+            bytes = image.jpegData(compressionQuality: 1)
+        } else {
+            bytes = image.pngData()
+        }
+        
         if let bytes {
             return FlutterStandardTypedData(bytes: bytes)
         }
         throw NativeImageCropperError.uIImageToFlutterStandardTypeDataError
     }
-    
+
     private func flutterStandardTypeDataToUIImage(bytes: FlutterStandardTypedData) throws -> UIImage{
         let image = UIImage(data: bytes.data)
         if let image {
@@ -73,7 +81,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         }
         throw NativeImageCropperError.flutterStandardTypeDataToUIImageError
     }
-    
+
     private func getCroppedRectUIImage(image: UIImage,x: Int, y: Int, width: Int, height: Int) throws -> UIImage {
         let cropRect = CGRect(x: x, y: y, width: width, height: height).integral
         let cgImage = image.cgImage
@@ -87,7 +95,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         }
         throw NativeImageCropperError.cgImageNullError
     }
-    
+
     private func getCroppedOvalUIImage(image: UIImage, x: Int, y: Int, width: Int, height: Int) throws -> UIImage {
         let croppedRectImage = try getCroppedRectUIImage(image: image, x: x, y: y, width: width, height: height)
         
@@ -111,16 +119,20 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
             }
         return ovalCroppedImage
     }
+
+    enum ImageFormat: String {
+        /// Compress the image using JPG, which is usually faster.
+        case JPG = "JPG"
+
+        /// Compress the image using PNG, which is lossless but slower.
+        case PNG = "PNG"
+    }
 }
 
-enum NativeImageCropperError: LocalizedError{
-    
+private enum NativeImageCropperError: LocalizedError {
     case flutterStandardTypeDataToUIImageError
-    
     case uIImageToFlutterStandardTypeDataError
-    
     case cgImageNullError
-    
 }
 
 extension NativeImageCropperError {

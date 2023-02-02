@@ -9,6 +9,10 @@ import 'package:native_image_cropper_ios/native_image_cropper_ios.dart';
 import 'package:native_image_cropper_ios_example/themes.dart';
 import 'package:path_provider/path_provider.dart';
 
+part 'result.dart';
+part 'slider.dart';
+part 'snack_bar.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -24,6 +28,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _nativeImageCropperIOSPlugin = NativeImageCropperIOS();
+  ImageFormat _format = ImageFormat.jpg;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,12 @@ class _MyAppState extends State<MyApp> {
       theme: CustomThemes.theme,
       home: CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text('Native Image Cropper iOS Example'),
+          heroTag: 'home',
+          transitionBetweenRoutes: false,
+          middle: Text(
+            'Native Image Cropper iOS Example',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         child: FutureBuilder<Uint8List>(
           future: _getBytes(),
@@ -51,33 +61,49 @@ class _MyAppState extends State<MyApp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        CupertinoButton(
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: const BoxDecoration(
-                              border: Border.fromBorderSide(BorderSide()),
-                            ),
-                            child: const Icon(CupertinoIcons.crop),
-                          ),
-                          onPressed: () => _crop(
-                            context: context,
-                            bytes: bytes,
-                            method: _nativeImageCropperIOSPlugin.cropRect,
+                        Flexible(
+                          flex: 2,
+                          child: _ImageFormatSlider(
+                            onValueChanged: (value) => _format = value,
                           ),
                         ),
-                        CupertinoButton(
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.fromBorderSide(BorderSide()),
+                        Flexible(
+                          child: CupertinoButton(
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: const BoxDecoration(
+                                border: Border.fromBorderSide(BorderSide()),
+                              ),
+                              child: const Icon(
+                                CupertinoIcons.crop,
+                                color: CupertinoColors.black,
+                              ),
                             ),
-                            child: const Icon(CupertinoIcons.crop),
+                            onPressed: () => _crop(
+                              context: context,
+                              bytes: bytes,
+                              method: _nativeImageCropperIOSPlugin.cropRect,
+                            ),
                           ),
-                          onPressed: () => _crop(
-                            context: context,
-                            bytes: bytes,
-                            method: _nativeImageCropperIOSPlugin.cropOval,
+                        ),
+                        Flexible(
+                          child: CupertinoButton(
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.fromBorderSide(BorderSide()),
+                              ),
+                              child: const Icon(
+                                CupertinoIcons.crop,
+                                color: CupertinoColors.black,
+                              ),
+                            ),
+                            onPressed: () => _crop(
+                              context: context,
+                              bytes: bytes,
+                              method: _nativeImageCropperIOSPlugin.cropOval,
+                            ),
                           ),
                         ),
                       ],
@@ -104,6 +130,7 @@ class _MyAppState extends State<MyApp> {
       required int y,
       required int width,
       required int height,
+      required ImageFormat format,
     })
         method,
   }) async {
@@ -113,6 +140,7 @@ class _MyAppState extends State<MyApp> {
       y: 900,
       width: 600,
       height: 600,
+      format: _format,
     );
 
     if (mounted) {
@@ -128,81 +156,5 @@ class _MyAppState extends State<MyApp> {
   Future<Uint8List> _getBytes() async {
     final byteData = await rootBundle.load('assets/${MyApp.image}');
     return byteData.buffer.asUint8List();
-  }
-}
-
-class _ResultPage extends StatefulWidget {
-  const _ResultPage({required this.bytes});
-
-  final Uint8List bytes;
-
-  @override
-  State<_ResultPage> createState() => _ResultPageState();
-}
-
-class _ResultPageState extends State<_ResultPage> {
-  @override
-  Widget build(BuildContext context) {
-    return ScaffoldMessenger(
-      child: CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: const Text('Native Image Cropper iOS Example'),
-          trailing: CupertinoButton(
-            onPressed: _saveImage,
-            child: const Icon(CupertinoIcons.download_circle),
-          ),
-        ),
-        child: Center(
-          child: Image.memory(widget.bytes),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _saveImage() async {
-    final dir = (await getTemporaryDirectory()).path;
-    final path = '$dir/${MyApp.image}';
-    final file = File(path)..writeAsBytesSync(widget.bytes);
-    await ImageGallerySaver.saveFile(path);
-    file.deleteSync();
-
-    if (mounted) {
-      await showCupertinoDialog<void>(
-        context: context,
-        barrierDismissible: true,
-        builder: (_) => const _CupertinoSnackBar('Saved image to gallery!'),
-      );
-    }
-  }
-}
-
-class _CupertinoSnackBar extends StatefulWidget {
-  const _CupertinoSnackBar(this.message);
-
-  final String message;
-
-  @override
-  State<_CupertinoSnackBar> createState() => _CupertinoSnackBarState();
-}
-
-class _CupertinoSnackBarState extends State<_CupertinoSnackBar> {
-  @override
-  void initState() {
-    super.initState();
-    _closeDialog();
-  }
-
-  Future<void> _closeDialog() async {
-    await Future<void>.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      Navigator.pop(context);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoAlertDialog(
-      content: Text(widget.message),
-    );
   }
 }
