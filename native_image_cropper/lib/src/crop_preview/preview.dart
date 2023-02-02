@@ -9,7 +9,6 @@ import 'package:native_image_cropper/src/mask/rect_layer.dart';
 import 'package:native_image_cropper/src/utils/crop.dart';
 
 part 'drag_points.dart';
-
 part 'image.dart';
 
 /// Type alias for a callback function.
@@ -34,7 +33,7 @@ class CropPreview extends StatefulWidget {
     this.dragPointBuilder,
     this.hitSize = 20,
     this.loadingWidget = const SizedBox.shrink(),
-  });
+  }) : assert(dragPointSize > 0, 'dragPointSize must be greater than 0!');
 
   /// Controls the behaviour of the [CropPreview].
   final CropController? controller;
@@ -129,7 +128,8 @@ class _CropPreviewState extends State<CropPreview> {
         _controller.modeNotifier.value = widget.mode;
       }
       final aspectRatio = widget.maskOptions.aspectRatio;
-      if (aspectRatio != oldWidget.maskOptions.aspectRatio) {
+      if (aspectRatio != oldWidget.maskOptions.aspectRatio ||
+          widget.hitSize != oldWidget.hitSize) {
         _cropUtils = _getCropUtilsDependingOnAspectRatio(aspectRatio);
         _controller.cropRect = _cropUtils.computeCropRectWithNewAspectRatio(
           oldCropRect: _controller.cropRect,
