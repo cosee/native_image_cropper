@@ -68,12 +68,9 @@ abstract class CropUtils {
       return null;
     }
 
-    final newCropRect = _smoothShiftRect(
-      imageRect: imageRect,
-      cropRect: cropRect,
-      delta: delta,
-    );
-
+    final newDelta =
+        _smoothDelta(cropRect: cropRect, imageRect: imageRect, delta: delta);
+    final newCropRect = cropRect.shift(newDelta);
     return _constraintCropRect(
       newCropRect: newCropRect,
       cropRect: cropRect,
@@ -81,9 +78,9 @@ abstract class CropUtils {
     );
   }
 
-  /// Smoothly shifts the [cropRect] by the given [delta] within
-  /// the [imageRect], considering a [_tolerance].
-  Rect _smoothShiftRect({
+  /// Smooths the given [delta] by setting dx or dy to zero if the [cropRect]
+  /// is close to the boundaries of [imageRect] considering a [_tolerance].
+  Offset _smoothDelta({
     required Rect cropRect,
     required Rect imageRect,
     required Offset delta,
@@ -101,8 +98,7 @@ abstract class CropUtils {
     } else if (cropRect.right > imageRect.right - _tolerance && delta.dx > 0) {
       dx = 0;
     }
-
-    return cropRect.shift(Offset(dx, dy));
+    return Offset(dx, dy);
   }
 
   /// Constraints the [newCropRect] to make sure it is within the bounds of
@@ -160,7 +156,18 @@ abstract class CropUtils {
       return null;
     }
 
-    final deltaWithAspectRatio = _computeAspectRatioDeltaLeftDiagonal(delta);
+    Offset newDelta = _smoothTopDelta(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: delta,
+    );
+    newDelta = _smoothLeftDelta(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: newDelta,
+    );
+
+    final deltaWithAspectRatio = _computeAspectRatioDeltaLeftDiagonal(newDelta);
     final newCropRect = Rect.fromPoints(
       cropRect.topLeft + deltaWithAspectRatio,
       cropRect.bottomRight,
@@ -186,7 +193,19 @@ abstract class CropUtils {
       return null;
     }
 
-    final deltaWithAspectRatio = _computeAspectRatioDeltaRightDiagonal(delta);
+    Offset newDelta = _smoothTopDelta(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: delta,
+    );
+    newDelta = _smoothRightDelta(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: newDelta,
+    );
+
+    final deltaWithAspectRatio =
+        _computeAspectRatioDeltaRightDiagonal(newDelta);
     final newCropRect = Rect.fromPoints(
       cropRect.topLeft + Offset(0, deltaWithAspectRatio.dy),
       cropRect.bottomRight + Offset(deltaWithAspectRatio.dx, 0),
@@ -212,7 +231,19 @@ abstract class CropUtils {
       return null;
     }
 
-    final deltaWithAspectRatio = _computeAspectRatioDeltaRightDiagonal(delta);
+    Offset newDelta = _smoothBottom(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: delta,
+    );
+    newDelta = _smoothLeftDelta(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: newDelta,
+    );
+
+    final deltaWithAspectRatio =
+        _computeAspectRatioDeltaRightDiagonal(newDelta);
     final newCropRect = Rect.fromPoints(
       cropRect.topLeft + Offset(deltaWithAspectRatio.dx, 0),
       cropRect.bottomRight + Offset(0, deltaWithAspectRatio.dy),
@@ -238,7 +269,18 @@ abstract class CropUtils {
       return null;
     }
 
-    final deltaWithAspectRatio = _computeAspectRatioDeltaLeftDiagonal(delta);
+    Offset newDelta = _smoothBottom(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: delta,
+    );
+    newDelta = _smoothRightDelta(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: newDelta,
+    );
+
+    final deltaWithAspectRatio = _computeAspectRatioDeltaLeftDiagonal(newDelta);
     final newCropRect = Rect.fromPoints(
       cropRect.topLeft,
       cropRect.bottomRight + deltaWithAspectRatio,
@@ -252,10 +294,76 @@ abstract class CropUtils {
     return newCropRect;
   }
 
+  /// Smooths the top movement if we are close to the top boundaries of
+  /// [imageRect] considering a [_tolerance].
+  Offset _smoothTopDelta({
+    required Rect cropRect,
+    required Rect imageRect,
+    required Offset delta,
+  }) {
+    double dy = delta.dy;
+    if (cropRect.top < _tolerance && delta.dy < 0) {
+      dy = 0;
+    }
+    return delta.copyWith(dy: dy);
+  }
+
+  /// Smooths the bottom movement if we are close to the top boundaries of
+  /// [imageRect] considering a [_tolerance].
+  Offset _smoothBottom({
+    required Rect cropRect,
+    required Rect imageRect,
+    required Offset delta,
+  }) {
+    double dy = delta.dy;
+    if (cropRect.bottom > imageRect.height - _tolerance && delta.dy > 0) {
+      dy = 0;
+    }
+    return delta.copyWith(dy: dy);
+  }
+
+  /// Smooths the left movement if we are close to the top boundaries of
+  /// [imageRect] considering a [_tolerance].
+  Offset _smoothLeftDelta({
+    required Rect cropRect,
+    required Rect imageRect,
+    required Offset delta,
+  }) {
+    double dx = delta.dx;
+    if (cropRect.left < _tolerance && delta.dx < 0) {
+      dx = 0;
+    }
+    return delta.copyWith(dx: dx);
+  }
+
+  /// Smooths the right movement if we are close to the top boundaries of
+  /// [imageRect] considering a [_tolerance].
+  Offset _smoothRightDelta({
+    required Rect cropRect,
+    required Rect imageRect,
+    required Offset delta,
+  }) {
+    double dx = delta.dx;
+    if (cropRect.right > imageRect.right - _tolerance && delta.dx > 0) {
+      dx = 0;
+    }
+    return delta.copyWith(dx: dx);
+  }
+
   /// Checks if the width or height of the [rect] is less
   /// than [minCropRectSize].
   bool _isSmallerThanMinCropRect(Rect rect) =>
       rect.width < minCropRectSize || rect.height < minCropRectSize;
+}
+
+extension on Offset {
+  /// Creates a copy of this [Offset] with the given fields
+  /// replaced by the non-null parameter values.
+  Offset copyWith({
+    double? dx,
+    double? dy,
+  }) =>
+      Offset(dx ?? this.dx, dy ?? this.dy);
 }
 
 extension on Rect {
