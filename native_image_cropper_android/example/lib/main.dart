@@ -163,10 +163,9 @@ class _ResultPageState extends State<_ResultPage> {
     final dir = (await getTemporaryDirectory()).path;
     final path = '$dir/${MyApp.image}';
     final file = File(path)..writeAsBytesSync(widget.bytes);
-    await ImageGallerySaver.saveFile(
-      path,
-    );
+    await ImageGallerySaver.saveFile(path);
     file.deleteSync();
+
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

@@ -165,6 +165,7 @@ class _ResultPageState extends State<_ResultPage> {
     final file = File(path)..writeAsBytesSync(widget.bytes);
     await ImageGallerySaver.saveFile(path);
     file.deleteSync();
+
     if (mounted) {
       await showCupertinoDialog<void>(
         context: context,
