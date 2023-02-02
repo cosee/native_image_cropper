@@ -41,6 +41,7 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
     required int y,
     required int width,
     required int height,
+    ImageFormat format = ImageFormat.jpg,
   }) {
     throw UnimplementedError('cropRect() is not implemented.');
   }
@@ -52,6 +53,7 @@ abstract class NativeImageCropperPlatform extends PlatformInterface {
     required int y,
     required int width,
     required int height,
+    ImageFormat format = ImageFormat.jpg,
   }) {
     throw UnimplementedError('cropOval() is not implemented.');
   }

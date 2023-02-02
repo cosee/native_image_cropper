@@ -15,6 +15,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     required int y,
     required int width,
     required int height,
+    ImageFormat format = ImageFormat.jpg,
   }) async {
     final arguments = {
       'bytes': bytes,
@@ -22,6 +23,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
       'y': y,
       'width': width,
       'height': height,
+      'imageFormat': format,
     };
     try {
       final croppedImage =
@@ -45,6 +47,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     required int y,
     required int width,
     required int height,
+    ImageFormat format = ImageFormat.jpg,
   }) async {
     final arguments = {
       'bytes': bytes,
@@ -52,6 +55,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
       'y': y,
       'width': width,
       'height': height,
+      'imageFormat': format,
     };
     try {
       final croppedImage =
