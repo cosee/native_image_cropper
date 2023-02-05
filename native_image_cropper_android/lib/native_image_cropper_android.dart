@@ -18,6 +18,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
     required int y,
     required int width,
     required int height,
+    ImageFormat format = ImageFormat.jpg,
   }) async {
     final arguments = {
       'bytes': bytes,
@@ -25,6 +26,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
       'y': y,
       'width': width,
       'height': height,
+      'imageFormat': format,
     };
     try {
       final croppedImage =
@@ -48,6 +50,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
     required int y,
     required int width,
     required int height,
+    ImageFormat format = ImageFormat.jpg,
   }) async {
     final arguments = {
       'bytes': bytes,
@@ -55,6 +58,7 @@ class NativeImageCropperAndroid extends NativeImageCropperPlatform {
       'y': y,
       'width': width,
       'height': height,
+      'imageFormat': format,
     };
     try {
       final croppedImage =

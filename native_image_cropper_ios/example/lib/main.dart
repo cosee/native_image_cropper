@@ -1,17 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:native_image_cropper_ios/native_image_cropper_ios.dart';
+import 'package:native_image_cropper_ios_example/icon_button.dart';
+import 'package:native_image_cropper_ios_example/result.dart';
+import 'package:native_image_cropper_ios_example/slider.dart';
 import 'package:native_image_cropper_ios_example/themes.dart';
-import 'package:path_provider/path_provider.dart';
-
-part 'result.dart';
-part 'slider.dart';
-part 'snack_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +15,7 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  static const String image = 'sail-boat.png';
+  static const String imageName = 'sail-boat';
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -40,7 +35,7 @@ class _MyAppState extends State<MyApp> {
           transitionBetweenRoutes: false,
           middle: Text(
             'Native Image Cropper iOS Example',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: CupertinoColors.white),
           ),
         ),
         child: FutureBuilder<Uint8List>(
@@ -63,21 +58,15 @@ class _MyAppState extends State<MyApp> {
                       children: [
                         Flexible(
                           flex: 2,
-                          child: _ImageFormatSlider(
+                          child: ImageFormatSlider(
                             onValueChanged: (value) => _format = value,
                           ),
                         ),
                         Flexible(
-                          child: CupertinoButton(
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: const BoxDecoration(
-                                border: Border.fromBorderSide(BorderSide()),
-                              ),
-                              child: const Icon(
-                                CupertinoIcons.crop,
-                                color: CupertinoColors.black,
-                              ),
+                          child: CupertinoIconButton(
+                            icon: const Icon(
+                              CupertinoIcons.crop,
+                              color: CupertinoColors.black,
                             ),
                             onPressed: () => _crop(
                               context: context,
@@ -87,17 +76,11 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ),
                         Flexible(
-                          child: CupertinoButton(
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.fromBorderSide(BorderSide()),
-                              ),
-                              child: const Icon(
-                                CupertinoIcons.crop,
-                                color: CupertinoColors.black,
-                              ),
+                          child: CupertinoIconButton(
+                            shape: BoxShape.circle,
+                            icon: const Icon(
+                              CupertinoIcons.crop,
+                              color: CupertinoColors.black,
                             ),
                             onPressed: () => _crop(
                               context: context,
@@ -147,14 +130,15 @@ class _MyAppState extends State<MyApp> {
       return Navigator.push<void>(
         context,
         CupertinoPageRoute(
-          builder: (context) => _ResultPage(bytes: croppedBytes),
+          builder: (context) =>
+              ResultPage(bytes: croppedBytes, format: _format),
         ),
       );
     }
   }
 
   Future<Uint8List> _getBytes() async {
-    final byteData = await rootBundle.load('assets/${MyApp.image}');
+    final byteData = await rootBundle.load('assets/${MyApp.imageName}.png');
     return byteData.buffer.asUint8List();
   }
 }

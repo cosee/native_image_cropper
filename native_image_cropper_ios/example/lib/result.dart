@@ -1,15 +1,28 @@
-part of 'main.dart';
+import 'dart:io';
+import 'dart:typed_data';
 
-class _ResultPage extends StatefulWidget {
-  const _ResultPage({required this.bytes});
+import 'package:flutter/cupertino.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:native_image_cropper_ios/native_image_cropper_ios.dart';
+import 'package:native_image_cropper_ios_example/main.dart';
+import 'package:native_image_cropper_ios_example/snack_bar.dart';
+import 'package:path_provider/path_provider.dart';
+
+class ResultPage extends StatefulWidget {
+  const ResultPage({
+    super.key,
+    required this.bytes,
+    required this.format,
+  });
 
   final Uint8List bytes;
+  final ImageFormat format;
 
   @override
-  State<_ResultPage> createState() => _ResultPageState();
+  State<ResultPage> createState() => _ResultPageState();
 }
 
-class _ResultPageState extends State<_ResultPage> {
+class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -18,13 +31,13 @@ class _ResultPageState extends State<_ResultPage> {
         transitionBetweenRoutes: false,
         middle: const Text(
           'Native Image Cropper iOS Example',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: CupertinoColors.white),
         ),
         trailing: CupertinoButton(
           onPressed: _saveImage,
           child: const Icon(
             CupertinoIcons.download_circle,
-            color: Colors.white,
+            color: CupertinoColors.white,
           ),
         ),
       ),
@@ -36,7 +49,8 @@ class _ResultPageState extends State<_ResultPage> {
 
   Future<void> _saveImage() async {
     final dir = (await getTemporaryDirectory()).path;
-    final path = '$dir/${MyApp.image}';
+    final format = widget.format == ImageFormat.jpg ? 'jpg' : 'png';
+    final path = '$dir/${MyApp.imageName}.$format';
     final file = File(path)..writeAsBytesSync(widget.bytes);
     await ImageGallerySaver.saveFile(path);
     file.deleteSync();
@@ -45,7 +59,8 @@ class _ResultPageState extends State<_ResultPage> {
       await showCupertinoDialog<void>(
         context: context,
         barrierDismissible: true,
-        builder: (_) => const _CupertinoSnackBar('Saved image to gallery!'),
+        builder: (_) =>
+            const CupertinoSnackBar(message: 'Saved image to gallery!'),
       );
     }
   }

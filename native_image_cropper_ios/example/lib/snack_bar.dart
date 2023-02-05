@@ -1,15 +1,15 @@
-part of 'main.dart';
+import 'package:flutter/cupertino.dart';
 
-class _CupertinoSnackBar extends StatefulWidget {
-  const _CupertinoSnackBar(this.message);
+class CupertinoSnackBar extends StatefulWidget {
+  const CupertinoSnackBar({super.key, required this.message});
 
   final String message;
 
   @override
-  State<_CupertinoSnackBar> createState() => _CupertinoSnackBarState();
+  State<CupertinoSnackBar> createState() => _CupertinoSnackBarState();
 }
 
-class _CupertinoSnackBarState extends State<_CupertinoSnackBar> {
+class _CupertinoSnackBarState extends State<CupertinoSnackBar> {
   @override
   void initState() {
     super.initState();

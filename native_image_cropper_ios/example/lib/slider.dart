@@ -1,21 +1,25 @@
-part of 'main.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:native_image_cropper_ios/native_image_cropper_ios.dart';
+import 'package:native_image_cropper_ios_example/themes.dart';
 
-class _ImageFormatSlider extends StatefulWidget {
-  const _ImageFormatSlider({required this.onValueChanged});
+class ImageFormatSlider extends StatefulWidget {
+  const ImageFormatSlider({super.key, required this.onValueChanged});
 
   final ValueChanged<ImageFormat> onValueChanged;
 
   @override
-  State<_ImageFormatSlider> createState() => _ImageFormatSliderState();
+  State<ImageFormatSlider> createState() => _ImageFormatSliderState();
 }
 
-class _ImageFormatSliderState extends State<_ImageFormatSlider> {
+class _ImageFormatSliderState extends State<ImageFormatSlider> {
   ImageFormat _format = ImageFormat.jpg;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoNavigationBar(
       backgroundColor: Colors.transparent,
+      border: const Border(),
       middle: CupertinoSlidingSegmentedControl<ImageFormat>(
         backgroundColor: CupertinoColors.systemGrey3,
         groupValue: _format,
