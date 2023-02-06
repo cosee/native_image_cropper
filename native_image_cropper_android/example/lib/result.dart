@@ -45,15 +45,27 @@ class _ResultPageState extends State<ResultPage> {
     final format = widget.format == ImageFormat.jpg ? 'jpg' : 'png';
     final path = '$dir/${MyApp.image}.$format';
     final file = File(path)..writeAsBytesSync(widget.bytes);
-    await ImageGallerySaver.saveFile(path);
+    final result =
+        await ImageGallerySaver.saveFile(path) as Map<Object?, Object?>;
     file.deleteSync();
 
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+      final isSuccess = result['isSuccess'] as bool?;
+      SnackBar snackBar;
+      if (isSuccess ?? false) {
+        snackBar = const SnackBar(
           content: Text('Saved image in gallery!'),
-        ),
-      );
+          duration: Duration(seconds: 2),
+        );
+      } else {
+        snackBar = const SnackBar(
+          content: Text(
+            'The image could not be saved to the gallery. Please allow the '
+            'app to save images in the settings!',
+          ),
+        );
+      }
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }

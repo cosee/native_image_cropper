@@ -52,16 +52,31 @@ class _ResultPageState extends State<ResultPage> {
     final format = widget.format == ImageFormat.jpg ? 'jpg' : 'png';
     final path = '$dir/${MyApp.imageName}.$format';
     final file = File(path)..writeAsBytesSync(widget.bytes);
-    await ImageGallerySaver.saveFile(path);
+    final result =
+        await ImageGallerySaver.saveFile(path) as Map<Object?, Object?>;
     file.deleteSync();
 
     if (mounted) {
-      await showCupertinoDialog<void>(
-        context: context,
-        barrierDismissible: true,
-        builder: (_) =>
-            const CupertinoSnackBar(message: 'Saved image to gallery!'),
-      );
+      final isSuccess = result['isSuccess'] as bool?;
+      if (isSuccess ?? false) {
+        await showCupertinoDialog<void>(
+          context: context,
+          barrierDismissible: true,
+          builder: (_) =>
+              const CupertinoSnackBar(message: 'Saved image to gallery!'),
+        );
+      } else {
+        await showCupertinoDialog<void>(
+          context: context,
+          barrierDismissible: true,
+          builder: (_) => const CupertinoSnackBar(
+            message:
+                'The image could not be saved to the gallery. Please allow the '
+                'app to save images in the settings!',
+            duration: Duration(seconds: 4),
+          ),
+        );
+      }
     }
   }
 }
