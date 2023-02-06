@@ -1,6 +1,6 @@
 name: native_image_cropper_android
 description: Android implementation of the native_image_cropper plugin.
-repository: https://github.com/cosee/native_image_cropper/native_image_cropper_android
+repository: https://github.com/cosee/native_image_cropper/tree/main/native_image_cropper_android
 homepage: https://pub.dev/publishers/cosee.biz/packages
 issue_tracker: https://github.com/cosee/native_image_cropper/issues
 version: 0.1.0
