@@ -1,12 +1,15 @@
 import Flutter
 
+/// The iOS implementation of NativeImageCropperPlugin.
 public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
+    /// Initializes a [MethodChannel], which is used to communicate between the Flutter code  and the native Swift code.
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "biz.cosee/native_image_cropper_ios", binaryMessenger: registrar.messenger())
         let instance = SwiftNativeImageCropperPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
 
+    /// Handles Flutter method calls made to this Flutter plugin.
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
             case "cropOval":
@@ -18,6 +21,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         }
     }
 
+    /// Extracts the arguments from [call] and crops the image in a rectangular shape.
     private func handleCropRect(_ call: FlutterMethodCall,_ result: @escaping FlutterResult){
         DispatchQueue.main.async {
             do {
@@ -38,7 +42,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
             }
         }
     }
-
+    /// Extracts the arguments from [call] and crops the image in a oval shape.
     private func handleCropOval(_ call: FlutterMethodCall,_ result: @escaping FlutterResult){
         DispatchQueue.main.async {
             do {
@@ -60,6 +64,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         }
     }
 
+    /// Converts a [UIImage] to a [FlutterStandardTypedData] by using the given [format] for compression.
     private func uiImageToFlutterStandardTypedData(image: UIImage, format: ImageFormat) throws -> FlutterStandardTypedData {
         let bytes: Data?
         if case .JPG = format {
@@ -74,6 +79,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         throw NativeImageCropperError.uIImageToFlutterStandardTypeDataError
     }
 
+    /// Converts a [FlutterStandardTypedData] to a [UIImage].
     private func flutterStandardTypeDataToUIImage(bytes: FlutterStandardTypedData) throws -> UIImage{
         let image = UIImage(data: bytes.data)
         if let image {
@@ -82,6 +88,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         throw NativeImageCropperError.flutterStandardTypeDataToUIImageError
     }
 
+    /// Creates a rectangular cropped [UIImage].
     private func getCroppedRectUIImage(image: UIImage,x: Int, y: Int, width: Int, height: Int) throws -> UIImage {
         let cropRect = CGRect(x: x, y: y, width: width, height: height).integral
         let cgImage = image.cgImage
@@ -96,6 +103,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         throw NativeImageCropperError.cgImageNullError
     }
 
+    /// Creates an oval cropped [UIImage].
     private func getCroppedOvalUIImage(image: UIImage, x: Int, y: Int, width: Int, height: Int) throws -> UIImage {
         let croppedRectImage = try getCroppedRectUIImage(image: image, x: x, y: y, width: width, height: height)
         
@@ -120,6 +128,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
         return ovalCroppedImage
     }
 
+    ///  Represents the image file format. It is used to decide how the image should be compressed.
     enum ImageFormat: String {
         /// Compress the image using JPG, which is usually faster.
         case JPG = "JPG"
