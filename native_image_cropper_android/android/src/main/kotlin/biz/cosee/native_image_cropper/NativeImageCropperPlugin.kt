@@ -64,12 +64,12 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
 
     /**  Extracts the arguments from [call] and crops the image in a rectangular shape. */
     private fun handleCropRect(call: MethodCall, result: Result) {
-        val bytes: ByteArray = call.argument("bytes")!!
-        val x: Int = call.argument("x")!!
-        val y: Int = call.argument("y")!!
-        val width: Int = call.argument("width")!!
-        val height: Int = call.argument("height")!!
-        val imageFormat: ImageFormat = ImageFormat.valueOf(call.argument("imageFormat")!!)
+        val bytes = call.argument<ByteArray>("bytes")!!
+        val x = call.argument<Int>("x")!!
+        val y = call.argument<Int>("y")!!
+        val width = call.argument<Int>("width")!!
+        val height = call.argument<Int>("height")!!
+        val imageFormat = ImageFormat.valueOf(call.argument<String>("imageFormat")!!.uppercase())
 
         try {
             val croppedBitmap: Bitmap = getCroppedRectBitmap(bytes, x, y, width, height)
@@ -81,12 +81,12 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
 
     /**  Extracts the arguments from [call] and crops the image in a oval shape. */
     private fun handleCropOval(call: MethodCall, result: Result) {
-        val bytes: ByteArray = call.argument("bytes")!!
-        val x: Int = call.argument("x")!!
-        val y: Int = call.argument("y")!!
-        val width: Int = call.argument("width")!!
-        val height: Int = call.argument("height")!!
-        val imageFormat: ImageFormat = ImageFormat.valueOf(call.argument("imageFormat")!!)
+        val bytes = call.argument<ByteArray>("bytes")!!
+        val x = call.argument<Int>("x")!!
+        val y = call.argument<Int>("y")!!
+        val width = call.argument<Int>("width")!!
+        val height = call.argument<Int>("height")!!
+        val imageFormat = ImageFormat.valueOf(call.argument<String>("imageFormat")!!.uppercase())
 
         try {
             val croppedBitmap = getCroppedRectBitmap(bytes, x, y, width, height)
@@ -154,10 +154,10 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
      * compressed.
      */
     private enum class ImageFormat {
-        /** Compress the image using jpg, which is usually faster. */
+        /** Compress the image using JPG, which is usually faster. */
         JPG,
 
-        /** Compress the image using png, which is lossless but slower. */
+        /** Compress the image using PNG, which is lossless but slower. */
         PNG,
     }
 }
