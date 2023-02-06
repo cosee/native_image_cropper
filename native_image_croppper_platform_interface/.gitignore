@@ -1,0 +1,14 @@
+# Miscellaneous
+.DS_Store
+.atom/
+.idea/
+.vscode/
+
+# Flutter
+.packages
+.pub/
+.dart_tool/
+build/
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
