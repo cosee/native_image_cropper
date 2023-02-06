@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper_example/pages/result.dart';
+import 'package:native_image_cropper_example/widgets/image_format_dropdown.dart';
 
 class NativePage extends StatefulWidget {
   const NativePage({super.key, required this.bytes});
@@ -14,6 +15,8 @@ class NativePage extends StatefulWidget {
 }
 
 class _NativePageState extends State<NativePage> {
+  ImageFormat _format = ImageFormat.jpg;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,6 +32,9 @@ class _NativePageState extends State<NativePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              ImageFormatDropdown(
+                onChanged: (value) => _format = value,
+              ),
               InkWell(
                 onTap: () => _cropImage(context, CropMode.rect),
                 child: Container(
@@ -72,6 +78,7 @@ class _NativePageState extends State<NativePage> {
         y: 900,
         width: 600,
         height: 600,
+        format: _format,
       );
     } else {
       croppedBytes = await NativeImageCropper.cropOval(
@@ -80,6 +87,7 @@ class _NativePageState extends State<NativePage> {
         y: 900,
         width: 600,
         height: 600,
+        format: _format,
       );
     }
 
@@ -87,7 +95,10 @@ class _NativePageState extends State<NativePage> {
       return Navigator.push<void>(
         context,
         MaterialPageRoute<ResultPage>(
-          builder: (_) => ResultPage(bytes: croppedBytes),
+          builder: (_) => ResultPage(
+            bytes: croppedBytes,
+            format: _format,
+          ),
         ),
       );
     }

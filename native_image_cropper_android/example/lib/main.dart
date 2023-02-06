@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ImageFormatDropDown(
+                        ImageFormatDropdown(
                           onChanged: (value) => _format = value,
                         ),
                         RoundedIconButton(

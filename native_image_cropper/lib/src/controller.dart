@@ -51,7 +51,9 @@ class CropController {
   /// [NativeImageCropper] method.
   /// The crop() method calculates the crop coordinates based on the relative
   /// positions of the crop rectangle and the image rectangle.
-  Future<Uint8List> crop() {
+  /// You can additionally set the [ImageFormat] for compression, defaults to
+  /// [ImageFormat.jpg].
+  Future<Uint8List> crop({ImageFormat format = ImageFormat.jpg}) {
     final cropRect = this.cropRect;
     final imageRect = this.imageRect;
     final imageSize = this.imageSize;
@@ -78,6 +80,7 @@ class CropController {
         y: y.toInt(),
         width: width.toInt(),
         height: height.toInt(),
+        format: format,
       );
     } else {
       return NativeImageCropper.cropRect(
@@ -86,6 +89,7 @@ class CropController {
         y: y.toInt(),
         width: width.toInt(),
         height: height.toInt(),
+        format: format,
       );
     }
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AspectRatioDropDownButton extends StatelessWidget {
-  const AspectRatioDropDownButton({
+class AspectRatioDropdown extends StatelessWidget {
+  const AspectRatioDropdown({
     super.key,
     this.aspectRatio,
     required this.onChanged,

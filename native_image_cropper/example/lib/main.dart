@@ -15,7 +15,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const String image = 'sail-boat.png';
+  static const String imageName = 'sail-boat';
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class _Home extends StatelessWidget {
   }
 
   Future<Uint8List> _getBytes() async {
-    final byteData = await rootBundle.load('assets/${MyApp.image}');
+    final byteData = await rootBundle.load('assets/${MyApp.imageName}.png');
     return byteData.buffer.asUint8List();
   }
 }

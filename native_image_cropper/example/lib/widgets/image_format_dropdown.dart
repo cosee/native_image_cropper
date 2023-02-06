@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:native_image_cropper_android/native_image_cropper_android.dart';
+import 'package:native_image_cropper/native_image_cropper.dart';
 
 class ImageFormatDropdown extends StatefulWidget {
   const ImageFormatDropdown({super.key, required this.onChanged});
@@ -7,10 +7,10 @@ class ImageFormatDropdown extends StatefulWidget {
   final ValueChanged<ImageFormat> onChanged;
 
   @override
-  State<ImageFormatDropdown> createState() => _ImageFormatDropdownState();
+  State<ImageFormatDropdown> createState() => _ImageFormatDropDownState();
 }
 
-class _ImageFormatDropdownState extends State<ImageFormatDropdown> {
+class _ImageFormatDropDownState extends State<ImageFormatDropdown> {
   ImageFormat _format = ImageFormat.jpg;
 
   @override

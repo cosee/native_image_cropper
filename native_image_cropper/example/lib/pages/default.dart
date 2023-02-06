@@ -3,7 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper_example/pages/result.dart';
-import 'package:native_image_cropper_example/widgets/drop_down_button.dart';
+import 'package:native_image_cropper_example/widgets/aspect_ratio_dropdown.dart';
+import 'package:native_image_cropper_example/widgets/image_format_dropdown.dart';
 import 'package:native_image_cropper_example/widgets/mode_buttons.dart';
 
 class DefaultPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _DefaultPageState extends State<DefaultPage> {
   late CropController _controller;
   CropMode _mode = CropMode.rect;
   double? _aspectRatio;
+  ImageFormat _format = ImageFormat.jpg;
 
   @override
   void initState() {
@@ -53,7 +55,12 @@ class _DefaultPageState extends State<DefaultPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Flexible(
-                child: AspectRatioDropDownButton(
+                child: ImageFormatDropdown(
+                  onChanged: (value) => _format = value,
+                ),
+              ),
+              Flexible(
+                child: AspectRatioDropdown(
                   aspectRatio: _aspectRatio,
                   onChanged: (value) => setState(() => _aspectRatio = value),
                 ),
@@ -78,12 +85,15 @@ class _DefaultPageState extends State<DefaultPage> {
   }
 
   Future<void> _cropImage(BuildContext context) async {
-    final croppedBytes = await _controller.crop();
+    final croppedBytes = await _controller.crop(format: _format);
     if (mounted) {
       return Navigator.push<void>(
         context,
         MaterialPageRoute<ResultPage>(
-          builder: (_) => ResultPage(bytes: croppedBytes),
+          builder: (_) => ResultPage(
+            bytes: croppedBytes,
+            format: _format,
+          ),
         ),
       );
     }

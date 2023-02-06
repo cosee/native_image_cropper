@@ -3,13 +3,19 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper_example/main.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ResultPage extends StatefulWidget {
-  const ResultPage({super.key, required this.bytes});
+  const ResultPage({
+    super.key,
+    required this.bytes,
+    required this.format,
+  });
 
   final Uint8List bytes;
+  final ImageFormat format;
 
   @override
   State<ResultPage> createState() => _ResultPageState();
@@ -36,7 +42,8 @@ class _ResultPageState extends State<ResultPage> {
 
   Future<void> _saveImage() async {
     final dir = (await getTemporaryDirectory()).path;
-    final path = '$dir/${MyApp.image}';
+    final format = widget.format == ImageFormat.jpg ? 'jpg' : 'png';
+    final path = '$dir/${MyApp.imageName}.$format';
     final file = File(path)..writeAsBytesSync(widget.bytes);
     await ImageGallerySaver.saveFile(path);
     file.deleteSync();

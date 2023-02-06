@@ -6,11 +6,13 @@ class RoundedIconButton extends StatelessWidget {
     required this.onTap,
     this.shape = BoxShape.rectangle,
     required this.icon,
+    this.color,
   });
 
   final VoidCallback onTap;
   final BoxShape shape;
   final Icon icon;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class RoundedIconButton extends StatelessWidget {
         decoration: BoxDecoration(
           border: const Border.fromBorderSide(BorderSide()),
           shape: shape,
+          color: color,
         ),
         child: icon,
       ),
