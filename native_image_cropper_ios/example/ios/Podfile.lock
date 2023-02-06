@@ -33,7 +33,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
-  native_image_cropper_ios: ede1edf57d43174a769c4a6efb8399d80e4fed65
+  native_image_cropper_ios: e0dc46205d8c94fda2386e7b4afadc4e49c15b9a
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
   SwiftLint: 77f7cb2b9bb81ab4a12fcc86448ba3f11afa50c6
 
