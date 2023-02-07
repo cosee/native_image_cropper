@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:native_image_cropper_ios/native_image_cropper_ios.dart';
+import 'package:native_image_cropper_ios_example/icon_button.dart';
+import 'package:native_image_cropper_ios_example/result.dart';
+import 'package:native_image_cropper_ios_example/slider.dart';
 import 'package:native_image_cropper_ios_example/themes.dart';
 
 void main() {
@@ -12,12 +15,15 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  static const String imageName = 'sail-boat';
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   final _nativeImageCropperIOSPlugin = NativeImageCropperIOS();
+  ImageFormat _format = ImageFormat.jpg;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +31,12 @@ class _MyAppState extends State<MyApp> {
       theme: CustomThemes.theme,
       home: CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text('Native Image Cropper iOS Example'),
+          heroTag: 'home',
+          transitionBetweenRoutes: false,
+          middle: Text(
+            'Native Image Cropper iOS Example',
+            style: TextStyle(color: CupertinoColors.white),
+          ),
         ),
         child: FutureBuilder<Uint8List>(
           future: _getBytes(),
@@ -45,33 +56,37 @@ class _MyAppState extends State<MyApp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        CupertinoButton(
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: const BoxDecoration(
-                              border: Border.fromBorderSide(BorderSide()),
-                            ),
-                            child: const Icon(CupertinoIcons.crop),
-                          ),
-                          onPressed: () => _crop(
-                            context: context,
-                            bytes: bytes,
-                            method: _nativeImageCropperIOSPlugin.cropRect,
+                        Flexible(
+                          flex: 2,
+                          child: ImageFormatSlider(
+                            onValueChanged: (value) => _format = value,
                           ),
                         ),
-                        CupertinoButton(
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.fromBorderSide(BorderSide()),
+                        Flexible(
+                          child: CupertinoIconButton(
+                            icon: const Icon(
+                              CupertinoIcons.crop,
+                              color: CupertinoColors.black,
                             ),
-                            child: const Icon(CupertinoIcons.crop),
+                            onPressed: () => _crop(
+                              context: context,
+                              bytes: bytes,
+                              method: _nativeImageCropperIOSPlugin.cropRect,
+                            ),
                           ),
-                          onPressed: () => _crop(
-                            context: context,
-                            bytes: bytes,
-                            method: _nativeImageCropperIOSPlugin.cropOval,
+                        ),
+                        Flexible(
+                          child: CupertinoIconButton(
+                            shape: BoxShape.circle,
+                            icon: const Icon(
+                              CupertinoIcons.crop,
+                              color: CupertinoColors.black,
+                            ),
+                            onPressed: () => _crop(
+                              context: context,
+                              bytes: bytes,
+                              method: _nativeImageCropperIOSPlugin.cropOval,
+                            ),
                           ),
                         ),
                       ],
@@ -98,6 +113,7 @@ class _MyAppState extends State<MyApp> {
       required int y,
       required int width,
       required int height,
+      required ImageFormat format,
     })
         method,
   }) async {
@@ -107,38 +123,22 @@ class _MyAppState extends State<MyApp> {
       y: 900,
       width: 600,
       height: 600,
+      format: _format,
     );
 
     if (mounted) {
       return Navigator.push<void>(
         context,
         CupertinoPageRoute(
-          builder: (context) => _ResultPage(bytes: croppedBytes),
+          builder: (context) =>
+              ResultPage(bytes: croppedBytes, format: _format),
         ),
       );
     }
   }
 
   Future<Uint8List> _getBytes() async {
-    final byteData = await rootBundle.load('assets/sail-boat.jpg');
+    final byteData = await rootBundle.load('assets/${MyApp.imageName}.png');
     return byteData.buffer.asUint8List();
-  }
-}
-
-class _ResultPage extends StatelessWidget {
-  const _ResultPage({required this.bytes});
-
-  final Uint8List bytes;
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('Native Image Cropper iOS Example'),
-      ),
-      child: Center(
-        child: Image.memory(bytes),
-      ),
-    );
   }
 }

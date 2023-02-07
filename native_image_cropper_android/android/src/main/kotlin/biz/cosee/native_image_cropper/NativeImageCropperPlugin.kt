@@ -17,18 +17,28 @@ import java.io.ByteArrayOutputStream
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-/** NativeImageCropperPlugin */
+/** The Android implementation of NativeImageCropperPlugin. */
 class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     companion object {
+        /**
+         * Creates a new cached thread pool that creates new threads as needed and reuses
+         * previously created threads when they are available. This can be used to execute tasks
+         * concurrently.
+         */
         private val threadPool: ExecutorService = Executors.newCachedThreadPool()
     }
 
-    // / The MethodChannel that will the communication between Flutter and native Android
-    // /
-    // / This local reference serves to register the plugin with the Flutter Engine and unregister it
-    // / when the Flutter Engine is detached from the Activity
+    /**
+     * The MethodChannel that will the communication between Flutter and native Android
+     * This local reference serves to register the plugin with the Flutter Engine and unregister it
+     * when the Flutter Engine is detached from the Activity.
+     */
     private lateinit var channel: MethodChannel
 
+    /**
+     * Initializes a [MethodChannel], which is used to communicate between the Flutter code
+     * and the native Android code.
+     */
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel =
             MethodChannel(
@@ -38,8 +48,10 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
         channel.setMethodCallHandler(this)
     }
 
+    /** The plugin does not need to perform any cleanup when it is detached from the engine. */
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {}
 
+    /** Handles Flutter method calls made to this Flutter plugin. */
     override fun onMethodCall(call: MethodCall, result: Result) {
         threadPool.execute {
             when (call.method) {
@@ -49,78 +61,103 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
             }
         }
     }
-}
 
-private fun handleCropRect(call: MethodCall, result: Result) {
-    val bytes: ByteArray = call.argument("bytes")!!
-    val x: Int = call.argument("x")!!
-    val y: Int = call.argument("y")!!
-    val width: Int = call.argument("width")!!
-    val height: Int = call.argument("height")!!
+    /**  Extracts the arguments from [call] and crops the image in a rectangular shape. */
+    private fun handleCropRect(call: MethodCall, result: Result) {
+        val bytes = call.argument<ByteArray>("bytes")!!
+        val x = call.argument<Int>("x")!!
+        val y = call.argument<Int>("y")!!
+        val width = call.argument<Int>("width")!!
+        val height = call.argument<Int>("height")!!
+        val imageFormat = ImageFormat.valueOf(call.argument<String>("imageFormat")!!.uppercase())
 
-    try {
-        val croppedBitmap: Bitmap = getCroppedRectBitmap(bytes, x, y, width, height)
-        result.success(bitmapToByteArray(croppedBitmap))
-    } catch (e: IllegalArgumentException) {
-        result.error("IllegalArgumentException", e.message, null)
+        try {
+            val croppedBitmap: Bitmap = getCroppedRectBitmap(bytes, x, y, width, height)
+            result.success(bitmapToByteArray(croppedBitmap, imageFormat))
+        } catch (e: IllegalArgumentException) {
+            result.error("IllegalArgumentException", e.message, null)
+        }
     }
-}
 
-private fun handleCropOval(call: MethodCall, result: Result) {
-    val bytes: ByteArray = call.argument("bytes")!!
-    val x: Int = call.argument("x")!!
-    val y: Int = call.argument("y")!!
-    val width: Int = call.argument("width")!!
-    val height: Int = call.argument("height")!!
+    /**  Extracts the arguments from [call] and crops the image in a oval shape. */
+    private fun handleCropOval(call: MethodCall, result: Result) {
+        val bytes = call.argument<ByteArray>("bytes")!!
+        val x = call.argument<Int>("x")!!
+        val y = call.argument<Int>("y")!!
+        val width = call.argument<Int>("width")!!
+        val height = call.argument<Int>("height")!!
+        val imageFormat = ImageFormat.valueOf(call.argument<String>("imageFormat")!!.uppercase())
 
-    try {
-        val croppedBitmap = getCroppedRectBitmap(bytes, x, y, width, height)
-        val ovalBitmap = croppedBitmap.createOvalBitmap()
-        result.success(bitmapToByteArray(ovalBitmap))
-    } catch (e: IllegalArgumentException) {
-        result.error("IllegalArgumentException", e.message, null)
+        try {
+            val croppedBitmap = getCroppedRectBitmap(bytes, x, y, width, height)
+            val ovalBitmap = croppedBitmap.createOvalBitmap()
+            result.success(bitmapToByteArray(ovalBitmap, imageFormat))
+        } catch (e: IllegalArgumentException) {
+            result.error("IllegalArgumentException", e.message, null)
+        }
     }
-}
 
-private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
-    val stream = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-    return stream.toByteArray()
-}
+    /** Converts a [Bitmap] image to a [ByteArray] by using the given [format] for compression. */
+    private fun bitmapToByteArray(bitmap: Bitmap, format: ImageFormat): ByteArray {
+        val stream = ByteArrayOutputStream()
+        if (format == ImageFormat.JPG) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        } else {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        }
+        val byteArray = stream.toByteArray()
+        stream.flush()
+        stream.close()
+        return byteArray
+    }
 
-private fun Bitmap.createOvalBitmap(): Bitmap {
-    val output = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(output)
-    val paint = Paint()
-    val rect = Rect(0, 0, this.width, this.height)
+    /** Creates a rectangular cropped [Bitmap] of the given [bytes]. */
+    private fun getCroppedRectBitmap(
+        bytes: ByteArray,
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int
+    ): Bitmap {
+        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.count())
+        return Bitmap.createBitmap(
+            bitmap,
+            x,
+            y,
+            width,
+            height,
+            null,
+            false
+        )
+    }
 
-    paint.isAntiAlias = true
-    canvas.drawOval(
-        RectF(0f, 0f, width.toFloat(), height.toFloat()),
-        paint,
-    )
-    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-    canvas.drawBitmap(this, rect, rect, paint)
+    /** Extension method for creating an oval [Bitmap] from a given [Bitmap]. */
+    private fun Bitmap.createOvalBitmap(): Bitmap {
+        val output = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(output)
+        val paint = Paint()
+        val rect = Rect(0, 0, this.width, this.height)
 
-    return output
-}
+        paint.isAntiAlias = true
+        canvas.drawOval(
+            RectF(0f, 0f, width.toFloat(), height.toFloat()),
+            paint,
+        )
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(this, rect, rect, paint)
 
-private fun getCroppedRectBitmap(
-    bytes: ByteArray,
-    x: Int,
-    y: Int,
-    width: Int,
-    height: Int
-): Bitmap {
-    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.count())
+        return output
+    }
 
-    return Bitmap.createBitmap(
-        bitmap,
-        x,
-        y,
-        width,
-        height,
-        null,
-        false
-    )
+    /**
+     * Represents the image file format. It is used to decide how the image should be
+     * compressed.
+     */
+    private enum class ImageFormat {
+        /** Compress the image using JPG, which is usually faster. */
+        JPG,
+
+        /** Compress the image using PNG, which is lossless but slower. */
+        PNG,
+    }
 }

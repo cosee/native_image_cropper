@@ -1,34 +1,41 @@
-import 'package:flutter/widgets.dart';
-import 'package:native_image_cropper/native_image_cropper.dart';
-import 'package:native_image_cropper/src/mask/oval_layer.dart';
-import 'package:native_image_cropper/src/mask/rect_layer.dart';
-import 'package:native_image_cropper/src/utils/crop.dart';
+part of 'preview.dart';
 
-class CropImage extends StatefulWidget {
-  const CropImage({
-    super.key,
+class _CropImage extends StatefulWidget {
+  const _CropImage({
+    required this.controller,
+    required this.image,
+    required this.maskOptions,
     required this.dragPointSize,
     required this.hitSize,
-    required this.controller,
     required this.loadingWidget,
     required this.cropUtils,
-    required this.maskOptions,
-    required this.image,
   });
 
+  final CropController controller;
+  final MemoryImage image;
+  final MaskOptions maskOptions;
   final double dragPointSize;
   final double hitSize;
-  final CropController controller;
-  final Widget? loadingWidget;
+  final Widget loadingWidget;
   final CropUtils cropUtils;
-  final MaskOptions maskOptions;
-  final MemoryImage image;
 
   @override
-  State<CropImage> createState() => _CropImageState();
+  State<_CropImage> createState() => _CropImageState();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty<CropController>('controller', controller))
+      ..add(DiagnosticsProperty<MemoryImage>('image', image))
+      ..add(DiagnosticsProperty<MaskOptions>('maskOptions', maskOptions))
+      ..add(DoubleProperty('dragPointSize', dragPointSize))
+      ..add(DoubleProperty('hitSize', hitSize))
+      ..add(DiagnosticsProperty<CropUtils>('cropUtils', cropUtils));
+  }
 }
 
-class _CropImageState extends State<CropImage> {
+class _CropImageState extends State<_CropImage> {
   bool _isMovingCropLayer = false;
 
   @override
@@ -41,7 +48,7 @@ class _CropImageState extends State<CropImage> {
         valueListenable: widget.controller.imageSizeNotifier,
         builder: (context, imageSize, child) {
           if (imageSize == null) {
-            return widget.loadingWidget ?? const SizedBox.shrink();
+            return widget.loadingWidget;
           }
           return GestureDetector(
             onPanStart: (details) => _isMovingCropLayer = widget
@@ -80,7 +87,7 @@ class _CropImageState extends State<CropImage> {
           builder: (context, child) {
             final cropRect = widget.controller.cropRect;
             if (cropRect == null) {
-              return widget.loadingWidget ?? const SizedBox.shrink();
+              return widget.loadingWidget;
             }
             return CustomPaint(
               foregroundPainter: widget.controller.mode == CropMode.oval

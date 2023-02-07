@@ -1,24 +1,19 @@
-import 'package:flutter/widgets.dart';
-import 'package:native_image_cropper/native_image_cropper.dart';
-import 'package:native_image_cropper/src/drag_point/enum.dart';
-import 'package:native_image_cropper/src/extended_pan_detector.dart';
-import 'package:native_image_cropper/src/utils/crop.dart';
+part of 'preview.dart';
 
-class CropDragPoints extends StatelessWidget {
-  const CropDragPoints({
-    super.key,
+class _CropDragPoints extends StatelessWidget {
+  const _CropDragPoints({
     required this.controller,
-    required this.cropUtils,
-    this.dragPointBuilder,
     required this.dragPointSize,
+    this.dragPointBuilder,
     required this.hitSize,
+    required this.cropUtils,
   });
 
-  final CropDragPointBuilder? dragPointBuilder;
   final CropController controller;
-  final CropUtils cropUtils;
   final double dragPointSize;
+  final CropDragPointBuilder? dragPointBuilder;
   final double hitSize;
+  final CropUtils cropUtils;
 
   @override
   Widget build(BuildContext context) {
@@ -125,4 +120,20 @@ class CropDragPoints extends StatelessWidget {
         imageRect: controller.imageRectNotifier.value,
         delta: delta,
       );
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty<CropController>('controller', controller))
+      ..add(DiagnosticsProperty<CropUtils>('cropUtils', cropUtils))
+      ..add(DoubleProperty('dragPointSize', dragPointSize))
+      ..add(DoubleProperty('hitSize', hitSize))
+      ..add(
+        ObjectFlagProperty<CropDragPointBuilder?>.has(
+          'dragPointBuilder',
+          dragPointBuilder,
+        ),
+      );
+  }
 }

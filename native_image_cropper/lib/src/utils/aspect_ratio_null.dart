@@ -1,16 +1,12 @@
 part of 'crop.dart';
 
+/// The implementation of [CropUtils] with no aspect ratio constraint.
 class CropUtilsAspectRatioNull extends CropUtils {
+  /// Constructs a [CropUtilsAspectRatioNull].
   const CropUtilsAspectRatioNull({required super.minCropRectSize});
 
   @override
-  Rect? getInitialRect(Rect? imageRect) {
-    if (imageRect == null) {
-      return null;
-    }
-
-    return imageRect;
-  }
+  Rect? getInitialRect(Rect? imageRect) => imageRect;
 
   @override
   Rect? computeCropRectWithNewAspectRatio({
@@ -24,9 +20,8 @@ class CropUtilsAspectRatioNull extends CropUtils {
   }
 
   @override
-  Offset _calculateAspectRatioOffset({
-    required Rect cropRect,
-    required Rect newRect,
-  }) =>
-      Offset(newRect.size.width, newRect.size.height);
+  Offset _computeAspectRatioDeltaRightDiagonal(Offset delta) => delta;
+
+  @override
+  Offset _computeAspectRatioDeltaLeftDiagonal(Offset delta) => delta;
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// The [MaskOptions] defines the appearance and behaviour of the crop mask.
 class MaskOptions {
+  /// Constructs a [MaskOptions].
   const MaskOptions({
     this.backgroundColor = Colors.black38,
     this.borderColor = Colors.grey,
@@ -12,9 +14,24 @@ class MaskOptions {
           'Aspect ratio must be greater than 0.',
         );
 
+  /// The color of the masked area.
   final Color backgroundColor;
+
+  /// The color of the border that outlines the cropped area.
   final Color borderColor;
+
+  /// The width of the border in pixels.
   final double strokeWidth;
+
+  /// The aspect ratio of the cropped area.
   final double? aspectRatio;
+
+  /// The minimum size allowed for the cropped area.
   final double minSize;
+
+  @override
+  String toString() =>
+      'MaskOptions{backgroundColor: $backgroundColor, borderColor: '
+      '$borderColor, strokeWidth: $strokeWidth, aspectRatio: $aspectRatio, '
+      'minSize: $minSize}';
 }

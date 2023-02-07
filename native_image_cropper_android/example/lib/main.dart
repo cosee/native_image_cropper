@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_image_cropper_android/native_image_cropper_android.dart';
+import 'package:native_image_cropper_android_example/button.dart';
+import 'package:native_image_cropper_android_example/dropdown.dart';
+import 'package:native_image_cropper_android_example/result.dart';
 import 'package:native_image_cropper_android_example/themes.dart';
 
 void main() {
@@ -12,12 +15,15 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  static const String image = 'sail-boat.png';
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   final _nativeImageCropperAndroidPlugin = NativeImageCropperAndroid();
+  ImageFormat _format = ImageFormat.jpg;
 
   @override
   Widget build(BuildContext context) {
@@ -44,36 +50,25 @@ class _MyAppState extends State<MyApp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        InkWell(
+                        ImageFormatDropdown(
+                          onChanged: (value) => _format = value,
+                        ),
+                        RoundedIconButton(
                           onTap: () => _crop(
                             context: context,
                             bytes: bytes,
                             method: _nativeImageCropperAndroidPlugin.cropRect,
                           ),
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: const BoxDecoration(
-                              border: Border.fromBorderSide(BorderSide()),
-                            ),
-                            child: const Icon(Icons.crop),
-                          ),
+                          icon: const Icon(Icons.crop),
                         ),
-                        InkWell(
+                        RoundedIconButton(
+                          shape: BoxShape.circle,
                           onTap: () => _crop(
                             context: context,
                             bytes: bytes,
                             method: _nativeImageCropperAndroidPlugin.cropOval,
                           ),
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.fromBorderSide(BorderSide()),
-                            ),
-                            child: const Icon(
-                              Icons.crop,
-                            ),
-                          ),
+                          icon: const Icon(Icons.crop),
                         ),
                       ],
                     ),
@@ -99,6 +94,7 @@ class _MyAppState extends State<MyApp> {
       required int y,
       required int width,
       required int height,
+      required ImageFormat format,
     })
         method,
   }) async {
@@ -108,38 +104,24 @@ class _MyAppState extends State<MyApp> {
       y: 900,
       width: 600,
       height: 600,
+      format: _format,
     );
 
     if (mounted) {
       return Navigator.push<void>(
         context,
-        MaterialPageRoute<_ResultPage>(
-          builder: (context) => _ResultPage(bytes: croppedBytes),
+        MaterialPageRoute<ResultPage>(
+          builder: (context) => ResultPage(
+            bytes: croppedBytes,
+            format: _format,
+          ),
         ),
       );
     }
   }
 
   Future<Uint8List> _getBytes() async {
-    final byteData = await rootBundle.load('assets/sail-boat.jpg');
+    final byteData = await rootBundle.load('assets/${MyApp.image}');
     return byteData.buffer.asUint8List();
-  }
-}
-
-class _ResultPage extends StatelessWidget {
-  const _ResultPage({required this.bytes});
-
-  final Uint8List bytes;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Result Image'),
-      ),
-      body: Center(
-        child: Image.memory(bytes),
-      ),
-    );
   }
 }

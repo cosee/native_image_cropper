@@ -5,19 +5,19 @@
 Pod::Spec.new do |s|
   s.name             = 'native_image_cropper_ios'
   s.version          = '0.1.0'
-  s.summary          = 'the ios implementation of native_image_cropper.'
+  s.summary          = 'The iOS implementation of native_image_cropper.'
   s.description      = <<-DESC
-the ios implementation of native_image_cropper. it allows you to crop an image to an oval and a rectangle.
+The iOS implementation of native_image_cropper. It allows you to crop an image to an oval and a rectangle.
                        DESC
   s.homepage         = 'https://pub.dev/publishers/cosee.biz/packages'
-  s.license          = { :file => '../license' }
+  s.license          = { :type => 'BSD-3', :file => '../LICENSE' }
   s.author           = { 'cosee GmbH' => 'mobile.cosee@gmail.com' }
-  s.source           = { :git => 'https://github.com/cosee/native_image_cropper.git' }
+  s.source           = { :http => 'https://github.com/cosee/native_image_cropper/tree/main/native_image_cropper_ios' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.platform = :ios, '11.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
-  s.swift_version = '5.0'
+  s.swift_version = '5.7'
 end

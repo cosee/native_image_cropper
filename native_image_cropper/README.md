@@ -1,6 +1,11 @@
 # native_image_cropper
 
-A Flutter plugin which supports native rectangular and circular cropping.
+[![pub package][pub_badge]][pub_badge_link]
+[![package publisher][publisher_badge]][publisher_badge_link]
+[![style][style_badge]][style_link]
+[![license][license_badge]][license_link]
+
+A Flutter plugin which supports native circular and rectangular cropping.
 
 ![Preview example](example/screenshots/example.gif "Example")
 
@@ -8,9 +13,9 @@ A Flutter plugin which supports native rectangular and circular cropping.
 
 * Better performance, since it is written in Kotlin/Swift
 * Usable without widget
-* Rectangular and circular cropping
+* Circular and rectangular cropping
 * Customizable drag points
-* Customizable crop layer
+* Customizable crop mask
 * Customizable hit size
 
 ## Usage
@@ -74,16 +79,43 @@ final controller = CropController();
 
 CropPreview(controller: controller, bytes: imageData);
 
-final croppedImage = await controller.crop();
+final croppedBytes = await controller.crop();
 ```
 
-or call it directly using MethodChannel:
+or call it directly using `MethodChannels`:
 
 ```dart
-final croppedImage = await NativeImageCropper.cropRect(
+final croppedBytes = await NativeImageCropper.cropRect(
   bytes: imageData,
   x: 0,
   y: 0,
   width: 500,
   height: 500,
 );
+```
+
+```dart
+final croppedBytes = await NativeImageCropper.cropOval(
+bytes: imageData,
+x: 0,
+y: 0,
+width: 500,
+height: 500,
+);
+```
+
+[pub_badge]: https://img.shields.io/pub/v/native_image_cropper.svg
+
+[pub_badge_link]: https://pub.dartlang.org/packages/native_image_cropper
+
+[publisher_badge]: https://img.shields.io/pub/publisher/native_image_cropper.svg
+
+[publisher_badge_link]: https://pub.dev/publishers/cosee.biz/packages
+
+[license_badge]: https://img.shields.io/github/license/cosee/native_image_cropper
+
+[license_link]: https://github.com/cosee/native_image_cropper/blob/main/native_image_cropper/LICENSE
+
+[style_badge]: https://img.shields.io/badge/style-cosee__lints-brightgreen
+
+[style_link]: https://pub.dev/packages/cosee_lints

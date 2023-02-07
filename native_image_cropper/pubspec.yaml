@@ -1,6 +1,6 @@
 name: native_image_cropper
 description: A Flutter plugin for cropping images. Supports rectangular and circular cropping.
-repository: https://github.com/cosee/native_image_cropper/native_image_cropper
+repository: https://github.com/cosee/native_image_cropper/tree/main/native_image_cropper
 homepage: https://pub.dev/publishers/cosee.biz/packages
 issue_tracker: https://github.com/cosee/native_image_cropper/issues
 version: 0.1.0
@@ -20,12 +20,9 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  native_image_cropper_android:
-    path: ../native_image_cropper_android
-  native_image_cropper_ios:
-    path: ../native_image_cropper_ios
-  native_image_cropper_platform_interface:
-    path: ../native_image_croppper_platform_interface
+  native_image_cropper_android: ^0.1.0
+  native_image_cropper_ios: ^0.1.0
+  native_image_cropper_platform_interface: ^0.1.0
 
 dev_dependencies:
   flutter_test:

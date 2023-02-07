@@ -18,6 +18,8 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
   cupertino_icons: ^1.0.5
+  image_gallery_saver: ^1.7.1
+  path_provider: ^2.0.12
 
 dev_dependencies:
   flutter_test:
@@ -27,4 +29,4 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/sail-boat.jpg
+    - assets/sail-boat.png

@@ -15,6 +15,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     required int y,
     required int width,
     required int height,
+    ImageFormat format = ImageFormat.jpg,
   }) async {
     final arguments = {
       'bytes': bytes,
@@ -22,14 +23,15 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
       'y': y,
       'width': width,
       'height': height,
+      'imageFormat': format,
     };
     try {
       final croppedImage =
           await methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
       if (croppedImage == null) {
-        throw NativeImageCropperException(
+        throw const NativeImageCropperException(
           'NullPointerException',
-          'Method channel cropRect returns null!',
+          'Method channel cropRect() returns null!',
         );
       }
       return croppedImage;
@@ -45,6 +47,7 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
     required int y,
     required int width,
     required int height,
+    ImageFormat format = ImageFormat.jpg,
   }) async {
     final arguments = {
       'bytes': bytes,
@@ -52,14 +55,15 @@ class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
       'y': y,
       'width': width,
       'height': height,
+      'imageFormat': format,
     };
     try {
       final croppedImage =
           await methodChannel.invokeMethod<Uint8List>('cropOval', arguments);
       if (croppedImage == null) {
-        throw NativeImageCropperException(
+        throw const NativeImageCropperException(
           'NullPointerException',
-          'Method channel cropOval returns null!',
+          'Method channel cropOval() returns null!',
         );
       }
       return croppedImage;

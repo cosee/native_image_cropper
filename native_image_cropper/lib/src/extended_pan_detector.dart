@@ -1,16 +1,25 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// The ExtendedPanDetector widget enhances the [GestureDetector] by providing
+/// an extended hit area for the [onPanUpdate] gesture.
 class ExtendedPanDetector extends StatelessWidget {
+  /// /// Constructs a ExtendedPanDetector.
   const ExtendedPanDetector({
     super.key,
     required this.size,
-    required this.child,
     required this.onPanUpdate,
+    required this.child,
   });
 
+  /// The size of the extended hit area.
   final double size;
-  final Widget child;
+
+  /// Handles updates during a pan gesture.
   final GestureDragUpdateCallback onPanUpdate;
+
+  /// The widget below this widget in the tree.
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -25,5 +34,18 @@ class ExtendedPanDetector extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DoubleProperty('size', size))
+      ..add(
+        ObjectFlagProperty<GestureDragUpdateCallback>.has(
+          'onPanUpdate',
+          onPanUpdate,
+        ),
+      );
   }
 }
