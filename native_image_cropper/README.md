@@ -24,16 +24,16 @@ Depend on it:
 
 ```yaml
 dependencies:
-  native_imager_cropper: ^0.1.0
+  native_image_cropper: ^0.1.1
 ```
 
 Import it:
 
 ```dart
-import 'package:native_imager_cropper/native_image_cropper.dart';
+import 'package:native_image_cropper/native_image_cropper.dart';
 ```
 
-## Example
+## Minimal example:
 
 ```dart
 Scaffold(
@@ -46,7 +46,6 @@ Scaffold(
 ## Customization options:
 
 ```dart
-
 final maskOptions = const MaskOptions(
   backgroundColor: Colors.black38,
   borderColor: Colors.grey,
@@ -69,12 +68,11 @@ CropPreview(
 );
 ```
 
-## Crop an image
+## Crop an image:
 
 To crop an image you can pass a `CropController` to `CropPreview`:
 
 ```dart
-
 final controller = CropController();
 
 CropPreview(controller: controller, bytes: imageData);
@@ -96,11 +94,11 @@ final croppedBytes = await NativeImageCropper.cropRect(
 
 ```dart
 final croppedBytes = await NativeImageCropper.cropOval(
-bytes: imageData,
-x: 0,
-y: 0,
-width: 500,
-height: 500,
+  bytes: imageData,
+  x: 0,
+  y: 0,
+  width: 500,
+  height: 500,
 );
 ```
 
