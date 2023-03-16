@@ -48,8 +48,10 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
         channel.setMethodCallHandler(this)
     }
 
-    /** The plugin does not need to perform any cleanup when it is detached from the engine. */
-    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {}
+    /** Unregisters the [MethodCallHandler] from the Flutter engine. */
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        channel.setMethodCallHandler(null)
+    }
 
     /** Handles Flutter method calls made to this Flutter plugin. */
     override fun onMethodCall(call: MethodCall, result: Result) {
