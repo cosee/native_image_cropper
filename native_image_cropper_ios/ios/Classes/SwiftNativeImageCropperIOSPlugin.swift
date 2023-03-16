@@ -42,6 +42,7 @@ public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
             }
         }
     }
+
     /// Extracts the arguments from [call] and crops the image in a oval shape.
     private func handleCropOval(_ call: FlutterMethodCall,_ result: @escaping FlutterResult){
         DispatchQueue.main.async {
