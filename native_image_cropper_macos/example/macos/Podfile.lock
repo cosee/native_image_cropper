@@ -1,5 +1,7 @@
 PODS:
   - FlutterMacOS (1.0.0)
+  - native_image_cropper_macos (0.1.0):
+    - FlutterMacOS
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -7,6 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - native_image_cropper_macos (from `Flutter/ephemeral/.symlinks/plugins/native_image_cropper_macos/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
   - SwiftLint
 
@@ -17,11 +20,14 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   FlutterMacOS:
     :path: Flutter/ephemeral
+  native_image_cropper_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/native_image_cropper_macos/macos
   path_provider_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos
 
 SPEC CHECKSUMS:
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+  native_image_cropper_macos: 03c1667388d01b73826275e15cd75a943bb893c3
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   SwiftLint: 77f7cb2b9bb81ab4a12fcc86448ba3f11afa50c6
 
