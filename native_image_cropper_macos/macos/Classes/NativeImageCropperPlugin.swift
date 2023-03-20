@@ -32,7 +32,7 @@ public class NativeImageCropperPlugin: NSObject, FlutterPlugin {
                 let imageFormat = ImageFormat(rawValue: (args["imageFormat"] as! String).uppercased())!
                 
                 let image = try self.flutterStandardTypeDataToNSImage(bytes: bytes)
-                let croppedImage = try self.getCroppedRectNSImage(image: image, x: x, y: y, width: width, height: height)
+                let croppedImage = try self.getCroppedOvalNSImage(image: image, x: x, y: y, width: width, height: height)
                 let croppedBytes = try self.nsImageToFlutterStandardTypeData(image: croppedImage, format: imageFormat)
                 result(croppedBytes)
             } catch {
@@ -65,14 +65,27 @@ public class NativeImageCropperPlugin: NSObject, FlutterPlugin {
     
     /// Creates an oval cropped [UIImage].
     private func getCroppedOvalNSImage(image: NSImage, x: Int, y: Int, width: Int, height: Int) throws -> NSImage {
-       return image
+        let croppedRectImage = try getCroppedRectNSImage(image: image, x: x, y: y, width: width, height: height)
+
+        let ovalCroppedImage = NSImage(size: croppedRectImage.size)
+        ovalCroppedImage.lockFocus()
+
+        let cropRect = NSRect(origin: .zero, size: croppedRectImage.size)
+
+        // Draws the oval inside the cropRect
+        NSBezierPath(ovalIn: cropRect).addClip()
+
+        // Draws the image inside the oval
+        croppedRectImage.draw(in: cropRect)
+
+        ovalCroppedImage.unlockFocus()
+        return ovalCroppedImage
     }
     
     /// Creates a rectangular cropped [NSImage].
     private func getCroppedRectNSImage(image: NSImage, x: Int, y: Int, width: Int, height: Int) throws -> NSImage {
         let cropRect = CGRect(x: x, y: y, width: width, height: height).integral
         let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
-        let croppedCgImage = cgImage?.cropping(to: cropRect)
         guard let croppedCgImage  = cgImage?.cropping(to: cropRect) else {
             throw NativeImageCropperError.cgImageNullError
         }
@@ -122,7 +135,6 @@ public class NativeImageCropperPlugin: NSObject, FlutterPlugin {
     
 private enum NativeImageCropperError: LocalizedError {
     case flutterStandardTypeDataToNSImageError
-    case nsImageToFlutterStandardTypeDataError
     case cgImageNullError
     case dataNullError
 }
@@ -133,8 +145,6 @@ extension NativeImageCropperError {
         switch self {
             case .flutterStandardTypeDataToNSImageError:
                 return "Could not convert FlutterStandardTypeData to NSImage."
-            case .nsImageToFlutterStandardTypeDataError:
-                return "Could not convert NSImage to FlutterStandartTypeData."
             case .cgImageNullError:
                 return "Could not crop because CGImage is null."
             case .dataNullError:
