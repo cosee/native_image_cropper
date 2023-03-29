@@ -18,7 +18,7 @@ void main() {
 
   group('cropRect', () {
     test('Should send cropping data and receive back a Uint8List', () async {
-      final MethodChannelMock mockChannel = MethodChannelMock(
+      final mockChannel = MethodChannelMock(
         methods: {
           'cropRect': Uint8List.fromList([0, 0]),
         },
@@ -31,7 +31,8 @@ void main() {
         width: 1,
         height: 1,
       );
-      expect(mockChannel.log, [
+
+      expect(mockChannel.log, <Matcher>[
         isMethodCall(
           'cropRect',
           arguments: {
@@ -40,11 +41,13 @@ void main() {
             'y': 0,
             'width': 1,
             'height': 1,
+            'imageFormat': 'jpg',
           },
         ),
       ]);
       expect(croppedBytes, Uint8List.fromList([0, 0]));
     });
+
     test(
       'Should throw an NativeImageCropperException when cropRect throws a '
       'PlatformException',
@@ -77,64 +80,73 @@ void main() {
     );
   });
 
-  group('cropOval', () {
-    test('Should send cropping data and receive back a Uint8List', () async {
-      final MethodChannelMock mockChannel = MethodChannelMock(
-        methods: {
-          'cropOval': Uint8List.fromList([0, 0]),
-        },
-      );
-      final NativeImageCropperMacOS cropper = NativeImageCropperMacOS();
-      final Uint8List croppedBytes = await cropper.cropOval(
-        bytes: Uint8List.fromList([0, 0, 0, 0]),
-        x: 0,
-        y: 0,
-        width: 1,
-        height: 1,
-      );
-      expect(mockChannel.log, [
-        isMethodCall(
-          'cropOval',
-          arguments: {
-            'bytes': Uint8List.fromList([0, 0, 0, 0]),
-            'x': 0,
-            'y': 0,
-            'width': 1,
-            'height': 1,
-          },
-        ),
-      ]);
-      expect(croppedBytes, Uint8List.fromList([0, 0]));
-    });
-    test(
-      'Should throw an NativeImageCropperException when cropOval throws a '
-      'PlatformException',
-      () {
-        MethodChannelMock(
+  group(
+    'cropOval',
+    () {
+      test('Should send cropping data and receive back a Uint8List', () async {
+        final MethodChannelMock mockChannel = MethodChannelMock(
           methods: {
-            'cropOval': PlatformException(
-              code: 'Test Error',
-              message: 'This is a test.',
-            ),
+            'cropOval': Uint8List.fromList([0, 0]),
           },
         );
         final NativeImageCropperMacOS cropper = NativeImageCropperMacOS();
-
-        expect(
-          () => cropper.cropOval(
-            bytes: Uint8List.fromList([0, 0, 0, 0]),
-            x: 0,
-            y: 0,
-            width: 1,
-            height: 1,
-          ),
-          throwsA(
-            isA<NativeImageCropperException>()
-                .having((e) => e.code, 'code', 'Test Error')
-                .having((e) => e.description, 'description', 'This is a test.'),
-          ),
+        final Uint8List croppedBytes = await cropper.cropOval(
+          bytes: Uint8List.fromList([0, 0, 0, 0]),
+          x: 0,
+          y: 0,
+          width: 1,
+          height: 1,
         );
-      },
-    );
-  });
+        expect(mockChannel.log, [
+          isMethodCall(
+            'cropOval',
+            arguments: {
+              'bytes': Uint8List.fromList([0, 0, 0, 0]),
+              'x': 0,
+              'y': 0,
+              'width': 1,
+              'height': 1,
+              'imageFormat': 'jpg',
+            },
+          ),
+        ]);
+        expect(croppedBytes, Uint8List.fromList([0, 0]));
+      });
+
+      test(
+        'Should throw an NativeImageCropperException when cropOval throws a '
+        'PlatformException',
+        () {
+          MethodChannelMock(
+            methods: {
+              'cropOval': PlatformException(
+                code: 'Test Error',
+                message: 'This is a test.',
+              ),
+            },
+          );
+          final NativeImageCropperMacOS cropper = NativeImageCropperMacOS();
+
+          expect(
+            () => cropper.cropOval(
+              bytes: Uint8List.fromList([0, 0, 0, 0]),
+              x: 0,
+              y: 0,
+              width: 1,
+              height: 1,
+            ),
+            throwsA(
+              isA<NativeImageCropperException>()
+                  .having((e) => e.code, 'code', 'Test Error')
+                  .having(
+                    (e) => e.description,
+                    'description',
+                    'This is a test.',
+                  ),
+            ),
+          );
+        },
+      );
+    },
+  );
 }
