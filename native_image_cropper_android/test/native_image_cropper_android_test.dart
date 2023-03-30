@@ -40,6 +40,7 @@ void main() {
             'y': 0,
             'width': 1,
             'height': 1,
+            'imageFormat': 'jpg',
           },
         ),
       ]);
@@ -101,6 +102,7 @@ void main() {
             'y': 0,
             'width': 1,
             'height': 1,
+            'imageFormat': 'jpg',
           },
         ),
       ]);

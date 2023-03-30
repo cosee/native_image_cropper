@@ -172,7 +172,7 @@ void main() {
       final actual = cropUtils.moveTopRightCorner(
         cropRect: cropRect,
         imageRect: imageRect,
-        delta: -delta,
+        delta: const Offset(0, -10),
       );
       expect(actual, cropRect);
     });

@@ -10,7 +10,7 @@ class MethodChannelMock {
 
   final Map<String, dynamic> methods;
   final MethodChannel methodChannel =
-      const MethodChannel('biz.cosee/native_image_cropper_android');
+      const MethodChannel('biz.cosee/native_image_cropper_ios');
   final List<MethodCall> log = [];
 
   Future<Object?> _handler(MethodCall methodCall) {
