@@ -15,7 +15,7 @@ The MacOS implementation of native_image_cropper. It allows you to crop an image
   s.source           = { :http => 'https://github.com/cosee/native_image_cropper/tree/main/native_image_cropper_ios' }
   s.source_files     = 'Classes/**/*'
   s.dependency 'FlutterMacOS'
-  s.platform = :osx, '10.11'
+  s.platform = :osx, '10.14'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.7'
 end
