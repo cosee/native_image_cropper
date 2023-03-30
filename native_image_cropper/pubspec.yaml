@@ -16,12 +16,15 @@ flutter:
         default_package: native_image_cropper_android
       ios:
         default_package: native_image_cropper_ios
+      macos:
+        default_package: native_image_cropper_macos
 
 dependencies:
   flutter:
     sdk: flutter
   native_image_cropper_android: ^0.1.0
   native_image_cropper_ios: ^0.1.0
+  native_image_cropper_macos: ^0.1.0
   native_image_cropper_platform_interface: ^0.1.0
 
 dev_dependencies:

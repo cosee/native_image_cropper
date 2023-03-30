@@ -41,14 +41,16 @@ class _DefaultPageState extends State<DefaultPage> {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          CropPreview(
-            controller: _controller,
-            bytes: widget.bytes,
-            mode: _mode,
-            maskOptions: MaskOptions(aspectRatio: _aspectRatio),
-            dragPointBuilder: (size, position) => CropDragPoint(
-              size: size,
-              color: secondaryColor,
+          Expanded(
+            child: CropPreview(
+              controller: _controller,
+              bytes: widget.bytes,
+              mode: _mode,
+              maskOptions: MaskOptions(aspectRatio: _aspectRatio),
+              dragPointBuilder: (size, position) => CropDragPoint(
+                size: size,
+                color: secondaryColor,
+              ),
             ),
           ),
           Row(

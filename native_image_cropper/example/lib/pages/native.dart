@@ -23,12 +23,12 @@ class _NativePageState extends State<NativePage> {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Image(
-            image: MemoryImage(widget.bytes),
+          Expanded(
+            child: Image(
+              image: MemoryImage(widget.bytes),
+            ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

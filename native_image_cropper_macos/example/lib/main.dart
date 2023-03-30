@@ -52,9 +52,6 @@ class _MyAppState extends State<MyApp> {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
