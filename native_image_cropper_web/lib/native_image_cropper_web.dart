@@ -1,8 +1,4 @@
+export 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart'
+    show ImageFormat;
 
-import 'native_image_cropper_web_platform_interface.dart';
-
-class NativeImageCropperWeb {
-  Future<String?> getPlatformVersion() {
-    return NativeImageCropperWebPlatform.instance.getPlatformVersion();
-  }
-}
+export 'src/platform.dart';
