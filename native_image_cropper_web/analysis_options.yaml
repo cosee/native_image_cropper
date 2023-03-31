@@ -1,4 +1,5 @@
-include: package:flutter_lints/flutter.yaml
+include: package:cosee_lints/analysis_options_package.yaml
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+dart_code_metrics:
+  extends:
+    - package:cosee_lints/metrics.yaml
