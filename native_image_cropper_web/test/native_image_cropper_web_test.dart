@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 import 'package:native_image_cropper_web/native_image_cropper_web.dart';
 
@@ -9,10 +10,10 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   test('Registers instance', () {
-    NativeImageCropperWeb.registerWith();
+    NativeImageCropperPlugin.registerWith(Registrar());
     expect(
       NativeImageCropperPlatform.instance,
-      isA<NativeImageCropperWeb>(),
+      isA<NativeImageCropperPlugin>(),
     );
   });
 
@@ -23,7 +24,7 @@ void main() {
           'cropRect': Uint8List.fromList([0, 0]),
         },
       );
-      final cropper = NativeImageCropperWeb();
+      final cropper = NativeImageCropperPlugin();
       final croppedBytes = await cropper.cropRect(
         bytes: Uint8List.fromList([0, 0, 0, 0]),
         x: 0,
@@ -58,7 +59,7 @@ void main() {
             ),
           },
         );
-        final NativeImageCropperWeb cropper = NativeImageCropperWeb();
+        final NativeImageCropperPlugin cropper = NativeImageCropperPlugin();
 
         expect(
           () => cropper.cropRect(
@@ -85,7 +86,7 @@ void main() {
           'cropOval': Uint8List.fromList([0, 0]),
         },
       );
-      final cropper = NativeImageCropperWeb();
+      final cropper = NativeImageCropperPlugin();
       final croppedBytes = await cropper.cropOval(
         bytes: Uint8List.fromList([0, 0, 0, 0]),
         x: 0,
@@ -120,7 +121,7 @@ void main() {
             ),
           },
         );
-        final cropper = NativeImageCropperWeb();
+        final cropper = NativeImageCropperPlugin();
 
         expect(
           () => cropper.cropOval(
