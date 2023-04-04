@@ -1,8 +1,9 @@
-import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper_web/native_image_cropper_web.dart';
+import 'package:native_image_cropper_web_example/main.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({
@@ -26,8 +27,7 @@ class _ResultPageState extends State<ResultPage> {
         title: const Text('Result Image'),
         actions: [
           IconButton(
-            // TODO: Implement save button
-            onPressed: () {},
+            onPressed: _saveImage,
             icon: const Icon(Icons.save),
           ),
         ],
@@ -35,6 +35,18 @@ class _ResultPageState extends State<ResultPage> {
       body: Center(
         child: Image.memory(widget.bytes),
       ),
+    );
+  }
+
+  void _saveImage() {
+    final format = widget.format == ImageFormat.jpg ? 'jpeg' : 'png';
+    final mimeType =
+        widget.format == ImageFormat.jpg ? MimeType.jpeg : MimeType.png;
+    FileSaver.instance.saveFile(
+      name: '${MyApp.imageName}.$format',
+      bytes: widget.bytes,
+      ext: format,
+      mimeType: mimeType,
     );
   }
 }

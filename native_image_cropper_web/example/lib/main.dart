@@ -15,7 +15,7 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  static const String image = 'sail-boat.png';
+  static const String imageName = 'sail-boat';
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -41,12 +41,12 @@ class _MyAppState extends State<MyApp> {
               if (bytes != null) {
                 return Column(
                   children: [
-                    Image(
-                      image: MemoryImage(bytes),
+                    Expanded(
+                      child: Image(
+                        image: MemoryImage(bytes),
+                      ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<Uint8List> _getBytes() async {
-    final byteData = await rootBundle.load('assets/${MyApp.image}');
+    final byteData = await rootBundle.load('assets/${MyApp.imageName}.png');
     return byteData.buffer.asUint8List();
   }
 }
