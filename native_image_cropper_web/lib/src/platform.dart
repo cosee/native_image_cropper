@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
@@ -34,6 +34,7 @@ class NativeImageCropperPlugin extends NativeImageCropperPlatform {
       Rect.fromLTRB(0, 0, width.toDouble(), height.toDouble()),
       Paint(),
     );
+
     final byteData = await recorder
         .endRecording()
         .toImageSync(width, height)
@@ -59,17 +60,29 @@ class NativeImageCropperPlugin extends NativeImageCropperPlatform {
   }) async {
     final image = await decodeImageFromList(bytes);
     final recorder = PictureRecorder();
-    Canvas(recorder).drawImageRect(
-      image,
-      Rect.fromLTRB(
-        x.toDouble(),
-        y.toDouble(),
-        x.toDouble() + width.toDouble(),
-        y.toDouble() + height.toDouble(),
-      ),
-      Rect.fromLTRB(0, 0, width.toDouble(), height.toDouble()),
-      Paint(),
-    );
+    final circlePath = Path()
+      ..addOval(
+        Rect.fromLTRB(
+          0,
+          0,
+          width.toDouble(),
+          height.toDouble(),
+        ),
+      );
+    Canvas(recorder)
+      ..clipPath(circlePath)
+      ..drawImageRect(
+        image,
+        Rect.fromLTRB(
+          x.toDouble(),
+          y.toDouble(),
+          x.toDouble() + width.toDouble(),
+          y.toDouble() + height.toDouble(),
+        ),
+        Rect.fromLTRB(0, 0, width.toDouble(), height.toDouble()),
+        Paint(),
+      );
+
     final byteData = await recorder
         .endRecording()
         .toImageSync(width, height)
