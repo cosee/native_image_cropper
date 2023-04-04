@@ -1,0 +1,35 @@
+PODS:
+  - file_selector_macos (0.0.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+  - native_image_cropper_macos (0.1.0):
+    - FlutterMacOS
+  - SwiftLint (0.51.0)
+
+DEPENDENCIES:
+  - file_selector_macos (from `Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - native_image_cropper_macos (from `Flutter/ephemeral/.symlinks/plugins/native_image_cropper_macos/macos`)
+  - SwiftLint
+
+SPEC REPOS:
+  trunk:
+    - SwiftLint
+
+EXTERNAL SOURCES:
+  file_selector_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  native_image_cropper_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/native_image_cropper_macos/macos
+
+SPEC CHECKSUMS:
+  file_selector_macos: 0f85c1108e2fd597b58246bc0b0c1cb483d7593b
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+  native_image_cropper_macos: 667d34f5dc9825b4434b8314496abc2478e5a0cd
+  SwiftLint: 1b7561918a19e23bfed960e40759086e70f4dba5
+
+PODFILE CHECKSUM: 3e24da1cd139537f05d864a3d0bd0597d7d032b8
+
+COCOAPODS: 1.11.3

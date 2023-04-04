@@ -42,20 +42,22 @@ class _CustomPageState extends State<CustomPage> {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          CropPreview(
-            controller: _controller,
-            bytes: widget.bytes,
-            mode: _mode,
-            hitSize: 30,
-            loadingWidget: const LoadingIndicator(),
-            maskOptions: MaskOptions(
-              aspectRatio: _aspectRatio,
-              backgroundColor: Colors.black,
-              borderColor: Theme.of(context).colorScheme.primary,
-              minSize: 100,
-              strokeWidth: 3,
+          Expanded(
+            child: CropPreview(
+              controller: _controller,
+              bytes: widget.bytes,
+              mode: _mode,
+              hitSize: 30,
+              loadingWidget: const LoadingIndicator(),
+              maskOptions: MaskOptions(
+                aspectRatio: _aspectRatio,
+                backgroundColor: Colors.black,
+                borderColor: Theme.of(context).colorScheme.primary,
+                minSize: 100,
+                strokeWidth: 3,
+              ),
+              dragPointBuilder: _buildCropDragPoints,
             ),
-            dragPointBuilder: _buildCropDragPoints,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

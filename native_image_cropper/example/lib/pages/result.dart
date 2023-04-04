@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:file_selector/file_selector.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper_example/main.dart';
+import 'package:native_image_cropper_example/widgets/snack_bar.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ResultPage extends StatefulWidget {
@@ -40,7 +44,19 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
-  Future<void> _saveImage() async {
+  Future<void> _saveImage() {
+    switch (Platform.operatingSystem) {
+      case 'android':
+      case 'ios':
+        return _saveImageMobile();
+      case 'macos':
+        return _saveImageMacOS();
+      default:
+        throw UnimplementedError('Saving image is not implemented');
+    }
+  }
+
+  Future<void> _saveImageMobile() async {
     final dir = (await getTemporaryDirectory()).path;
     final format = widget.format == ImageFormat.jpg ? 'jpg' : 'png';
     final path = '$dir/${MyApp.imageName}.$format';
@@ -66,6 +82,37 @@ class _ResultPageState extends State<ResultPage> {
         );
       }
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  Future<void> _saveImageMacOS() async {
+    final format = widget.format == ImageFormat.jpg ? 'jpeg' : 'png';
+    final fileName = '${MyApp.imageName}.$format';
+    final path = await getSavePath(suggestedName: fileName);
+    final file =
+        XFile.fromData(widget.bytes, mimeType: 'image/$format', name: fileName);
+    if (path != null) {
+      await file.saveTo(path);
+      if (mounted) {
+        unawaited(
+          showCupertinoDialog<void>(
+            context: context,
+            barrierDismissible: true,
+            builder: (_) => const CupertinoSnackBar(message: 'Saved image!'),
+          ),
+        );
+      }
+    } else {
+      if (mounted) {
+        unawaited(
+          showCupertinoDialog<void>(
+            context: context,
+            barrierDismissible: true,
+            builder: (_) =>
+                const CupertinoSnackBar(message: 'Failed to save image!'),
+          ),
+        );
+      }
     }
   }
 }
