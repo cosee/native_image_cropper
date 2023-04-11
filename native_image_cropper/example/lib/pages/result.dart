@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:file_saver/file_saver.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
@@ -44,15 +45,19 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
-  Future<void> _saveImage() {
-    switch (Platform.operatingSystem) {
-      case 'android':
-      case 'ios':
-        return _saveImageMobile();
-      case 'macos':
-        return _saveImageMacOS();
-      default:
-        throw UnimplementedError('Saving image is not implemented');
+  Future<void> _saveImage() async {
+    if (kIsWeb) {
+      _saveImageWeb();
+    } else {
+      switch (Platform.operatingSystem) {
+        case 'android':
+        case 'ios':
+          return _saveImageMobile();
+        case 'macos':
+          return _saveImageMacOS();
+        default:
+          throw UnimplementedError('Saving image is not implemented');
+      }
     }
   }
 
@@ -114,5 +119,17 @@ class _ResultPageState extends State<ResultPage> {
         );
       }
     }
+  }
+
+  void _saveImageWeb() {
+    final format = widget.format == ImageFormat.jpg ? 'jpeg' : 'png';
+    final mimeType =
+        widget.format == ImageFormat.jpg ? MimeType.jpeg : MimeType.png;
+    FileSaver.instance.saveFile(
+      name: '${MyApp.imageName}.$format',
+      bytes: widget.bytes,
+      ext: format,
+      mimeType: mimeType,
+    );
   }
 }

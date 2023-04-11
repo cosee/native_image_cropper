@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       theme: CustomThemes.theme(context),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Native Image Cropper Android Example'),
+          title: const Text('Native Image Cropper Web Example'),
         ),
         body: FutureBuilder<Uint8List>(
           future: _getBytes(),
