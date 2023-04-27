@@ -117,4 +117,35 @@ class Jpg {
 
     return yCbCr;
   }
+
+  static List<List<Uint8List>> blockSplitting({
+    required Uint8List yCbCr,
+    required int width,
+    required int height,
+  }) {
+    final numBlocksX = (width / 8).ceil();
+    final numBlocksY = (height / 8).ceil();
+
+    final blocks = List.generate(
+      numBlocksY,
+      (_) => List.generate(numBlocksX, (_) => Uint8List(64)),
+    );
+
+    for (var y = 0; y < numBlocksY; y++) {
+      for (var x = 0; x < numBlocksX; x++) {
+        final block = blocks[y][x];
+
+        for (var i = 0; i < 64; i++) {
+          final pixelX = (x * 8) + (i % 8);
+          final pixelY = (y * 8) + (i ~/ 8);
+
+          if (pixelX < width && pixelY < height) {
+            block[i] = yCbCr[(pixelY * width) + pixelX];
+          }
+        }
+      }
+    }
+
+    return blocks;
+  }
 }
