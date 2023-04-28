@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:jpeg_encode/jpeg_encode.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 /// The Web implementation of [NativeImageCropperPlatform].
@@ -35,17 +36,12 @@ class NativeImageCropperPlugin extends NativeImageCropperPlatform {
       Paint(),
     );
 
-    final byteData = await recorder
-        .endRecording()
-        .toImageSync(width, height)
-        .toByteData(format: ImageByteFormat.png);
-    if (byteData != null) {
-      return byteData.buffer.asUint8List();
+    final croppedImage = recorder.endRecording().toImageSync(width, height);
+
+    if (format == ImageFormat.png) {
+      return _convertImageToPng(croppedImage);
     } else {
-      throw const NativeImageCropperException(
-        'Convert image',
-        'Could not convert image to Uint8List',
-      );
+      return _convertImageToJpg(croppedImage);
     }
   }
 
@@ -84,14 +80,41 @@ class NativeImageCropperPlugin extends NativeImageCropperPlatform {
       );
 
     final croppedImage = recorder.endRecording().toImageSync(width, height);
-    final byteData = await croppedImage.toByteData();
-    if (byteData != null) {
-      return byteData.buffer.asUint8List();
+
+    if (format == ImageFormat.png) {
+      return _convertImageToPng(croppedImage);
     } else {
-      throw const NativeImageCropperException(
-        'Convert image',
-        'Could not convert image to Uint8List',
-      );
+      return _convertImageToJpg(croppedImage);
     }
   }
+
+  Future<Uint8List> _convertImageToPng(Image image) async {
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+
+    if (byteData == null) {
+      return _throwConvertImageError();
+    }
+
+    return byteData.buffer.asUint8List();
+  }
+
+  Future<Uint8List> _convertImageToJpg(Image image) async {
+    final byteData = await image.toByteData();
+
+    if (byteData == null) {
+      return _throwConvertImageError();
+    }
+
+    return JpegEncoder().compress(
+      byteData.buffer.asUint8List(),
+      image.width,
+      image.height,
+      100,
+    );
+  }
+
+  Never _throwConvertImageError() => throw const NativeImageCropperException(
+        'Convert image',
+        'Could not convert image to Uint8List!',
+      );
 }
