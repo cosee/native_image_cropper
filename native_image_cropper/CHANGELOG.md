@@ -1,5 +1,6 @@
-## 0.2.1
+## 0.3.0
 
+* Add Web implementation.
 * Add missing dispose of modeNotifier.
 * Optimize performance of CropMask.
 
