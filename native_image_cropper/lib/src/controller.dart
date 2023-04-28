@@ -99,6 +99,7 @@ class CropController {
     imageSizeNotifier.dispose();
     imageRectNotifier.dispose();
     cropRectNotifier.dispose();
+    modeNotifier.dispose();
   }
 
   @override

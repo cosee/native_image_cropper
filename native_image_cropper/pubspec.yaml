@@ -3,7 +3,7 @@ description: A Flutter plugin for cropping images. Supports rectangular and circ
 repository: https://github.com/cosee/native_image_cropper/tree/main/native_image_cropper
 homepage: https://pub.dev/publishers/cosee.biz/packages
 issue_tracker: https://github.com/cosee/native_image_cropper/issues
-version: 0.2.0
+version: 0.2.1
 
 environment:
   sdk: '>=2.18.4 <3.0.0'

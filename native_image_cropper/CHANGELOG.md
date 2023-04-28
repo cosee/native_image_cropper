@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Add missing dispose of modeNotifier.
+
 ## 0.2.0
 
 * Add MacOS implementation.
