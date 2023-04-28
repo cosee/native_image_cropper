@@ -20,6 +20,7 @@ flutter:
         default_package: native_image_cropper_macos
       web:
         default_package: native_image_cropper_web
+
 dependencies:
   flutter:
     sdk: flutter
