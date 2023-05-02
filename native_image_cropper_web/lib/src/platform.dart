@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:jpeg_encode/jpeg_encode.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 /// The Web implementation of [NativeImageCropperPlatform].
@@ -37,12 +36,7 @@ class NativeImageCropperPlugin extends NativeImageCropperPlatform {
     );
 
     final croppedImage = recorder.endRecording().toImageSync(width, height);
-
-    if (format == ImageFormat.png) {
-      return _convertImageToPng(croppedImage);
-    } else {
-      return _convertImageToJpg(croppedImage);
-    }
+    return _convertImageToPng(croppedImage);
   }
 
   @override
@@ -80,12 +74,7 @@ class NativeImageCropperPlugin extends NativeImageCropperPlatform {
       );
 
     final croppedImage = recorder.endRecording().toImageSync(width, height);
-
-    if (format == ImageFormat.png) {
-      return _convertImageToPng(croppedImage);
-    } else {
-      return _convertImageToJpg(croppedImage);
-    }
+    return _convertImageToPng(croppedImage);
   }
 
   Future<Uint8List> _convertImageToPng(Image image) async {
@@ -96,21 +85,6 @@ class NativeImageCropperPlugin extends NativeImageCropperPlatform {
     }
 
     return byteData.buffer.asUint8List();
-  }
-
-  Future<Uint8List> _convertImageToJpg(Image image) async {
-    final byteData = await image.toByteData();
-
-    if (byteData == null) {
-      return _throwConvertImageError();
-    }
-
-    return JpegEncoder().compress(
-      byteData.buffer.asUint8List(),
-      image.width,
-      image.height,
-      100,
-    );
   }
 
   Never _throwConvertImageError() => throw const NativeImageCropperException(

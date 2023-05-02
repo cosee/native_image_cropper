@@ -22,7 +22,6 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   native_image_cropper_platform_interface: ^0.1.0
-  jpeg_encode: ^1.0.1
 
 dev_dependencies:
   flutter_test:
