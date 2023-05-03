@@ -68,9 +68,20 @@ class _CropImageState extends State<_CropImage> {
 
                 WidgetsBinding.instance.addPostFrameCallback(
                   (_) {
+                    final cropRect = widget.controller.cropRect;
+                    if (cropRect == null) {
+                      widget.controller.cropRect =
+                          widget.cropUtils.getInitialRect(imageRect);
+                    } else {
+                      widget.controller.cropRect =
+                          widget.cropUtils.computeCropRectForResizedImageRect(
+                        imageRect: imageRect,
+                        oldImageRect: widget.controller.imageRect!,
+                        cropRect: cropRect,
+                      );
+                    }
+
                     widget.controller.imageRect = imageRect;
-                    widget.controller.cropRect ??=
-                        widget.cropUtils.getInitialRect(imageRect);
                   },
                 );
 

@@ -42,6 +42,17 @@ abstract class CropUtils {
     Rect? imageRect,
   });
 
+  /// Computes a new [cropRect] that corresponds to the same region of
+  /// an [oldImageRect] after it has been resized to fit within the [imageRect].
+  Rect computeCropRectForResizedImageRect({
+    required Rect imageRect,
+    required Rect oldImageRect,
+    required Rect cropRect,
+  }) {
+    final scale = imageRect.width / oldImageRect.width;
+    return cropRect * scale;
+  }
+
   /// Computes a [Rect] from the given [imageSize] and [availableSpace],
   /// which fits the screen.
   Rect computeImageRect({
@@ -373,4 +384,7 @@ extension on Rect {
       other.bottom > bottom ||
       other.left < left ||
       other.right > right;
+
+  Rect operator *(double value) =>
+      Rect.fromLTRB(left * value, top * value, right * value, bottom * value);
 }
