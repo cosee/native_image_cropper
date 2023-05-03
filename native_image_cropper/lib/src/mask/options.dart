@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// The [MaskOptions] defines the appearance and behaviour of the crop mask.
+@immutable
 class MaskOptions {
   /// Constructs a [MaskOptions].
   const MaskOptions({
@@ -34,4 +35,24 @@ class MaskOptions {
       'MaskOptions{backgroundColor: $backgroundColor, borderColor: '
       '$borderColor, strokeWidth: $strokeWidth, aspectRatio: $aspectRatio, '
       'minSize: $minSize}';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MaskOptions &&
+          runtimeType == other.runtimeType &&
+          backgroundColor == other.backgroundColor &&
+          borderColor == other.borderColor &&
+          strokeWidth == other.strokeWidth &&
+          aspectRatio == other.aspectRatio &&
+          minSize == other.minSize;
+
+  @override
+  int get hashCode => Object.hash(
+        backgroundColor,
+        borderColor,
+        strokeWidth,
+        aspectRatio,
+        minSize,
+      );
 }

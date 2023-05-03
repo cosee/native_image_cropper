@@ -29,5 +29,6 @@ abstract class CropMask extends CustomPainter {
     ..strokeWidth = maskOptions.strokeWidth;
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(CropMask oldDelegate) =>
+      oldDelegate.rect != rect || oldDelegate.maskOptions != maskOptions;
 }

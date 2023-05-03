@@ -1,6 +1,7 @@
 ## 0.2.1
 
 * Add missing dispose of modeNotifier.
+* Optimize performance of CropMask.
 
 ## 0.2.0
 
