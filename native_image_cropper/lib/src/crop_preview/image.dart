@@ -38,6 +38,8 @@ class _CropImage extends StatefulWidget {
 class _CropImageState extends State<_CropImage> {
   bool _isMovingCropLayer = false;
 
+  CropController get _controller => widget.controller;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,14 +47,14 @@ class _CropImageState extends State<_CropImage> {
         widget.dragPointSize / 2 + widget.hitSize / 2,
       ),
       child: ValueListenableBuilder(
-        valueListenable: widget.controller.imageSizeNotifier,
+        valueListenable: _controller.imageSizeNotifier,
         builder: (context, imageSize, child) {
           if (imageSize == null) {
             return widget.loadingWidget;
           }
           return GestureDetector(
-            onPanStart: (details) => _isMovingCropLayer = widget
-                    .controller.cropRectNotifier.value
+            onPanStart: (details) => _isMovingCropLayer = _controller
+                    .cropRectNotifier.value
                     ?.contains(details.localPosition) ??
                 false,
             onPanUpdate: _onMoveCropRectUpdate,
@@ -68,9 +70,20 @@ class _CropImageState extends State<_CropImage> {
 
                 WidgetsBinding.instance.addPostFrameCallback(
                   (_) {
-                    widget.controller.imageRect = imageRect;
-                    widget.controller.cropRect ??=
-                        widget.cropUtils.getInitialRect(imageRect);
+                    final cropRect = _controller.cropRect;
+                    if (cropRect == null) {
+                      _controller.cropRect =
+                          widget.cropUtils.getInitialRect(imageRect);
+                    } else {
+                      _controller.cropRect =
+                          widget.cropUtils.computeCropRectForResizedImageRect(
+                        imageRect: imageRect,
+                        oldImageRect: _controller.imageRect!,
+                        cropRect: cropRect,
+                      );
+                    }
+
+                    _controller.imageRect = imageRect;
                   },
                 );
 
@@ -81,16 +94,16 @@ class _CropImageState extends State<_CropImage> {
         },
         child: AnimatedBuilder(
           animation: Listenable.merge([
-            widget.controller.cropRectNotifier,
-            widget.controller.modeNotifier,
+            _controller.cropRectNotifier,
+            _controller.modeNotifier,
           ]),
           builder: (context, child) {
-            final cropRect = widget.controller.cropRect;
+            final cropRect = _controller.cropRect;
             if (cropRect == null) {
               return widget.loadingWidget;
             }
             return CustomPaint(
-              foregroundPainter: widget.controller.mode == CropMode.oval
+              foregroundPainter: _controller.mode == CropMode.oval
                   ? OvalMask(
                       rect: cropRect,
                       maskOptions: widget.maskOptions,
@@ -115,11 +128,10 @@ class _CropImageState extends State<_CropImage> {
     if (!_isMovingCropLayer) {
       return;
     }
-    final controller = widget.controller;
-    controller.cropRect = widget.cropUtils.moveCropRect(
+    _controller.cropRect = widget.cropUtils.moveCropRect(
       delta: details.delta,
-      cropRect: controller.cropRect,
-      imageRect: controller.imageRect,
+      cropRect: _controller.cropRect,
+      imageRect: _controller.imageRect,
     );
   }
 }
