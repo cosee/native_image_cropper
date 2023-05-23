@@ -18,13 +18,13 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
   cupertino_icons: ^1.0.5
-  file_selector: ^0.9.2+4
+  file_selector: ^0.9.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   cosee_lints: ^0.1.4
-  dart_code_metrics: ^5.7.0
+  dart_code_metrics: ^5.7.4
 
 flutter:
   assets:

@@ -17,13 +17,13 @@ dependencies:
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.
     path: ../
-  file_saver: ^0.2.1
+  file_saver: ^0.2.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   cosee_lints: ^0.1.4
-  dart_code_metrics: ^5.7.2
+  dart_code_metrics: ^5.7.4
 
 flutter:
   uses-material-design: true
