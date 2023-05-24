@@ -3,11 +3,11 @@ description: A common platform interface for the native_image_cropper plugin.
 repository: https://github.com/cosee/native_image_cropper/tree/main/native_image_croppper_platform_interface
 homepage: https://pub.dev/publishers/cosee.biz/packages
 issue_tracker: https://github.com/cosee/native_image_cropper/issues
-version: 0.1.0
+version: 0.1.1
 
 environment:
-  sdk: '>=2.18.4 <3.0.0'
-  flutter: ">=2.5.0"
+  sdk: '>=2.18.4 <4.0.0'
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:

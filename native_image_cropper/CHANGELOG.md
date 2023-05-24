@@ -1,3 +1,8 @@
+## 0.3.1
+
+* Add namespace to build.gradle to support Gradle 8.
+* Update Flutter and Dart SDK constraints.
+
 ## 0.3.0
 
 * Add Web implementation.

@@ -6,8 +6,8 @@ issue_tracker: https://github.com/cosee/native_image_cropper/issues
 version: 0.1.2
 
 environment:
-  sdk: '>=2.18.4 <3.0.0'
-  flutter: ">=2.5.0"
+  sdk: '>=2.18.4 <4.0.0'
+  flutter: ">=3.3.0"
 
 flutter:
   plugin:
