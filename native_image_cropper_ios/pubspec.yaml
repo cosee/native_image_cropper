@@ -20,7 +20,7 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  native_image_cropper_platform_interface: ^0.1.0
+  native_image_cropper_platform_interface: ^0.1.1
 
 dev_dependencies:
   flutter_test:
