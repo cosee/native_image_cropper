@@ -5,7 +5,8 @@ class MethodChannelMock {
   MethodChannelMock({
     required this.methods,
   }) {
-    methodChannel.setMockMethodCallHandler(_handler);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(methodChannel, _handler);
   }
 
   final Map<String, dynamic> methods;
