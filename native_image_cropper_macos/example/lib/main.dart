@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         child: FutureBuilder<Uint8List>(
+          // ignore: discarded_futures, build method cannot be marked async.
           future: _getBytes(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -67,10 +68,12 @@ class _MyAppState extends State<MyApp> {
                               CupertinoIcons.crop,
                               color: CupertinoColors.black,
                             ),
-                            onPressed: () => _crop(
-                              context: context,
-                              bytes: bytes,
-                              method: _nativeImageCropperMacOSPlugin.cropRect,
+                            onPressed: () => unawaited(
+                              _crop(
+                                context: context,
+                                bytes: bytes,
+                                method: _nativeImageCropperMacOSPlugin.cropRect,
+                              ),
                             ),
                           ),
                         ),
@@ -81,10 +84,12 @@ class _MyAppState extends State<MyApp> {
                               CupertinoIcons.crop,
                               color: CupertinoColors.black,
                             ),
-                            onPressed: () => _crop(
-                              context: context,
-                              bytes: bytes,
-                              method: _nativeImageCropperMacOSPlugin.cropOval,
+                            onPressed: () => unawaited(
+                              _crop(
+                                context: context,
+                                bytes: bytes,
+                                method: _nativeImageCropperMacOSPlugin.cropOval,
+                              ),
                             ),
                           ),
                         ),
@@ -113,8 +118,7 @@ class _MyAppState extends State<MyApp> {
       required int width,
       required int height,
       required ImageFormat format,
-    })
-        method,
+    }) method,
   }) async {
     final croppedBytes = await method(
       bytes: bytes,

@@ -51,7 +51,7 @@ void main() {
     test(
       'Should throw an NativeImageCropperException when cropRect throws a '
       'PlatformException',
-      () {
+      () async {
         MethodChannelMock(
           methods: {
             'cropRect': PlatformException(
@@ -62,8 +62,8 @@ void main() {
         );
         final NativeImageCropperMacOS cropper = NativeImageCropperMacOS();
 
-        expect(
-          () => cropper.cropRect(
+        await expectLater(
+          cropper.cropRect(
             bytes: Uint8List.fromList([0, 0, 0, 0]),
             x: 0,
             y: 0,
@@ -116,7 +116,7 @@ void main() {
       test(
         'Should throw an NativeImageCropperException when cropOval throws a '
         'PlatformException',
-        () {
+        () async {
           MethodChannelMock(
             methods: {
               'cropOval': PlatformException(
@@ -127,8 +127,8 @@ void main() {
           );
           final NativeImageCropperMacOS cropper = NativeImageCropperMacOS();
 
-          expect(
-            () => cropper.cropOval(
+          await expectLater(
+            cropper.cropOval(
               bytes: Uint8List.fromList([0, 0, 0, 0]),
               x: 0,
               y: 0,

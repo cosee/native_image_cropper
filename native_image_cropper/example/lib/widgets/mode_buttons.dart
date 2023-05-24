@@ -3,7 +3,10 @@ import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper_example/widgets/rounded_icon_button.dart';
 
 class CropModesButtons extends StatefulWidget {
-  const CropModesButtons({super.key, required this.onChanged});
+  const CropModesButtons({
+    required this.onChanged,
+    super.key,
+  });
 
   final ValueChanged<CropMode> onChanged;
 

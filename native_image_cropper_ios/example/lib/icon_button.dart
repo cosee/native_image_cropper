@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 class CupertinoIconButton extends StatelessWidget {
   const CupertinoIconButton({
-    super.key,
     required this.icon,
     required this.onPressed,
+    super.key,
     this.shape = BoxShape.rectangle,
   });
 

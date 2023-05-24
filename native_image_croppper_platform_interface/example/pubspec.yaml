@@ -18,5 +18,5 @@ dependencies:
     path: ../
 
 dev_dependencies:
-  cosee_lints: ^0.1.4
+  cosee_lints: ^0.2.0
   dart_code_metrics: ^5.7.4

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -10,7 +11,10 @@ import 'package:native_image_cropper_example/widgets/loading_indicator.dart';
 import 'package:native_image_cropper_example/widgets/mode_buttons.dart';
 
 class CustomPage extends StatefulWidget {
-  const CustomPage({super.key, required this.bytes});
+  const CustomPage({
+    required this.bytes,
+    super.key,
+  });
 
   final Uint8List bytes;
 
@@ -83,7 +87,7 @@ class _CustomPageState extends State<CustomPage> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => _cropImage(context),
+              onPressed: () => unawaited(_cropImage(context)),
               child: const Text('CROP'),
             ),
           ),

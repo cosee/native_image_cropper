@@ -14,9 +14,9 @@ import 'package:path_provider/path_provider.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({
-    super.key,
     required this.bytes,
     required this.format,
+    super.key,
   });
 
   final Uint8List bytes;
@@ -125,11 +125,13 @@ class _ResultPageState extends State<ResultPage> {
     final format = widget.format == ImageFormat.jpg ? 'jpeg' : 'png';
     final mimeType =
         widget.format == ImageFormat.jpg ? MimeType.jpeg : MimeType.png;
-    FileSaver.instance.saveFile(
-      name: '${MyApp.imageName}.$format',
-      bytes: widget.bytes,
-      ext: format,
-      mimeType: mimeType,
+    unawaited(
+      FileSaver.instance.saveFile(
+        name: '${MyApp.imageName}.$format',
+        bytes: widget.bytes,
+        ext: format,
+        mimeType: mimeType,
+      ),
     );
   }
 }

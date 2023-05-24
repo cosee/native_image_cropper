@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class ExtendedPanDetector extends StatelessWidget {
   /// /// Constructs a ExtendedPanDetector.
   const ExtendedPanDetector({
-    super.key,
     required this.size,
     required this.onPanUpdate,
     required this.child,
+    super.key,
   });
 
   /// The size of the extended hit area.

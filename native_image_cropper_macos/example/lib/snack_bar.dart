@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 
 class CupertinoSnackBar extends StatefulWidget {
   const CupertinoSnackBar({
-    super.key,
     required this.message,
+    super.key,
     this.duration = const Duration(seconds: 2),
   });
 
@@ -18,7 +20,7 @@ class _CupertinoSnackBarState extends State<CupertinoSnackBar> {
   @override
   void initState() {
     super.initState();
-    _closeDialog();
+    unawaited(_closeDialog());
   }
 
   Future<void> _closeDialog() async {

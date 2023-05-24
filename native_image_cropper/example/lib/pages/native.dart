@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -6,7 +7,10 @@ import 'package:native_image_cropper_example/pages/result.dart';
 import 'package:native_image_cropper_example/widgets/image_format_dropdown.dart';
 
 class NativePage extends StatefulWidget {
-  const NativePage({super.key, required this.bytes});
+  const NativePage({
+    required this.bytes,
+    super.key,
+  });
 
   final Uint8List bytes;
 
@@ -36,7 +40,7 @@ class _NativePageState extends State<NativePage> {
                 onChanged: (value) => _format = value,
               ),
               InkWell(
-                onTap: () => _cropImage(context, CropMode.rect),
+                onTap: () => unawaited(_cropImage(context, CropMode.rect)),
                 child: Container(
                   padding: const EdgeInsets.all(2),
                   decoration: const BoxDecoration(
@@ -48,7 +52,7 @@ class _NativePageState extends State<NativePage> {
                 ),
               ),
               InkWell(
-                onTap: () => _cropImage(context, CropMode.oval),
+                onTap: () => unawaited(_cropImage(context, CropMode.oval)),
                 child: Container(
                   padding: const EdgeInsets.all(2),
                   decoration: const BoxDecoration(

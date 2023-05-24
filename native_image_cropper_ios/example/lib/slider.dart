@@ -4,7 +4,10 @@ import 'package:native_image_cropper_ios/native_image_cropper_ios.dart';
 import 'package:native_image_cropper_ios_example/themes.dart';
 
 class ImageFormatSlider extends StatefulWidget {
-  const ImageFormatSlider({super.key, required this.onValueChanged});
+  const ImageFormatSlider({
+    required this.onValueChanged,
+    super.key,
+  });
 
   final ValueChanged<ImageFormat> onValueChanged;
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -8,7 +9,10 @@ import 'package:native_image_cropper_example/widgets/image_format_dropdown.dart'
 import 'package:native_image_cropper_example/widgets/mode_buttons.dart';
 
 class DefaultPage extends StatefulWidget {
-  const DefaultPage({super.key, required this.bytes});
+  const DefaultPage({
+    required this.bytes,
+    super.key,
+  });
 
   final Uint8List bytes;
 
@@ -77,7 +81,7 @@ class _DefaultPageState extends State<DefaultPage> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => _cropImage(context),
+              onPressed: () => unawaited(_cropImage(context)),
               child: const Text('CROP'),
             ),
           ),

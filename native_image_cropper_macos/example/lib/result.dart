@@ -9,9 +9,9 @@ import 'package:native_image_cropper_macos_example/snack_bar.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({
-    super.key,
     required this.bytes,
     required this.format,
+    super.key,
   });
 
   final Uint8List bytes;

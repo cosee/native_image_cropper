@@ -4,9 +4,9 @@ class _CropDragPoints extends StatelessWidget {
   const _CropDragPoints({
     required this.controller,
     required this.dragPointSize,
-    this.dragPointBuilder,
     required this.hitSize,
     required this.cropUtils,
+    this.dragPointBuilder,
   });
 
   final CropController controller;
@@ -109,11 +109,10 @@ class _CropDragPoints extends StatelessWidget {
   void _onMoveCropCorner({
     required Offset delta,
     required Rect? Function({
+      required Offset delta,
       Rect? cropRect,
       Rect? imageRect,
-      required Offset delta,
-    })
-        moveSpecificCropCornerFnc,
+    }) moveSpecificCropCornerFnc,
   }) =>
       controller.cropRect = moveSpecificCropCornerFnc(
         cropRect: controller.cropRect,

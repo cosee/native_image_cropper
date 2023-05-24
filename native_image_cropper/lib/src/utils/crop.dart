@@ -71,9 +71,9 @@ abstract class CropUtils {
   /// Move the [cropRect] by the given [delta], considering the boundaries of
   /// the image.
   Rect? moveCropRect({
+    required Offset delta,
     Rect? cropRect,
     Rect? imageRect,
-    required Offset delta,
   }) {
     if (cropRect == null || imageRect == null) {
       return null;
@@ -159,9 +159,9 @@ abstract class CropUtils {
   /// maintaining the aspect ratio and making sure it stays within
   /// the [imageRect].
   Rect? moveTopLeftCorner({
+    required Offset delta,
     Rect? cropRect,
     Rect? imageRect,
-    required Offset delta,
   }) {
     if (cropRect == null || imageRect == null) {
       return null;
@@ -196,9 +196,9 @@ abstract class CropUtils {
   /// maintaining the aspect ratio and making sure it stays within
   /// the [imageRect].
   Rect? moveTopRightCorner({
+    required Offset delta,
     Rect? cropRect,
     Rect? imageRect,
-    required Offset delta,
   }) {
     if (cropRect == null || imageRect == null) {
       return null;
@@ -234,9 +234,9 @@ abstract class CropUtils {
   /// maintaining the aspect ratio and making sure it stays within
   /// the [imageRect].
   Rect? moveBottomLeftCorner({
+    required Offset delta,
     Rect? cropRect,
     Rect? imageRect,
-    required Offset delta,
   }) {
     if (cropRect == null || imageRect == null) {
       return null;
@@ -272,9 +272,9 @@ abstract class CropUtils {
   /// maintaining the aspect ratio and making sure it stays within
   /// the [imageRect].
   Rect? moveBottomRightCorner({
+    required Offset delta,
     Rect? cropRect,
     Rect? imageRect,
-    required Offset delta,
   }) {
     if (cropRect == null || imageRect == null) {
       return null;

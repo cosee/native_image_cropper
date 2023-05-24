@@ -55,6 +55,7 @@ class _Home extends StatelessWidget {
           ),
         ),
         body: FutureBuilder<Uint8List>(
+          // ignore: discarded_futures, build method cannot be marked async.
           future: _getBytes(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {

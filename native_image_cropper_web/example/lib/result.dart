@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:file_saver/file_saver.dart';
@@ -7,9 +8,9 @@ import 'package:native_image_cropper_web_example/main.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({
-    super.key,
     required this.bytes,
     required this.format,
+    super.key,
   });
 
   final Uint8List bytes;
@@ -42,11 +43,13 @@ class _ResultPageState extends State<ResultPage> {
     final format = widget.format == ImageFormat.jpg ? 'jpeg' : 'png';
     final mimeType =
         widget.format == ImageFormat.jpg ? MimeType.jpeg : MimeType.png;
-    FileSaver.instance.saveFile(
-      name: '${MyApp.imageName}.$format',
-      bytes: widget.bytes,
-      ext: format,
-      mimeType: mimeType,
+    unawaited(
+      FileSaver.instance.saveFile(
+        name: '${MyApp.imageName}.$format',
+        bytes: widget.bytes,
+        ext: format,
+        mimeType: mimeType,
+      ),
     );
   }
 }

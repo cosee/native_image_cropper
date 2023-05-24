@@ -24,9 +24,9 @@ typedef CropDragPointBuilder = Widget Function(
 class CropPreview extends StatefulWidget {
   /// Constructs a [CropPreview].
   const CropPreview({
+    required this.bytes,
     super.key,
     this.controller,
-    required this.bytes,
     this.mode = CropMode.rect,
     this.maskOptions = const MaskOptions(),
     this.dragPointSize = 20,

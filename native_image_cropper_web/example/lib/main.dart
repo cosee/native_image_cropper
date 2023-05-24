@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Native Image Cropper Web Example'),
         ),
         body: FutureBuilder<Uint8List>(
+          // ignore: discarded_futures, build method cannot be marked async.
           future: _getBytes(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -54,19 +55,23 @@ class _MyAppState extends State<MyApp> {
                           onChanged: (value) => _format = value,
                         ),
                         RoundedIconButton(
-                          onTap: () => _crop(
-                            context: context,
-                            bytes: bytes,
-                            method: _nativeImageCropperWeb.cropRect,
+                          onTap: () => unawaited(
+                            _crop(
+                              context: context,
+                              bytes: bytes,
+                              method: _nativeImageCropperWeb.cropRect,
+                            ),
                           ),
                           icon: const Icon(Icons.crop),
                         ),
                         RoundedIconButton(
                           shape: BoxShape.circle,
-                          onTap: () => _crop(
-                            context: context,
-                            bytes: bytes,
-                            method: _nativeImageCropperWeb.cropOval,
+                          onTap: () => unawaited(
+                            _crop(
+                              context: context,
+                              bytes: bytes,
+                              method: _nativeImageCropperWeb.cropOval,
+                            ),
                           ),
                           icon: const Icon(Icons.crop),
                         ),
@@ -95,8 +100,7 @@ class _MyAppState extends State<MyApp> {
       required int width,
       required int height,
       required ImageFormat format,
-    })
-        method,
+    }) method,
   }) async {
     final croppedBytes = await method(
       bytes: bytes,

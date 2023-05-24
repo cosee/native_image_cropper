@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:native_image_cropper_web/native_image_cropper_web.dart';
 
 class ImageFormatDropdown extends StatefulWidget {
-  const ImageFormatDropdown({super.key, required this.onChanged});
+  const ImageFormatDropdown({required this.onChanged, super.key});
 
   final ValueChanged<ImageFormat> onChanged;
 

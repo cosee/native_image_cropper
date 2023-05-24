@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class AspectRatioDropdown extends StatelessWidget {
   const AspectRatioDropdown({
+    required this.onChanged,
     super.key,
     this.aspectRatio,
-    required this.onChanged,
   });
 
   final double? aspectRatio;
