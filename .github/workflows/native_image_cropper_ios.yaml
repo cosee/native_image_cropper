@@ -1,0 +1,48 @@
+name: native_image_cropper_ios
+
+on:
+  push:
+    paths:
+      - 'native_image_cropper_ios/**'
+      - '.github/workflows/native_image_cropper_ios.yaml'
+  pull_request:
+    paths:
+      - 'native_image_cropper_ios/**'
+      - '.github/workflows/native_image_cropper_ios.yaml'
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: native_image_cropper_ios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.10.0
+
+      - name: Install Dependencies
+        run: flutter pub get
+      - name: Format
+        run: dart format --set-exit-if-changed .
+      - name: Analyze
+        run: flutter analyze
+      - name: Metrics
+        run: flutter analyze
+      - name: Test
+        run: flutter test
+
+  pana:
+    defaults:
+      run:
+        working-directory: native_image_cropper_ios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.10.0
+
+      - name: Install Dependencies
+        run: |
+          flutter pub get
+          flutter pub global activate pana
+      - name: Verify Pub Score
+        run: ../tool/verify_pub_score.sh
