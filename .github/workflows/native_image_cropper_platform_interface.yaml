@@ -27,7 +27,7 @@ jobs:
       - name: Analyze
         run: flutter analyze
       - name: Metrics
-        run: dart run dart_code_metrics:metrics analyze . --set-exit-on-violation-level=warning
+        run: dart run dart_code_metrics:metrics analyze . --set-exit-on-violation-level=warning --disable-sunset-warning
 
   pana:
     defaults:
