@@ -17,14 +17,14 @@ dependencies:
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.
     path: ../
-  image_gallery_saver: ^2.0.2
+  image_gallery_saver: ^2.0.3
   path_provider: ^2.0.15
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   cosee_lints: ^0.2.0
-  dart_code_metrics: ^5.7.5
+  dart_code_metrics: ^5.7.6
 
 flutter:
   uses-material-design: true

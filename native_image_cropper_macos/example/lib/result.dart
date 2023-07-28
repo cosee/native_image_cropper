@@ -49,11 +49,11 @@ class _ResultPageState extends State<ResultPage> {
   Future<void> _saveImage() async {
     final format = widget.format == ImageFormat.jpg ? 'jpeg' : 'png';
     final fileName = '${MyApp.imageName}.$format';
-    final path = await getSavePath(suggestedName: fileName);
+    final location = await getSaveLocation(suggestedName: fileName);
     final file =
         XFile.fromData(widget.bytes, mimeType: 'image/$format', name: fileName);
-    if (path != null) {
-      await file.saveTo(path);
+    if (location != null) {
+      await file.saveTo(location.path);
       if (mounted) {
         unawaited(
           showCupertinoDialog<void>(

@@ -20,10 +20,10 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  native_image_cropper_platform_interface: ^0.1.1
+  native_image_cropper_platform_interface: ^0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   cosee_lints: ^0.2.0
-  dart_code_metrics: ^5.7.5
+  dart_code_metrics: ^5.7.6
