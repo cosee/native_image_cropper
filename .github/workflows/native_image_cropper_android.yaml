@@ -27,7 +27,7 @@ jobs:
       - name: Analyze
         run: flutter analyze
       - name: Metrics
-        run: flutter analyze
+        run: dart run dart_code_metrics:metrics analyze . --set-exit-on-violation-level=warning
       - name: Test
         run: flutter test
 
