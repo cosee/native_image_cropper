@@ -41,6 +41,20 @@ jobs:
       - name: Format
         run: dart format --set-exit-if-changed .
 
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: native_image_cropper_macos
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.10.0
+
+      - name: Install Dependencies
+        run: flutter pub get
+      - name: Run tests
+        run: flutter test
+
   pana:
     defaults:
       run:
