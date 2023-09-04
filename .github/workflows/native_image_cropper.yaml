@@ -12,6 +12,9 @@ on:
 
 jobs:
   lint:
+    defaults:
+      run:
+        working-directory: native_image_cropper
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,6 +28,9 @@ jobs:
         run: dart run dart_code_metrics:metrics analyze . --set-exit-on-violation-level=warning --disable-sunset-warning
 
   style:
+    defaults:
+      run:
+        working-directory: native_image_cropper
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -36,6 +42,9 @@ jobs:
         run: dart format --set-exit-if-changed .
 
   pana:
+    defaults:
+      run:
+        working-directory: native_image_cropper
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
