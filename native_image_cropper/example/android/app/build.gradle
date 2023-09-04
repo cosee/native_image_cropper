@@ -28,6 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
+    namespace 'biz.cosee.native_image_cropper_example'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
