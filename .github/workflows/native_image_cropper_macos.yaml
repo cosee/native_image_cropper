@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2.10.0
+      - uses: subosito/flutter-action@v2.11.0
 
       - name: Install Dependencies
         run: flutter pub get
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2.10.0
+      - uses: subosito/flutter-action@v2.11.0
 
       - name: Install Dependencies
         run: flutter pub get
@@ -48,7 +48,7 @@ jobs:
         working-directory: native_image_cropper_macos
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2.10.0
+      - uses: subosito/flutter-action@v2.11.0
 
       - name: Install Dependencies
         run: flutter pub get
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2.10.0
+      - uses: subosito/flutter-action@v2.11.0
 
       - name: Install Dependencies
         run: |
