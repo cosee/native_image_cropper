@@ -5,10 +5,6 @@ on:
     paths:
       - 'native_image_cropper_web/**'
       - '.github/workflows/native_image_cropper_web.yaml'
-  pull_request:
-    paths:
-      - 'native_image_cropper_web/**'
-      - '.github/workflows/native_image_cropper_web.yaml'
 
 jobs:
   build:
