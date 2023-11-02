@@ -11,7 +11,7 @@ on:
       - '.github/workflows/native_image_cropper_web.yaml'
 
 jobs:
-  lint:
+  build:
     defaults:
       run:
         working-directory: native_image_cropper_web
@@ -20,26 +20,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2.11.0
 
-      - name: Install Dependencies
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            .dart_tool/
+          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/pubspec.lock') }}
+      - name: Install dependencies
         run: flutter pub get
-      - name: Analyze
-        run: flutter analyze
-      - name: Code metrics
-        run: dart run dart_code_metrics:metrics analyze . --set-exit-on-violation-level=warning --disable-sunset-warning
 
-  style:
-    defaults:
-      run:
-        working-directory: native_image_cropper_web
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2.11.0
-
-      - name: Install Dependencies
-        run: flutter pub get
-      - name: Format
+      - name: Format code
         run: dart format --set-exit-if-changed .
+      - name: Analyze code
+        run: flutter analyze
+      - name: Run code metrics
+        run: dart run dart_code_metrics:metrics analyze . --set-exit-on-violation-level=warning --disable-sunset-warning
 
   pana:
     defaults:
@@ -50,9 +46,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2.11.0
 
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            .dart_tool/
+          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/pubspec.lock') }}
       - name: Install Dependencies
         run: |
           flutter pub get
           flutter pub global activate pana
+
       - name: Verify Pub Score
         run: ../tool/verify_pub_score.sh
+  
