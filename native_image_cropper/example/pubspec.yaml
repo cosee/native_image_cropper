@@ -18,15 +18,18 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
   image_gallery_saver: ^2.0.3
-  path_provider: ^2.0.15
-  file_selector: ^1.0.0
-  file_saver: ^0.2.6
+  path_provider: ^2.1.1
+  file_selector: ^1.0.1
+  file_saver: ^0.2.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   cosee_lints: ^0.3.0
   dart_code_metrics: ^5.7.6
+
+dependency_overrides:
+  http: ^1.1.0
 
 flutter:
   uses-material-design: true

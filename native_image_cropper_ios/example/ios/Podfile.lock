@@ -1,19 +1,19 @@
 PODS:
   - Flutter (1.0.0)
-  - image_gallery_saver (1.5.0):
+  - image_gallery_saver (2.0.2):
     - Flutter
   - native_image_cropper_ios (0.1.0):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - SwiftLint (0.50.3)
+  - SwiftLint (0.53.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - native_image_cropper_ios (from `.symlinks/plugins/native_image_cropper_ios/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - SwiftLint
 
 SPEC REPOS:
@@ -28,15 +28,15 @@ EXTERNAL SOURCES:
   native_image_cropper_ios:
     :path: ".symlinks/plugins/native_image_cropper_ios/ios"
   path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/ios"
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
+  image_gallery_saver: cb43cc43141711190510e92c460eb1655cd343cb
   native_image_cropper_ios: 63e0da0508f819ddf391a70e33c11f43d60e8182
-  path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
-  SwiftLint: 77f7cb2b9bb81ab4a12fcc86448ba3f11afa50c6
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  SwiftLint: 5ce4d6a8ff83f1b5fd5ad5dbf30965d35af65e44
 
 PODFILE CHECKSUM: aab84ccb6023f539e87ac9fcc02c2eca679dc205
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.2
