@@ -20,7 +20,7 @@ jobs:
         uses: actions/cache@v3
         id: cache
         with:
-          path: .dart_tool/
+          path: native_image_cropper/.dart_tool/
           key: ${{ runner.os }}-dependencies-${{ hashFiles('**/pubspec.lock') }}
       - name: Install dependencies
         run: flutter pub get
@@ -33,6 +33,8 @@ jobs:
         run: dart run dart_code_metrics:metrics analyze . --set-exit-on-violation-level=warning --disable-sunset-warning
       - name: Run tests
         run: flutter test
+      - name: Debug
+        run: ls -la
 
   pana:
     defaults:
@@ -47,7 +49,7 @@ jobs:
         uses: actions/cache@v3
         id: cache
         with:
-          path: .dart_tool/
+          path: native_image_cropper/.dart_tool/
           key: ${{ runner.os }}-dependencies-${{ hashFiles('**/pubspec.lock') }}
       - name: Install Dependencies
         run: |

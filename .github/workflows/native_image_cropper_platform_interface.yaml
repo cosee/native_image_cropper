@@ -20,7 +20,7 @@ jobs:
         uses: actions/cache@v3
         id: cache
         with:
-          path: .dart_tool/
+          path: native_image_cropper_platform_interface/.dart_tool/
           key: ${{ runner.os }}-dependencies-platform-interface-${{ hashFiles('**/pubspec.lock') }}
       - name: Install dependencies
         run: flutter pub get
@@ -45,7 +45,7 @@ jobs:
         uses: actions/cache@v3
         id: cache
         with:
-          path: .dart_tool/
+          path: native_image_cropper_platform_interface/.dart_tool/
           key: ${{ runner.os }}-dependencies-platform-interface-${{ hashFiles('**/pubspec.lock') }}
       - name: Install Dependencies
         run: |
