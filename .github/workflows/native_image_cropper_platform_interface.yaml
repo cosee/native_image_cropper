@@ -20,9 +20,8 @@ jobs:
         uses: actions/cache@v3
         id: cache
         with:
-          path: |
-            .dart_tool/
-          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/pubspec.lock') }}
+          path: .dart_tool/
+          key: ${{ runner.os }}-dependencies-platform-interface-${{ hashFiles('**/pubspec.lock') }}
       - name: Install dependencies
         run: flutter pub get
 
@@ -46,9 +45,8 @@ jobs:
         uses: actions/cache@v3
         id: cache
         with:
-          path: |
-            .dart_tool/
-          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/pubspec.lock') }}
+          path: .dart_tool/
+          key: ${{ runner.os }}-dependencies-platform-interface-${{ hashFiles('**/pubspec.lock') }}
       - name: Install Dependencies
         run: |
           flutter pub get
