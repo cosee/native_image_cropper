@@ -4,6 +4,7 @@ class CustomThemes {
   const CustomThemes._();
 
   static ThemeData theme(BuildContext context) => ThemeData(
+        useMaterial3: false,
         colorScheme: Theme.of(context).colorScheme.copyWith(
               primary: _green,
               secondary: _yellow,
