@@ -59,6 +59,10 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
       - uses: asdf-vm/actions/install@v3
 
+      - name: Install WebP
+        run: |
+          sudo apt update
+          sudo apt install webp
       - name: Cache flutter dependencies
         uses: actions/cache@v3
         id: flutter_cache

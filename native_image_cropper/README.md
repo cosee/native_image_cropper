@@ -7,7 +7,7 @@
 
 A Flutter plugin which supports native circular and rectangular cropping.
 
-![Preview example](example/screenshots/example.gif "Example")
+![Preview example](example/screenshots/example.webp "Example")
 
 ## Features
 

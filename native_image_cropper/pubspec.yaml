@@ -8,6 +8,9 @@ topics:
   - native
   - crop
   - image-cropper
+screenshots:
+  - description: 'Default appearance of NativeImageCropper'
+    path: 'example/screenshots/default.webp'
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
