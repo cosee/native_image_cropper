@@ -4,6 +4,10 @@ repository: https://github.com/cosee/native_image_cropper/tree/main/native_image
 homepage: https://pub.dev/publishers/cosee.biz/packages
 issue_tracker: https://github.com/cosee/native_image_cropper/issues
 version: 0.3.1
+topics:
+  - native
+  - crop
+  - image-cropper
 
 environment:
   sdk: '>=2.18.4 <4.0.0'
