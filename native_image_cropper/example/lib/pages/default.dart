@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -41,52 +42,57 @@ class _DefaultPageState extends State<DefaultPage> {
   @override
   Widget build(BuildContext context) {
     final secondaryColor = Theme.of(context).colorScheme.secondary;
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Expanded(
-            child: CropPreview(
-              controller: _controller,
-              bytes: widget.bytes,
-              mode: _mode,
-              maskOptions: MaskOptions(aspectRatio: _aspectRatio),
-              dragPointBuilder: (size, position) => CropDragPoint(
-                size: size,
-                color: secondaryColor,
+    final cropPreview = CropPreview(
+      controller: _controller,
+      bytes: widget.bytes,
+      mode: _mode,
+      maskOptions: MaskOptions(aspectRatio: _aspectRatio),
+      dragPointBuilder: (size, position) => CropDragPoint(
+        size: size,
+        color: secondaryColor,
+      ),
+    );
+    return Column(
+      children: [
+        switch (Platform.operatingSystem) {
+          'macos' => Expanded(
+              child: cropPreview,
+            ),
+          _ => cropPreview,
+        },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Flexible(
+              child: ImageFormatDropdown(
+                onChanged: (value) => _format = value,
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Flexible(
-                child: ImageFormatDropdown(
-                  onChanged: (value) => _format = value,
-                ),
+            Flexible(
+              child: AspectRatioDropdown(
+                aspectRatio: _aspectRatio,
+                onChanged: (value) => setState(() => _aspectRatio = value),
               ),
-              Flexible(
-                child: AspectRatioDropdown(
-                  aspectRatio: _aspectRatio,
-                  onChanged: (value) => setState(() => _aspectRatio = value),
-                ),
+            ),
+            Flexible(
+              child: CropModesButtons(
+                onChanged: (value) => setState(() => _mode = value),
               ),
-              Flexible(
-                child: CropModesButtons(
-                  onChanged: (value) => setState(() => _mode = value),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () => unawaited(_cropImage(context)),
               child: const Text('CROP'),
             ),
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 

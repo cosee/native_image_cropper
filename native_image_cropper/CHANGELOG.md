@@ -1,6 +1,7 @@
 ## 0.4.0
 
 * Upgrade to Dart 3.
+* Update example.
 
 ## 0.3.1
 

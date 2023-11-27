@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -23,15 +24,19 @@ class _NativePageState extends State<NativePage> {
 
   @override
   Widget build(BuildContext context) {
+    final image = Image(
+      image: MemoryImage(widget.bytes),
+    );
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Expanded(
-            child: Image(
-              image: MemoryImage(widget.bytes),
-            ),
-          ),
+          switch (Platform.operatingSystem) {
+            'macos' => Expanded(
+                child: image,
+              ),
+            _ => image,
+          },
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

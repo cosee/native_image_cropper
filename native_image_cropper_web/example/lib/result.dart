@@ -45,7 +45,7 @@ class _ResultPageState extends State<ResultPage> {
         widget.format == ImageFormat.jpg ? MimeType.jpeg : MimeType.png;
     unawaited(
       FileSaver.instance.saveFile(
-        name: '${MyApp.imageName}.$format',
+        name: MyApp.imageName,
         bytes: widget.bytes,
         ext: format,
         mimeType: mimeType,
