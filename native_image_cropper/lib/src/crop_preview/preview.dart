@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/native_image_cropper.dart';
 import 'package:native_image_cropper/src/extended_pan_detector.dart';
-import 'package:native_image_cropper/src/mask/oval_layer.dart';
-import 'package:native_image_cropper/src/mask/rect_layer.dart';
 import 'package:native_image_cropper/src/utils/crop.dart';
 
 part 'drag_points.dart';

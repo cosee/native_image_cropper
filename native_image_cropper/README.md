@@ -24,7 +24,7 @@ Depend on it:
 
 ```yaml
 dependencies:
-  native_image_cropper: ^0.3.1
+  native_image_cropper: ^0.4.0
 ```
 
 Import it:

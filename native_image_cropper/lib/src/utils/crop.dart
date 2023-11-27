@@ -11,7 +11,7 @@ part 'aspect_ratio_smaller_one.dart';
 /// image.
 ///
 /// Classes that are designed for crop utility should inherit from this class.
-abstract class CropUtils {
+sealed class CropUtils {
   /// Constructs a [CropUtils]
   const CropUtils({
     required this.minCropRectSize,
@@ -169,12 +169,10 @@ abstract class CropUtils {
 
     Offset newDelta = _smoothTopDelta(
       cropRect: cropRect,
-      imageRect: imageRect,
       delta: delta,
     );
     newDelta = _smoothLeftDelta(
       cropRect: cropRect,
-      imageRect: imageRect,
       delta: newDelta,
     );
 
@@ -206,7 +204,6 @@ abstract class CropUtils {
 
     Offset newDelta = _smoothTopDelta(
       cropRect: cropRect,
-      imageRect: imageRect,
       delta: delta,
     );
     newDelta = _smoothRightDelta(
@@ -249,7 +246,6 @@ abstract class CropUtils {
     );
     newDelta = _smoothLeftDelta(
       cropRect: cropRect,
-      imageRect: imageRect,
       delta: newDelta,
     );
 
@@ -305,11 +301,10 @@ abstract class CropUtils {
     return newCropRect;
   }
 
-  /// Smooths the top movement if we are close to the top boundaries of
-  /// [imageRect] considering a [_tolerance].
+  /// Smooths the top movement of [cropRect] if we are close to the top
+  /// boundaries considering a [_tolerance].
   Offset _smoothTopDelta({
     required Rect cropRect,
-    required Rect imageRect,
     required Offset delta,
   }) {
     double dy = delta.dy;
@@ -319,8 +314,8 @@ abstract class CropUtils {
     return delta.copyWith(dy: dy);
   }
 
-  /// Smooths the bottom movement if we are close to the top boundaries of
-  /// [imageRect] considering a [_tolerance].
+  /// Smooths the bottom movement of [cropRect] if we are close to the
+  /// bottom boundaries of [imageRect] considering a [_tolerance].
   Offset _smoothBottom({
     required Rect cropRect,
     required Rect imageRect,
@@ -333,11 +328,10 @@ abstract class CropUtils {
     return delta.copyWith(dy: dy);
   }
 
-  /// Smooths the left movement if we are close to the top boundaries of
-  /// [imageRect] considering a [_tolerance].
+  /// Smooths the top movement of [cropRect] if we are close to the left
+  /// boundaries considering a [_tolerance].
   Offset _smoothLeftDelta({
     required Rect cropRect,
-    required Rect imageRect,
     required Offset delta,
   }) {
     double dx = delta.dx;
@@ -347,8 +341,8 @@ abstract class CropUtils {
     return delta.copyWith(dx: dx);
   }
 
-  /// Smooths the right movement if we are close to the top boundaries of
-  /// [imageRect] considering a [_tolerance].
+  /// Smooths the right movement of [cropRect] if we are close to the right
+  /// boundaries of [imageRect] considering a [_tolerance].
   Offset _smoothRightDelta({
     required Rect cropRect,
     required Rect imageRect,

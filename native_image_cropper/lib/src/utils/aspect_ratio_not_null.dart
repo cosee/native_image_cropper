@@ -5,7 +5,7 @@ part of 'crop.dart';
 ///
 /// Classes that are designed for crop utility with an [aspectRatio] should
 /// inherit from this class.
-abstract class CropUtilsAspectRatioNotNull extends CropUtils {
+sealed class CropUtilsAspectRatioNotNull extends CropUtils {
   /// Constructs a [CropUtilsAspectRatioNotNull].
   const CropUtilsAspectRatioNotNull({
     required super.minCropRectSize,

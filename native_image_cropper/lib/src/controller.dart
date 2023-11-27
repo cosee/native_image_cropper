@@ -7,7 +7,7 @@ import 'package:native_image_cropper_platform_interface/native_image_cropper_pla
 /// The [CropController] manages the state and behaviour of image cropping.
 /// It holds data such as image size, crop mode, image rectangle, and crop
 /// rectangle, as well as a reference to the image data.
-class CropController {
+final class CropController {
   /// Stores the size of the image to be cropped.
   final imageSizeNotifier = ValueNotifier<Size?>(null);
 

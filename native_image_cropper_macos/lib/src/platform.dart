@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 /// The MacOS implementation of [NativeImageCropperPlatform].
-class NativeImageCropperMacOS extends NativeImageCropperPlatform {
+final class NativeImageCropperMacOS extends NativeImageCropperPlatform {
   final MethodChannel _methodChannel =
       const MethodChannel('biz.cosee/native_image_cropper_macos');
 

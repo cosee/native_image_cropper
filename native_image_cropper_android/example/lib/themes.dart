@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomThemes {
+final class CustomThemes {
   const CustomThemes._();
 
   static ThemeData theme(BuildContext context) => ThemeData(

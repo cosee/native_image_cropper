@@ -1,7 +1,7 @@
 part of 'crop.dart';
 
 /// The implementation of [CropUtils] with no aspect ratio constraint.
-class CropUtilsAspectRatioNull extends CropUtils {
+final class CropUtilsAspectRatioNull extends CropUtils {
   /// Constructs a [CropUtilsAspectRatioNull].
   const CropUtilsAspectRatioNull({required super.minCropRectSize});
 

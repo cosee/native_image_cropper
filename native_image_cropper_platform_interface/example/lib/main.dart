@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
-class NativeImageCropperExample extends NativeImageCropperPlatform {
+final class NativeImageCropperExample extends NativeImageCropperPlatform {
   final MethodChannel _methodChannel =
       const MethodChannel('biz.cosee/native_image_cropper_android');
 

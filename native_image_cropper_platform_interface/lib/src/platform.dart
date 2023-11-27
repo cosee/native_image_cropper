@@ -11,7 +11,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 /// subclass will get the default implementation, while platform implementations
 /// that `implements` this interface will be broken by newly added
 /// [NativeImageCropperPlatform] methods.
-abstract class NativeImageCropperPlatform extends PlatformInterface {
+abstract base class NativeImageCropperPlatform extends PlatformInterface {
   /// Constructs a NativeImageCropperPlatform.
   NativeImageCropperPlatform() : super(token: _token);
 

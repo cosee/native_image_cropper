@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class CustomThemes {
+final class CustomThemes {
   const CustomThemes._();
 
   static const CupertinoThemeData theme = CupertinoThemeData(

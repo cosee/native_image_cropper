@@ -342,47 +342,47 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.3.1"
+    version: "0.4.0"
   native_image_cropper_android:
     dependency: transitive
     description:
       name: native_image_cropper_android
-      sha256: "549c88bdece8069f4114a738081f9d3f000cbac69dec6bd213078d419ff7970b"
+      sha256: "27ef9de059d195398795f862c2dd594c1a77a13168f7a97b9cbf70fe2e7e4677"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2"
+    version: "0.2.0"
   native_image_cropper_ios:
     dependency: transitive
     description:
       name: native_image_cropper_ios
-      sha256: "7e7e6e7b341e4c169cf3614772c0718809453331fcbb295384b831de070300ec"
+      sha256: "4c40ffc8ea1e52078384bba6adfae8a90bef064ebbb25a0d52211b828b3895aa"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.2.0"
   native_image_cropper_macos:
     dependency: transitive
     description:
       name: native_image_cropper_macos
-      sha256: d253a73b8febe04231c9a00e30e4c086e7b0dc8819b6dcabc6a423dd50949d07
+      sha256: f3815264a7755047f0b38413c69f5b76ed4ffdd7af28edeacfc134b08b1d5a74
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.2.0"
   native_image_cropper_platform_interface:
     dependency: transitive
     description:
       name: native_image_cropper_platform_interface
-      sha256: e3544f2bb5c24d90fbcf8e181babdae6c9092acbba5cf448bd17224573dcbda7
+      sha256: "3ac1484f83abd62be7ff1d74c475137c59008aa01e671d8678d5e25c46c98d59"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2"
+    version: "0.2.0"
   native_image_cropper_web:
     dependency: transitive
     description:
       name: native_image_cropper_web
-      sha256: "378210c9c4d705760ebf14642690b29ce53423058c2ead36264d39c7fd5330c5"
+      sha256: "4767ca067ff2b5d1d3dd02c14eb00124da5d203ff917c9528b35f294bcf9227e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.2.0"
   package_config:
     dependency: transitive
     description:

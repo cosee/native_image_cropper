@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// The [MaskOptions] defines the appearance and behaviour of the crop mask.
 @immutable
-class MaskOptions {
+final class MaskOptions {
   /// Constructs a [MaskOptions].
   const MaskOptions({
     this.backgroundColor = Colors.black38,

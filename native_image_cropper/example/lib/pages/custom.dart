@@ -120,28 +120,24 @@ class _CustomPageState extends State<CustomPage> {
           Offset.zero,
           Offset(size, 0),
         ];
-        break;
       case CropDragPointPosition.topRight:
         points = [
           Offset(-size, 0),
           Offset.zero,
           Offset(0, size),
         ];
-        break;
       case CropDragPointPosition.bottomLeft:
         points = [
           Offset(0, -size),
           Offset.zero,
           Offset(size, 0),
         ];
-        break;
       case CropDragPointPosition.bottomRight:
         points = [
           Offset(0, -size),
           Offset.zero,
           Offset(-size, 0),
         ];
-        break;
     }
 
     return CustomPaint(

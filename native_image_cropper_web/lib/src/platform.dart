@@ -6,7 +6,7 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 /// The Web implementation of [NativeImageCropperPlatform].
-class NativeImageCropperPlugin extends NativeImageCropperPlatform {
+final class NativeImageCropperPlugin extends NativeImageCropperPlatform {
   /// Registers this class as the default instance
   /// of [NativeImageCropperPlatform].
   static void registerWith(Registrar _) =>

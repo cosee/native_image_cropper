@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:native_image_cropper/src/mask/options.dart';
 
+part 'oval_mask.dart';
+part 'rect_mask.dart';
+
 /// The [CropMask] is a custom painter that is used to render the overlay mask
 /// in an image cropping widget.
-abstract class CropMask extends CustomPainter {
+sealed class CropMask extends CustomPainter {
   /// Constructs a [CropMask].
   const CropMask({
     required this.rect,

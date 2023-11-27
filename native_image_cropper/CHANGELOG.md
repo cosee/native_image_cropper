@@ -1,3 +1,7 @@
+## 0.4.0
+
+* Upgrade to Dart 3.
+
 ## 0.3.1
 
 * Add namespace to build.gradle to support Gradle 8.
