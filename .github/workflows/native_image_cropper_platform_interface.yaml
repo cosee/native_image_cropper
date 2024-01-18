@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Cache asdf
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: asdf_cache
         with:
           path: ~/.asdf/
@@ -23,7 +23,7 @@ jobs:
       - uses: asdf-vm/actions/install@v3
 
       - name: Cache flutter dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: flutter_cache
         with:
           path: native_image_cropper_platform_interface/.dart_tool/
@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Cache asdf
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: asdf_cache
         with:
           path: ~/.asdf/
@@ -54,7 +54,7 @@ jobs:
       - uses: asdf-vm/actions/install@v3
 
       - name: Cache flutter dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: flutter_cache
         with:
           path: |
