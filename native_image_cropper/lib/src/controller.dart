@@ -73,25 +73,24 @@ final class CropController {
     final width = cropRect.width / imageRect.width * imageSize.width;
     final height = cropRect.height / imageRect.height * imageSize.height;
 
-    if (modeNotifier.value == CropMode.oval) {
-      return NativeImageCropper.cropOval(
-        bytes: bytes,
-        x: x.toInt(),
-        y: y.toInt(),
-        width: width.toInt(),
-        height: height.toInt(),
-        format: format,
-      );
-    } else {
-      return NativeImageCropper.cropRect(
-        bytes: bytes,
-        x: x.toInt(),
-        y: y.toInt(),
-        width: width.toInt(),
-        height: height.toInt(),
-        format: format,
-      );
-    }
+    return switch (modeNotifier.value) {
+      CropMode.oval => NativeImageCropper.cropOval(
+          bytes: bytes,
+          x: x.toInt(),
+          y: y.toInt(),
+          width: width.toInt(),
+          height: height.toInt(),
+          format: format,
+        ),
+      CropMode.rect => NativeImageCropper.cropRect(
+          bytes: bytes,
+          x: x.toInt(),
+          y: y.toInt(),
+          width: width.toInt(),
+          height: height.toInt(),
+          format: format,
+        ),
+    };
   }
 
   /// Releases the resources held by the [ValueNotifier].
