@@ -47,7 +47,8 @@ final class CropController {
   /// Sets the new [CropMode]]in the [ValueNotifier].
   set mode(CropMode value) => modeNotifier.value = value;
 
-  /// Calculates the size of the cropped image.
+  /// Calculates the crop size based on the relative positions of the
+  /// [cropRect], [imageRect] and the original [imageSize].
   Size get cropSize {
     if ((cropRect, imageRect, imageSize)
         case (
@@ -68,8 +69,6 @@ final class CropController {
 
   /// Performs the actual cropping by calling the corresponding
   /// [NativeImageCropper] method.
-  /// The crop() method calculates the crop coordinates based on the relative
-  /// positions of the crop rectangle and the image rectangle.
   /// You can additionally set the [ImageFormat] for compression, defaults to
   /// [ImageFormat.jpg].
   Future<Uint8List> crop({ImageFormat format = ImageFormat.jpg}) {
