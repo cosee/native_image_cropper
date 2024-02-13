@@ -79,24 +79,24 @@ final class CropController {
           final Size imageSize,
           final Uint8List bytes,
         )) {
-      final x = cropRect.left / imageRect.width * imageSize.width;
-      final y = cropRect.top / imageRect.height * imageSize.height;
+      final x = (cropRect.left / imageRect.width * imageSize.width).toInt();
+      final y = (cropRect.top / imageRect.height * imageSize.height).toInt();
       final width = cropSize.width.toInt();
       final height = cropSize.height.toInt();
 
       return switch (modeNotifier.value) {
         CropMode.oval => NativeImageCropper.cropOval(
             bytes: bytes,
-            x: x.toInt(),
-            y: y.toInt(),
+            x: x,
+            y: y,
             width: width,
             height: height,
             format: format,
           ),
         CropMode.rect => NativeImageCropper.cropRect(
             bytes: bytes,
-            x: x.toInt(),
-            y: y.toInt(),
+            x: x,
+            y: y,
             width: width,
             height: height,
             format: format,
