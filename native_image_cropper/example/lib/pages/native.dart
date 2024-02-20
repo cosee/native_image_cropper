@@ -79,28 +79,26 @@ class _NativePageState extends State<NativePage> {
   }
 
   Future<void> _cropImage(BuildContext context, CropMode mode) async {
-    Uint8List croppedBytes;
-    if (mode == CropMode.rect) {
-      croppedBytes = await NativeImageCropper.cropRect(
-        bytes: widget.bytes,
-        x: 1200,
-        y: 900,
-        width: 600,
-        height: 600,
-        format: _format,
-      );
-    } else {
-      croppedBytes = await NativeImageCropper.cropOval(
-        bytes: widget.bytes,
-        x: 1200,
-        y: 900,
-        width: 600,
-        height: 600,
-        format: _format,
-      );
-    }
+    final croppedBytes = await switch (mode) {
+      CropMode.rect => NativeImageCropper.cropRect(
+          bytes: widget.bytes,
+          x: 1200,
+          y: 900,
+          width: 600,
+          height: 600,
+          format: _format,
+        ),
+      CropMode.oval => NativeImageCropper.cropOval(
+          bytes: widget.bytes,
+          x: 1200,
+          y: 900,
+          width: 600,
+          height: 600,
+          format: _format,
+        ),
+    };
 
-    if (mounted) {
+    if (context.mounted) {
       return Navigator.push<void>(
         context,
         MaterialPageRoute<ResultPage>(

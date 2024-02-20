@@ -98,7 +98,7 @@ class _DefaultPageState extends State<DefaultPage> {
 
   Future<void> _cropImage(BuildContext context) async {
     final croppedBytes = await _controller.crop(format: _format);
-    if (mounted) {
+    if (context.mounted) {
       return Navigator.push<void>(
         context,
         MaterialPageRoute<ResultPage>(

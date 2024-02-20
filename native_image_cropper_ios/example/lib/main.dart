@@ -130,7 +130,7 @@ class _MyAppState extends State<MyApp> {
       format: _format,
     );
 
-    if (mounted) {
+    if (context.mounted) {
       return Navigator.push<void>(
         context,
         CupertinoPageRoute(
