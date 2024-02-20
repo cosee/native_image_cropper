@@ -1,3 +1,8 @@
+## 0.5.0
+
+* Add `cropSize` method inside [CropController](./lib/src/controller.dart) to retrieve the size of
+  the crop image.
+
 ## 0.4.0
 
 * Upgrade to Dart 3.

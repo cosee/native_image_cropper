@@ -77,6 +77,7 @@ final controller = CropController();
 
 CropPreview(controller: controller, bytes: imageData);
 
+final cropSize = controller.cropSize;
 final croppedBytes = await controller.crop();
 ```
 

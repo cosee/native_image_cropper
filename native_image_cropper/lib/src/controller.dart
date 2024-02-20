@@ -47,50 +47,67 @@ final class CropController {
   /// Sets the new [CropMode]]in the [ValueNotifier].
   set mode(CropMode value) => modeNotifier.value = value;
 
+  /// Calculates the crop size based on the relative positions of the
+  /// [cropRect], [imageRect] and the original [imageSize].
+  Size get cropSize {
+    if ((cropRect, imageRect, imageSize)
+        case (
+          final Rect cropRect,
+          final Rect imageRect,
+          final Size imageSize,
+        )) {
+      final width = cropRect.width / imageRect.width * imageSize.width;
+      final height = cropRect.height / imageRect.height * imageSize.height;
+      return Size(width, height);
+    }
+
+    throw const NativeImageCropperException(
+      'NullPointerException',
+      'Crop rect, image rect or image size are not initialized!',
+    );
+  }
+
   /// Performs the actual cropping by calling the corresponding
   /// [NativeImageCropper] method.
-  /// The crop() method calculates the crop coordinates based on the relative
-  /// positions of the crop rectangle and the image rectangle.
   /// You can additionally set the [ImageFormat] for compression, defaults to
   /// [ImageFormat.jpg].
   Future<Uint8List> crop({ImageFormat format = ImageFormat.jpg}) {
-    final cropRect = this.cropRect;
-    final imageRect = this.imageRect;
-    final imageSize = this.imageSize;
-    final bytes = this.bytes;
-    if (bytes == null ||
-        imageSize == null ||
-        cropRect == null ||
-        imageRect == null) {
-      throw const NativeImageCropperException(
-        'NullPointerException',
-        'Bytes, crop rect, image rect or image size are not initialized!',
-      );
+    if ((cropRect, imageRect, imageSize, bytes)
+        case (
+          final Rect cropRect,
+          final Rect imageRect,
+          final Size imageSize,
+          final Uint8List bytes,
+        )) {
+      final x = (cropRect.left / imageRect.width * imageSize.width).toInt();
+      final y = (cropRect.top / imageRect.height * imageSize.height).toInt();
+      final width = cropSize.width.toInt();
+      final height = cropSize.height.toInt();
+
+      return switch (modeNotifier.value) {
+        CropMode.oval => NativeImageCropper.cropOval(
+            bytes: bytes,
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            format: format,
+          ),
+        CropMode.rect => NativeImageCropper.cropRect(
+            bytes: bytes,
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            format: format,
+          ),
+      };
     }
 
-    final x = cropRect.left / imageRect.width * imageSize.width;
-    final y = cropRect.top / imageRect.height * imageSize.height;
-    final width = cropRect.width / imageRect.width * imageSize.width;
-    final height = cropRect.height / imageRect.height * imageSize.height;
-
-    return switch (modeNotifier.value) {
-      CropMode.oval => NativeImageCropper.cropOval(
-          bytes: bytes,
-          x: x.toInt(),
-          y: y.toInt(),
-          width: width.toInt(),
-          height: height.toInt(),
-          format: format,
-        ),
-      CropMode.rect => NativeImageCropper.cropRect(
-          bytes: bytes,
-          x: x.toInt(),
-          y: y.toInt(),
-          width: width.toInt(),
-          height: height.toInt(),
-          format: format,
-        ),
-    };
+    throw const NativeImageCropperException(
+      'NullPointerException',
+      'Bytes, crop rect, image rect or image size are not initialized!',
+    );
   }
 
   /// Releases the resources held by the [ValueNotifier].
