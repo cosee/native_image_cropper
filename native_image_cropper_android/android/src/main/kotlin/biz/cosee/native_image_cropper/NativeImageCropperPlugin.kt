@@ -141,10 +141,10 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
 	}
 	val rotatedBitmap = Bitmap.createBitmap(
 		bitmap,
-		x,
-		y,
-		width,
-		height,
+		0,
+		0,
+		bitmap.width,
+		bitmap.height,
 		matrix,
 		false
 	)
