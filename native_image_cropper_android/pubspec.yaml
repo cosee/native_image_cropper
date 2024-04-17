@@ -3,7 +3,7 @@ description: This is the Android implementation of the native_image_cropper plug
 repository: https://github.com/cosee/native_image_cropper/tree/main/native_image_cropper_android
 homepage: https://pub.dev/publishers/cosee.biz/packages
 issue_tracker: https://github.com/cosee/native_image_cropper/issues
-version: 0.3.0
+version: 0.2.0
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
