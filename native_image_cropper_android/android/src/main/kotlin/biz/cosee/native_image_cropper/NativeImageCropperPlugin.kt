@@ -3,11 +3,13 @@ package biz.cosee.native_image_cropper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
+import androidx.exifinterface.media.ExifInterface
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -122,15 +124,41 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
         height: Int
     ): Bitmap {
         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.count())
-        return Bitmap.createBitmap(
-            bitmap,
-            x,
-            y,
-            width,
-            height,
-            null,
-            false
-        )
+        val exif = ExifInterface(bytes.inputStream())
+        val orientation = exif.getAttributeInt(
+			ExifInterface.TAG_ORIENTATION,
+			ExifInterface.ORIENTATION_NORMAL
+			)
+	val matrix = Matrix().apply {
+		setRotate(
+			when(orientation) {
+				ExifInterface.ORIENTATION_ROTATE_90 -> 90f
+				ExifInterface.ORIENTATION_ROTATE_180 -> 180f
+				ExifInterface.ORIENTATION_ROTATE_270 -> 270f
+				else -> 0f
+			}
+		)
+	}
+	val rotatedBitmap = Bitmap.createBitmap(
+		bitmap,
+		0,
+		0,
+		bitmap.width,
+		bitmap.height,
+		matrix,
+		false
+	)
+	val croppedBitmap = Bitmap.createBitmap(
+		rotatedBitmap,
+		x,
+		y,
+		width,
+		height,
+		null,
+		false
+	)
+	bitmap.recycle()
+        return croppedBitmap
     }
 
     /** Extension method for creating an oval [Bitmap] from a given [Bitmap]. */

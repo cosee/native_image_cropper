@@ -1,3 +1,7 @@
+## 0.3.0
+
+* Fix wrong rotation after cropping.
+
 ## 0.2.0
 
 * Upgrade to Dart 3.
