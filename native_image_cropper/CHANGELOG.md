@@ -1,3 +1,7 @@
+## 0.6.0
+
+* Fix wrong rotation after cropping on some Android devices.
+
 ## 0.5.0
 
 * Add `cropSize` method inside [CropController](./lib/src/controller.dart) to retrieve the size of
