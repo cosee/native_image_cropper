@@ -129,35 +129,35 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
 			ExifInterface.TAG_ORIENTATION,
 			ExifInterface.ORIENTATION_NORMAL
 			)
-		val matrix = Matrix().apply {
-			setRotate(
-				when(orientation) {
-					ExifInterface.ORIENTATION_ROTATE_90 -> 90f
-					ExifInterface.ORIENTATION_ROTATE_180 -> 180f
-					ExifInterface.ORIENTATION_ROTATE_270 -> 270f
-					else -> 0f
-				}
-			)
-        }
-		val rotatedBitmap = Bitmap.createBitmap(
-			bitmap,
-			x,
-			y,
-			width,
-			height,
-			matrix,
-			false
+	val matrix = Matrix().apply {
+		setRotate(
+			when(orientation) {
+				ExifInterface.ORIENTATION_ROTATE_90 -> 90f
+				ExifInterface.ORIENTATION_ROTATE_180 -> 180f
+				ExifInterface.ORIENTATION_ROTATE_270 -> 270f
+				else -> 0f
+			}
 		)
-		val croppedBitmap = Bitmap.createBitmap(
-			rotatedBitmap,
-			x,
-			y,
-			width,
-			height,
-			null,
-			false
-		)
-		bitmap.recycle()
+	}
+	val rotatedBitmap = Bitmap.createBitmap(
+		bitmap,
+		x,
+		y,
+		width,
+		height,
+		matrix,
+		false
+	)
+	val croppedBitmap = Bitmap.createBitmap(
+		rotatedBitmap,
+		x,
+		y,
+		width,
+		height,
+		null,
+		false
+	)
+	bitmap.recycle()
         return croppedBitmap
     }
 
