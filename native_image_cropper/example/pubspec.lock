@@ -366,15 +366,15 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.5.0"
+    version: "0.6.0"
   native_image_cropper_android:
     dependency: transitive
     description:
       name: native_image_cropper_android
-      sha256: "27ef9de059d195398795f862c2dd594c1a77a13168f7a97b9cbf70fe2e7e4677"
+      sha256: be95f0d3ccb4d1f642702a5a2f6171866f57217de2add6e33f72a58dd44604a3
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0"
   native_image_cropper_ios:
     dependency: transitive
     description:
