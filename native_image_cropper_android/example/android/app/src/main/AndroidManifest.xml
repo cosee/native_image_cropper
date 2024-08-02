@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.native_image_cropper_android_example">
+    package="biz.cosee.native_image_cropper_android_example">
    <application
         android:label="native_image_cropper_android_example"
         android:name="${applicationName}"
