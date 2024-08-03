@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gal/gal.dart';
 import 'package:native_image_cropper_macos/native_image_cropper_macos.dart';
 import 'package:native_image_cropper_macos_example/main.dart';
 import 'package:native_image_cropper_macos_example/snack_bar.dart';
@@ -47,33 +47,18 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Future<void> _saveImage() async {
-    final format = widget.format == ImageFormat.jpg ? 'jpeg' : 'png';
-    final fileName = '${MyApp.imageName}.$format';
-    final location = await getSaveLocation(suggestedName: fileName);
-    final file =
-        XFile.fromData(widget.bytes, mimeType: 'image/$format', name: fileName);
-    if (location != null) {
-      await file.saveTo(location.path);
-      if (mounted) {
-        unawaited(
-          showCupertinoDialog<void>(
-            context: context,
-            barrierDismissible: true,
-            builder: (_) => const CupertinoSnackBar(message: 'Saved image!'),
-          ),
-        );
-      }
-    } else {
-      if (mounted) {
-        unawaited(
-          showCupertinoDialog<void>(
-            context: context,
-            barrierDismissible: true,
-            builder: (_) =>
-                const CupertinoSnackBar(message: 'Failed to save image!'),
-          ),
-        );
-      }
+    final format = widget.format == ImageFormat.jpg ? 'jpg' : 'png';
+    await Gal.putImageBytes(
+      widget.bytes,
+      name: '${MyApp.imageName}.$format',
+    );
+    if (mounted) {
+      await showCupertinoDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (_) =>
+            const CupertinoSnackBar(message: 'Saved cropped image to gallery!'),
+      );
     }
   }
 }

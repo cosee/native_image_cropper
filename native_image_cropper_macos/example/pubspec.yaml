@@ -18,7 +18,8 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
   cupertino_icons: ^1.0.6
-  file_selector: ^1.0.1
+  # Saving cropped image to gallery.
+  gal: ^2.3.0
 
 dev_dependencies:
   flutter_test:

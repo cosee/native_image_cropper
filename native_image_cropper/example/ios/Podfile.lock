@@ -1,11 +1,10 @@
 PODS:
   - file_saver (0.0.1):
     - Flutter
-  - file_selector_ios (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
-  - image_gallery_saver (2.0.2):
+  - gal (1.0.0):
     - Flutter
+    - FlutterMacOS
   - native_image_cropper_ios (0.1.0):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -14,21 +13,18 @@ PODS:
 
 DEPENDENCIES:
   - file_saver (from `.symlinks/plugins/file_saver/ios`)
-  - file_selector_ios (from `.symlinks/plugins/file_selector_ios/ios`)
   - Flutter (from `Flutter`)
-  - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
+  - gal (from `.symlinks/plugins/gal/darwin`)
   - native_image_cropper_ios (from `.symlinks/plugins/native_image_cropper_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 EXTERNAL SOURCES:
   file_saver:
     :path: ".symlinks/plugins/file_saver/ios"
-  file_selector_ios:
-    :path: ".symlinks/plugins/file_selector_ios/ios"
   Flutter:
     :path: Flutter
-  image_gallery_saver:
-    :path: ".symlinks/plugins/image_gallery_saver/ios"
+  gal:
+    :path: ".symlinks/plugins/gal/darwin"
   native_image_cropper_ios:
     :path: ".symlinks/plugins/native_image_cropper_ios/ios"
   path_provider_foundation:
@@ -36,11 +32,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   file_saver: 503e386464dbe118f630e17b4c2e1190fa0cf808
-  file_selector_ios: b6a6c6667913d571590169ef946afbafe3b52688
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  image_gallery_saver: cb43cc43141711190510e92c460eb1655cd343cb
+  gal: 61e868295d28fe67ffa297fae6dacebf56fd53e1
   native_image_cropper_ios: 63e0da0508f819ddf391a70e33c11f43d60e8182
-  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
 
 PODFILE CHECKSUM: 6998435987a000fdec9b2e1b5b1eef6d54bdba77
 

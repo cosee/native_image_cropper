@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:gal/gal.dart';
 import 'package:native_image_cropper_ios/native_image_cropper_ios.dart';
 import 'package:native_image_cropper_ios_example/main.dart';
 import 'package:native_image_cropper_ios_example/snack_bar.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({
@@ -49,35 +47,19 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Future<void> _saveImage() async {
-    final dir = (await getTemporaryDirectory()).path;
     final format = widget.format == ImageFormat.jpg ? 'jpg' : 'png';
-    final path = '$dir/${MyApp.imageName}.$format';
-    final file = File(path)..writeAsBytesSync(widget.bytes);
-    final result =
-        await ImageGallerySaver.saveFile(path) as Map<Object?, Object?>;
-    file.deleteSync();
+    await Gal.putImageBytes(
+      widget.bytes,
+      name: '${MyApp.imageName}.$format',
+    );
 
     if (mounted) {
-      final isSuccess = result['isSuccess'] as bool?;
-      if (isSuccess ?? false) {
-        await showCupertinoDialog<void>(
-          context: context,
-          barrierDismissible: true,
-          builder: (_) =>
-              const CupertinoSnackBar(message: 'Saved image to gallery!'),
-        );
-      } else {
-        await showCupertinoDialog<void>(
-          context: context,
-          barrierDismissible: true,
-          builder: (_) => const CupertinoSnackBar(
-            message:
-                'The image could not be saved to the gallery. Please allow the '
-                'app to save images in the settings!',
-            duration: Duration(seconds: 4),
-          ),
-        );
-      }
+      await showCupertinoDialog<void>(
+        context: context,
+        barrierDismissible: true,
+        builder: (_) =>
+            const CupertinoSnackBar(message: 'Saved cropped image to gallery!'),
+      );
     }
   }
 }

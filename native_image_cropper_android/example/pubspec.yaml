@@ -17,8 +17,8 @@ dependencies:
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.
     path: ../
-  image_gallery_saver: ^2.0.3
-  path_provider: ^2.1.1
+  # Saving cropped image to gallery.
+  gal: ^2.3.0
 
 dev_dependencies:
   flutter_test:

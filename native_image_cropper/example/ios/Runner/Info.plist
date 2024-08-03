@@ -47,7 +47,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-    <string>The application needs permission to save the cropped image.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Needed to save cropped image in gallery.</string>
 </dict>
 </plist>

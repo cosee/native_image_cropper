@@ -15,7 +15,7 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  static const String image = 'sail-boat.png';
+  static const String imageName = 'sail-boat.png';
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -125,7 +125,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<Uint8List> _getBytes() async {
-    final byteData = await rootBundle.load('assets/${MyApp.image}');
+    final byteData = await rootBundle.load('assets/${MyApp.imageName}');
     return byteData.buffer.asUint8List();
   }
 }
