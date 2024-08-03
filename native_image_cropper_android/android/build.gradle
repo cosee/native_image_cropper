@@ -36,7 +36,7 @@ apply plugin: 'kotlin-android'
 
 android {
     if (project.android.hasProperty("namespace")) {
-        namespace 'biz.cosee.native_image_cropper'
+        namespace 'biz.cosee.native_image_cropper_android'
     }
 
     compileSdkVersion 33
