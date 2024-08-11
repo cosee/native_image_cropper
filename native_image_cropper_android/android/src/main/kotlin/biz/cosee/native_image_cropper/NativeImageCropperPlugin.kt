@@ -45,7 +45,7 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
         channel =
             MethodChannel(
                 flutterPluginBinding.binaryMessenger,
-                "biz.cosee/native_image_cropper_android"
+                "biz.cosee/native_image_cropper_android",
             )
         channel.setMethodCallHandler(this)
     }
@@ -56,7 +56,10 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     /** Handles Flutter method calls made to this Flutter plugin. */
-    override fun onMethodCall(call: MethodCall, result: Result) {
+    override fun onMethodCall(
+        call: MethodCall,
+        result: Result,
+    ) {
         threadPool.execute {
             when (call.method) {
                 "cropRect" -> handleCropRect(call, result)
@@ -67,7 +70,10 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     /**  Extracts the arguments from [call] and crops the image in a rectangular shape. */
-    private fun handleCropRect(call: MethodCall, result: Result) {
+    private fun handleCropRect(
+        call: MethodCall,
+        result: Result,
+    ) {
         val bytes = call.argument<ByteArray>("bytes")!!
         val x = call.argument<Int>("x")!!
         val y = call.argument<Int>("y")!!
@@ -84,7 +90,10 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     /**  Extracts the arguments from [call] and crops the image in a oval shape. */
-    private fun handleCropOval(call: MethodCall, result: Result) {
+    private fun handleCropOval(
+        call: MethodCall,
+        result: Result,
+    ) {
         val bytes = call.argument<ByteArray>("bytes")!!
         val x = call.argument<Int>("x")!!
         val y = call.argument<Int>("y")!!
@@ -102,7 +111,10 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     /** Converts a [Bitmap] image to a [ByteArray] by using the given [format] for compression. */
-    private fun bitmapToByteArray(bitmap: Bitmap, format: ImageFormat): ByteArray {
+    private fun bitmapToByteArray(
+        bitmap: Bitmap,
+        format: ImageFormat,
+    ): ByteArray {
         val stream = ByteArrayOutputStream()
         if (format == ImageFormat.JPG) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
@@ -121,44 +133,41 @@ class NativeImageCropperPlugin : FlutterPlugin, MethodCallHandler {
         x: Int,
         y: Int,
         width: Int,
-        height: Int
+        height: Int,
     ): Bitmap {
-        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.count())
-        val exif = ExifInterface(bytes.inputStream())
-        val orientation = exif.getAttributeInt(
-			ExifInterface.TAG_ORIENTATION,
-			ExifInterface.ORIENTATION_NORMAL
-			)
-	val matrix = Matrix().apply {
-		setRotate(
-			when(orientation) {
-				ExifInterface.ORIENTATION_ROTATE_90 -> 90f
-				ExifInterface.ORIENTATION_ROTATE_180 -> 180f
-				ExifInterface.ORIENTATION_ROTATE_270 -> 270f
-				else -> 0f
-			}
-		)
-	}
-	val rotatedBitmap = Bitmap.createBitmap(
-		bitmap,
-		0,
-		0,
-		bitmap.width,
-		bitmap.height,
-		matrix,
-		false
-	)
-	val croppedBitmap = Bitmap.createBitmap(
-		rotatedBitmap,
-		x,
-		y,
-		width,
-		height,
-		null,
-		false
-	)
-	bitmap.recycle()
-        return croppedBitmap
+        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+        val rotationMatrix =
+            Matrix().apply {
+                val exif = ExifInterface(bytes.inputStream())
+                val orientation =
+                    exif.getAttributeInt(
+                        ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_NORMAL,
+                    )
+                when (orientation) {
+                    ExifInterface.ORIENTATION_ROTATE_90 -> postRotate(90f)
+                    ExifInterface.ORIENTATION_ROTATE_180 -> postRotate(180f)
+                    ExifInterface.ORIENTATION_ROTATE_270 -> postRotate(270f)
+                }
+            }
+        val rotatedBitmap =
+            Bitmap.createBitmap(
+                bitmap,
+                0,
+                0,
+                bitmap.width,
+                bitmap.height,
+                rotationMatrix,
+                !rotationMatrix.isIdentity,
+            ).also {
+                if (it != bitmap) {
+                    bitmap.recycle()
+                }
+            }
+
+        return Bitmap.createBitmap(rotatedBitmap, x, y, width, height).also {
+            if (rotatedBitmap != bitmap) rotatedBitmap.recycle()
+        }
     }
 
     /** Extension method for creating an oval [Bitmap] from a given [Bitmap]. */
