@@ -104,10 +104,10 @@ class _MyAppState extends State<MyApp> {
   }) async {
     final croppedBytes = await method(
       bytes: bytes,
-      x: 1200,
-      y: 900,
-      width: 600,
-      height: 600,
+      x: 0,
+      y: 0,
+      width: 2999,
+      height: 1999,
       format: _format,
     );
 

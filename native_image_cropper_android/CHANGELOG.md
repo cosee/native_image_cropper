@@ -1,3 +1,7 @@
+## 0.3.1
+
+* Fix can't compress a recycled bitmap.
+
 ## 0.3.0
 
 * Fix wrong rotation after cropping.
