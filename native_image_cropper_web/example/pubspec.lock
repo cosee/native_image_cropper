@@ -165,10 +165,10 @@ packages:
     dependency: transitive
     description:
       name: file
-      sha256: "5fc22d7c25582e38ad9a8515372cd9a93834027aacf1801cf01164dac0ffa08c"
+      sha256: a3b4f84adafef897088c160faf7dfffb7696046cb13ae90b508c2cbc95d3b8d4
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "7.0.1"
   file_saver:
     dependency: "direct main"
     description:
@@ -331,10 +331,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: f7544c346a0742aee1450f9e5c0f5269d7c602b9c95fdbcd9fb8f5b1df13b1cc
+      sha256: c464428172cb986b758c6d1724c603097febb8fb855aa265aeecc9280c294d4a
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.11"
+    version: "2.2.12"
   path_provider_foundation:
     dependency: transitive
     description:
