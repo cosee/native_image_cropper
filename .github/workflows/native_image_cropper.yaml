@@ -56,7 +56,6 @@ jobs:
 
       - name: Cache asdf
         uses: actions/cache@v4
-        id: asdf_cache
         with:
           path: ~/.asdf/
           key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
@@ -72,7 +71,6 @@ jobs:
           sudo apt install webp
       - name: Cache flutter dependencies
         uses: actions/cache@v4
-        id: flutter_cache
         with:
           path: |
             ~/.pub-cache/
