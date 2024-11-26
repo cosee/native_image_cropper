@@ -14,20 +14,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Cache asdf
         uses: actions/cache@v4
-        id: asdf_cache
         with:
           path: ~/.asdf/
-          key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
-      - uses: asdf-vm/actions/install@v3
+          key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
+          restore-keys: ${{ runner.os }}-asdf-
+      - name: Install asdf
+        uses: asdf-vm/actions/install@v3
+        # See https://github.com/asdf-vm/actions/issues/445
+        if: steps.cache-asdf.outputs.cache-hit != 'true'
 
       - name: Cache flutter dependencies
         uses: actions/cache@v4
-        id: flutter_cache
         with:
-          path: native_image_cropper_ios/.dart_tool/
-          key: ${{ runner.os }}-ios-${{ hashFiles('**/pubspec.lock') }}
+          path: |
+            ~/.pub-cache
+            native_image_cropper_ios/.dart_tool/
+          key: ${{ runner.os }}-flutter-ios-${{ hashFiles('native_image_cropper_ios/example/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-flutter-ios-
       - name: Install dependencies
         run: flutter pub get
 
@@ -47,22 +53,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Cache asdf
         uses: actions/cache@v4
-        id: asdf_cache
         with:
           path: ~/.asdf/
-          key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
-      - uses: asdf-vm/actions/install@v3
+          key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
+          restore-keys: ${{ runner.os }}-asdf-
+      - name: Install asdf
+        uses: asdf-vm/actions/install@v3
+        # See https://github.com/asdf-vm/actions/issues/445
+        if: steps.cache-asdf.outputs.cache-hit != 'true'
 
       - name: Cache flutter dependencies
         uses: actions/cache@v4
-        id: flutter_cache
         with:
           path: |
+            ~/.pub-cache
             native_image_cropper_ios/.dart_tool/
-            ~/.pub-cache/
-          key: ${{ runner.os }}-ios-${{ hashFiles('**/pubspec.lock') }}
+          key: ${{ runner.os }}-flutter-ios-${{ hashFiles('native_image_cropper_ios/example/pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-flutter-ios-
       - name: Install Dependencies
         run: |
           flutter pub get
