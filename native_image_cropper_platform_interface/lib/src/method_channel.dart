@@ -35,8 +35,11 @@ final class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
         );
       }
       return croppedImage;
-    } on PlatformException catch (e) {
-      throw NativeImageCropperException(e.code, e.message);
+    } on PlatformException catch (e, stackTrace) {
+      Error.throwWithStackTrace(
+        NativeImageCropperException(e.code, e.message),
+        stackTrace,
+      );
     }
   }
 
@@ -67,8 +70,11 @@ final class MethodChannelNativeImageCropper extends NativeImageCropperPlatform {
         );
       }
       return croppedImage;
-    } on PlatformException catch (e) {
-      throw NativeImageCropperException(e.code, e.message);
+    } on PlatformException catch (e, stackTrace) {
+      Error.throwWithStackTrace(
+        NativeImageCropperException(e.code, e.message),
+        stackTrace,
+      );
     }
   }
 }
