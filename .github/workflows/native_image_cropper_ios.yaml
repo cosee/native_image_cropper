@@ -6,6 +6,10 @@ on:
       - 'native_image_cropper_ios/**'
       - '.github/workflows/native_image_cropper_ios.yaml'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
     defaults:
