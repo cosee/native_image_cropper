@@ -178,10 +178,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_saver
-      sha256: "017a127de686af2d2fbbd64afea97052d95f2a0f87d19d25b87e097407bf9c1e"
+      sha256: "448b1e30142cffe52f37ee085ea9ca50670d5425bb09b649d193549b2dcf6e26"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.14"
+    version: "0.3.0"
   fixnum:
     dependency: transitive
     description:

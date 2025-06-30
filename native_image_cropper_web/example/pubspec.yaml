@@ -17,7 +17,7 @@ dependencies:
     # The example app is bundled with the plugin so we use a path dependency on
     # the parent directory to use the current plugin's version.
     path: ../
-  file_saver: ^0.2.9
+  file_saver: ^0.3.0
 
 dev_dependencies:
   flutter_test:
