@@ -13,7 +13,7 @@ The MacOS implementation of native_image_cropper. It allows you to crop an image
   s.license          = { :type => 'BSD-3', :file => '../LICENSE' }
   s.author           = { 'cosee GmbH' => 'mobile.cosee@gmail.com' }
   s.source           = { :http => 'https://github.com/cosee/native_image_cropper/tree/main/native_image_cropper_macos' }
-  s.source_files     = 'Classes/**/*'
+  s.source_files     = 'native_image_cropper_macos/Sources/**/*'
   s.dependency 'FlutterMacOS'
   s.platform = :osx, '10.14'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }

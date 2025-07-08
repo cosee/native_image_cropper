@@ -13,6 +13,8 @@ GeneratedPluginRegistrant.h
 GeneratedPluginRegistrant.m
 
 .generated/
+.swiftpm/
+.build/
 
 *.pbxuser
 *.mode1v3
