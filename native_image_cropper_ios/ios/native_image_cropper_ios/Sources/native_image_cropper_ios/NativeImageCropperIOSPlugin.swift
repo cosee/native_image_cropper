@@ -1,11 +1,10 @@
 import Flutter
 
-/// The iOS implementation of NativeImageCropperPlugin.
-public class SwiftNativeImageCropperPlugin: NSObject, FlutterPlugin {
+public class NativeImageCropperPlugin: NSObject, FlutterPlugin {
     /// Initializes a [MethodChannel], which is used to communicate between the Flutter code  and the native Swift code.
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "biz.cosee/native_image_cropper_ios", binaryMessenger: registrar.messenger())
-        let instance = SwiftNativeImageCropperPlugin()
+        let instance = NativeImageCropperPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
 
