@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlin_version = '2.2.0'
-        ktlintPluginVersion = '12.3.0'
+        ktlintPluginVersion = '13.0.0'
     }
 
     repositories {
