@@ -33,8 +33,8 @@ class _NativePageState extends State<NativePage> {
         children: [
           switch (Platform.operatingSystem) {
             'macos' => Expanded(
-                child: image,
-              ),
+              child: image,
+            ),
             _ => image,
           },
           const SizedBox(height: 20),
@@ -81,21 +81,21 @@ class _NativePageState extends State<NativePage> {
   Future<void> _cropImage(BuildContext context, CropMode mode) async {
     final croppedBytes = await switch (mode) {
       CropMode.rect => NativeImageCropper.cropRect(
-          bytes: widget.bytes,
-          x: 1200,
-          y: 900,
-          width: 600,
-          height: 600,
-          format: _format,
-        ),
+        bytes: widget.bytes,
+        x: 1200,
+        y: 900,
+        width: 600,
+        height: 600,
+        format: _format,
+      ),
       CropMode.oval => NativeImageCropper.cropOval(
-          bytes: widget.bytes,
-          x: 1200,
-          y: 900,
-          width: 600,
-          height: 600,
-          format: _format,
-        ),
+        bytes: widget.bytes,
+        x: 1200,
+        y: 900,
+        width: 600,
+        height: 600,
+        format: _format,
+      ),
     };
 
     if (context.mounted) {

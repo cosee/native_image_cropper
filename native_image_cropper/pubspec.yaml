@@ -13,7 +13,7 @@ screenshots:
     path: 'example/screenshots/default.webp'
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.8.0
   flutter: ^3.3.0
 
 flutter:

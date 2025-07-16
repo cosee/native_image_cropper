@@ -11,9 +11,9 @@ final class MaskOptions {
     this.aspectRatio,
     this.minSize = 0,
   }) : assert(
-          aspectRatio == null || aspectRatio > 0,
-          'Aspect ratio must be greater than 0.',
-        );
+         aspectRatio == null || aspectRatio > 0,
+         'Aspect ratio must be greater than 0.',
+       );
 
   /// The color of the masked area.
   final Color backgroundColor;
@@ -49,10 +49,10 @@ final class MaskOptions {
 
   @override
   int get hashCode => Object.hash(
-        backgroundColor,
-        borderColor,
-        strokeWidth,
-        aspectRatio,
-        minSize,
-      );
+    backgroundColor,
+    borderColor,
+    strokeWidth,
+    aspectRatio,
+    minSize,
+  );
 }

@@ -53,15 +53,17 @@ class _CropImageState extends State<_CropImage> {
             return widget.loadingWidget;
           }
           return GestureDetector(
-            onPanStart: (details) => _isMovingCropLayer = _controller
-                    .cropRectNotifier.value
-                    ?.contains(details.localPosition) ??
+            onPanStart: (details) => _isMovingCropLayer =
+                _controller.cropRectNotifier.value?.contains(
+                  details.localPosition,
+                ) ??
                 false,
             onPanUpdate: _onMoveCropRectUpdate,
             onPanEnd: (_) => _isMovingCropLayer = false,
             child: LayoutBuilder(
               builder: (context, constraints) {
-                final availableSpace = Offset.zero &
+                final availableSpace =
+                    Offset.zero &
                     Size(constraints.maxWidth, constraints.maxHeight);
                 final imageRect = widget.cropUtils.computeImageRect(
                   imageSize: imageSize,
@@ -72,15 +74,16 @@ class _CropImageState extends State<_CropImage> {
                   (_) {
                     final cropRect = _controller.cropRect;
                     if (cropRect == null) {
-                      _controller.cropRect =
-                          widget.cropUtils.getInitialRect(imageRect);
-                    } else {
-                      _controller.cropRect =
-                          widget.cropUtils.computeCropRectForResizedImageRect(
-                        imageRect: imageRect,
-                        oldImageRect: _controller.imageRect!,
-                        cropRect: cropRect,
+                      _controller.cropRect = widget.cropUtils.getInitialRect(
+                        imageRect,
                       );
+                    } else {
+                      _controller.cropRect = widget.cropUtils
+                          .computeCropRectForResizedImageRect(
+                            imageRect: imageRect,
+                            oldImageRect: _controller.imageRect!,
+                            cropRect: cropRect,
+                          );
                     }
 
                     _controller.imageRect = imageRect;

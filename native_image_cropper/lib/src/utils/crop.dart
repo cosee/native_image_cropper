@@ -59,8 +59,11 @@ sealed class CropUtils {
     required Size imageSize,
     required Rect availableSpace,
   }) {
-    final fittedSizes =
-        applyBoxFit(BoxFit.contain, imageSize, availableSpace.size);
+    final fittedSizes = applyBoxFit(
+      BoxFit.contain,
+      imageSize,
+      availableSpace.size,
+    );
     final destinationSize = fittedSizes.destination;
     return Rect.fromPoints(
       Offset.zero,
@@ -79,8 +82,11 @@ sealed class CropUtils {
       return null;
     }
 
-    final newDelta =
-        _smoothDelta(cropRect: cropRect, imageRect: imageRect, delta: delta);
+    final newDelta = _smoothDelta(
+      cropRect: cropRect,
+      imageRect: imageRect,
+      delta: delta,
+    );
     final newCropRect = cropRect.shift(newDelta);
     return _constraintCropRect(
       newCropRect: newCropRect,
@@ -212,8 +218,9 @@ sealed class CropUtils {
       delta: newDelta,
     );
 
-    final deltaWithAspectRatio =
-        _computeAspectRatioDeltaRightDiagonal(newDelta);
+    final deltaWithAspectRatio = _computeAspectRatioDeltaRightDiagonal(
+      newDelta,
+    );
     final newCropRect = Rect.fromPoints(
       cropRect.topLeft + Offset(0, deltaWithAspectRatio.dy),
       cropRect.bottomRight + Offset(deltaWithAspectRatio.dx, 0),
@@ -249,8 +256,9 @@ sealed class CropUtils {
       delta: newDelta,
     );
 
-    final deltaWithAspectRatio =
-        _computeAspectRatioDeltaRightDiagonal(newDelta);
+    final deltaWithAspectRatio = _computeAspectRatioDeltaRightDiagonal(
+      newDelta,
+    );
     final newCropRect = Rect.fromPoints(
       cropRect.topLeft + Offset(deltaWithAspectRatio.dx, 0),
       cropRect.bottomRight + Offset(0, deltaWithAspectRatio.dy),
@@ -367,8 +375,7 @@ extension on Offset {
   Offset copyWith({
     double? dx,
     double? dy,
-  }) =>
-      Offset(dx ?? this.dx, dy ?? this.dy);
+  }) => Offset(dx ?? this.dx, dy ?? this.dy);
 }
 
 extension on Rect {

@@ -9,9 +9,9 @@ final class CropUtilsAspectRatioGreaterEqualsOne
     required super.minCropRectSize,
     required super.aspectRatio,
   }) : assert(
-          aspectRatio >= 1,
-          'Aspect ratio must be greater than or equals to 1!',
-        );
+         aspectRatio >= 1,
+         'Aspect ratio must be greater than or equals to 1!',
+       );
 
   @override
   Rect? getInitialRect(Rect? imageRect) {

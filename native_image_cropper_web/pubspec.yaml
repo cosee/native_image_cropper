@@ -6,7 +6,7 @@ issue_tracker: https://github.com/cosee/native_image_cropper/issues
 version: 0.2.0
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.8.0
   flutter: ^3.3.0
 
 flutter:
@@ -28,5 +28,3 @@ dev_dependencies:
     sdk: flutter
   cosee_lints: ^0.10.0
   dart_code_linter: ^2.0.0
-
-

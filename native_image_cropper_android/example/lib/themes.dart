@@ -4,14 +4,15 @@ final class CustomThemes {
   const CustomThemes._();
 
   static ThemeData theme(BuildContext context) => ThemeData(
-        useMaterial3: false,
-        colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: _green,
-              secondary: _yellow,
-            ),
-        bottomSheetTheme:
-            const BottomSheetThemeData(backgroundColor: Colors.transparent),
-      );
+    useMaterial3: false,
+    colorScheme: Theme.of(context).colorScheme.copyWith(
+      primary: _green,
+      secondary: _yellow,
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.transparent,
+    ),
+  );
 
   static const MaterialColor _green = MaterialColor(
     _greenPrimaryValue,

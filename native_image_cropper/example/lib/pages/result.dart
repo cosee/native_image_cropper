@@ -67,8 +67,9 @@ class _ResultPageState extends State<ResultPage> {
 
   Future<void> _saveImageWeb() async {
     final format = widget.format == ImageFormat.jpg ? 'jpeg' : 'png';
-    final mimeType =
-        widget.format == ImageFormat.jpg ? MimeType.jpeg : MimeType.png;
+    final mimeType = widget.format == ImageFormat.jpg
+        ? MimeType.jpeg
+        : MimeType.png;
 
     await FileSaver.instance.saveFile(
       name: MyApp.imageName,

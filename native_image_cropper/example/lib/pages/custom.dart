@@ -62,8 +62,8 @@ class _CustomPageState extends State<CustomPage> {
       children: [
         switch (Platform.operatingSystem) {
           'macos' => Expanded(
-              child: cropPreview,
-            ),
+            child: cropPreview,
+          ),
           _ => cropPreview,
         },
         Row(

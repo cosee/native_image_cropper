@@ -50,12 +50,11 @@ final class CropController {
   /// Calculates the crop size based on the relative positions of the
   /// [cropRect], [imageRect] and the original [imageSize].
   Size get cropSize {
-    if ((cropRect, imageRect, imageSize)
-        case (
-          final Rect cropRect,
-          final Rect imageRect,
-          final Size imageSize,
-        )) {
+    if ((cropRect, imageRect, imageSize) case (
+      final Rect cropRect,
+      final Rect imageRect,
+      final Size imageSize,
+    )) {
       final width = cropRect.width / imageRect.width * imageSize.width;
       final height = cropRect.height / imageRect.height * imageSize.height;
       return Size(width, height);
@@ -72,13 +71,12 @@ final class CropController {
   /// You can additionally set the [ImageFormat] for compression, defaults to
   /// [ImageFormat.jpg].
   Future<Uint8List> crop({ImageFormat format = ImageFormat.jpg}) {
-    if ((cropRect, imageRect, imageSize, bytes)
-        case (
-          final Rect cropRect,
-          final Rect imageRect,
-          final Size imageSize,
-          final Uint8List bytes,
-        )) {
+    if ((cropRect, imageRect, imageSize, bytes) case (
+      final Rect cropRect,
+      final Rect imageRect,
+      final Size imageSize,
+      final Uint8List bytes,
+    )) {
       final x = (cropRect.left / imageRect.width * imageSize.width).toInt();
       final y = (cropRect.top / imageRect.height * imageSize.height).toInt();
       final width = cropSize.width.toInt();
@@ -86,21 +84,21 @@ final class CropController {
 
       return switch (modeNotifier.value) {
         CropMode.oval => NativeImageCropper.cropOval(
-            bytes: bytes,
-            x: x,
-            y: y,
-            width: width,
-            height: height,
-            format: format,
-          ),
+          bytes: bytes,
+          x: x,
+          y: y,
+          width: width,
+          height: height,
+          format: format,
+        ),
         CropMode.rect => NativeImageCropper.cropRect(
-            bytes: bytes,
-            x: x,
-            y: y,
-            width: width,
-            height: height,
-            format: format,
-          ),
+          bytes: bytes,
+          x: x,
+          y: y,
+          width: width,
+          height: height,
+          format: format,
+        ),
       };
     }
 

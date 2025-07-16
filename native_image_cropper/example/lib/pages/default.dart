@@ -56,8 +56,8 @@ class _DefaultPageState extends State<DefaultPage> {
       children: [
         switch (Platform.operatingSystem) {
           'macos' => Expanded(
-              child: cropPreview,
-            ),
+            child: cropPreview,
+          ),
           _ => cropPreview,
         },
         Row(

@@ -3,8 +3,9 @@ import 'package:native_image_cropper_platform_interface/native_image_cropper_pla
 
 /// The iOS implementation of [NativeImageCropperPlatform].
 final class NativeImageCropperIOS extends NativeImageCropperPlatform {
-  final MethodChannel _methodChannel =
-      const MethodChannel('biz.cosee/native_image_cropper_ios');
+  final MethodChannel _methodChannel = const MethodChannel(
+    'biz.cosee/native_image_cropper_ios',
+  );
 
   /// Registers this class as the default instance
   /// of [NativeImageCropperPlatform].
@@ -29,8 +30,10 @@ final class NativeImageCropperIOS extends NativeImageCropperPlatform {
       'imageFormat': format.name,
     };
     try {
-      final croppedImage =
-          await _methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
+      final croppedImage = await _methodChannel.invokeMethod<Uint8List>(
+        'cropRect',
+        arguments,
+      );
       if (croppedImage == null) {
         throw const NativeImageCropperException(
           'NullPointerException',
@@ -64,8 +67,10 @@ final class NativeImageCropperIOS extends NativeImageCropperPlatform {
       'imageFormat': format.name,
     };
     try {
-      final croppedImage =
-          await _methodChannel.invokeMethod<Uint8List>('cropOval', arguments);
+      final croppedImage = await _methodChannel.invokeMethod<Uint8List>(
+        'cropOval',
+        arguments,
+      );
       if (croppedImage == null) {
         throw const NativeImageCropperException(
           'NullPointerException',

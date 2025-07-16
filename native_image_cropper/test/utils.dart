@@ -12,11 +12,11 @@ extension RectExtension on Rect {
   double get aspectRatio => width / height;
 
   Rect round() => Rect.fromLTRB(
-        left.roundTwoPlaces(),
-        top.roundTwoPlaces(),
-        right.roundTwoPlaces(),
-        bottom.roundTwoPlaces(),
-      );
+    left.roundTwoPlaces(),
+    top.roundTwoPlaces(),
+    right.roundTwoPlaces(),
+    bottom.roundTwoPlaces(),
+  );
 }
 
 extension SizeExtension on Size {

@@ -88,7 +88,7 @@ final class NativeImageCropperPlugin extends NativeImageCropperPlatform {
   }
 
   Never _throwConvertImageError() => throw const NativeImageCropperException(
-        'Convert image',
-        'Could not convert image to Uint8List!',
-      );
+    'Convert image',
+    'Could not convert image to Uint8List!',
+  );
 }
