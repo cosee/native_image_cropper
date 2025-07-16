@@ -48,7 +48,7 @@ class _ResultPageState extends State<ResultPage> {
       FileSaver.instance.saveFile(
         name: MyApp.imageName,
         bytes: widget.bytes,
-        ext: format,
+        fileExtension: format,
         mimeType: mimeType,
       ),
     );
