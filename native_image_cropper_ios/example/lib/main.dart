@@ -24,6 +24,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _nativeImageCropperIOSPlugin = NativeImageCropperIOS();
   ImageFormat _format = ImageFormat.jpg;
+  late final Future<Uint8List> _bytesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _bytesFuture = _getBytes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +38,7 @@ class _MyAppState extends State<MyApp> {
       theme: CustomThemes.theme,
       home: CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
+          automaticBackgroundVisibility: false,
           heroTag: 'home',
           transitionBetweenRoutes: false,
           middle: Text(
@@ -39,8 +47,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         child: FutureBuilder<Uint8List>(
-          // ignore: discarded_futures, build method cannot be marked async.
-          future: _getBytes(),
+          future: _bytesFuture,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final bytes = snapshot.data;

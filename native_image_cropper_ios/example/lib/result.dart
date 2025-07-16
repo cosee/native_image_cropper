@@ -26,6 +26,7 @@ class _ResultPageState extends State<ResultPage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        automaticBackgroundVisibility: false,
         heroTag: 'result',
         transitionBetweenRoutes: false,
         middle: const Text(

@@ -5,7 +5,7 @@ final class CustomThemes {
 
   static ThemeData theme(BuildContext context) => ThemeData(
     useMaterial3: false,
-    colorScheme: Theme.of(context).colorScheme.copyWith(
+    colorScheme: ColorScheme.of(context).copyWith(
       primary: _green,
       secondary: _yellow,
     ),

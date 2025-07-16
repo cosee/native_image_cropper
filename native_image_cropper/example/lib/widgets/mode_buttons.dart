@@ -24,7 +24,8 @@ class _CropModesButtonsState extends State<CropModesButtons> {
 
   @override
   Widget build(BuildContext context) {
-    final secondaryColor = Theme.of(context).colorScheme.secondary;
+    final secondaryColor = ColorScheme.of(context).secondary;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
