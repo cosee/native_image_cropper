@@ -26,8 +26,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class _Home extends StatelessWidget {
+class _Home extends StatefulWidget {
   const _Home();
+
+  @override
+  State<_Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<_Home> {
+  late final Future<Uint8List> _bytesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _bytesFuture = _getBytes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +53,7 @@ class _Home extends StatelessWidget {
             'Native Image Cropper Example',
           ),
           bottom: TabBar(
-            indicatorColor: Theme.of(context).colorScheme.secondary,
+            indicatorColor: ColorScheme.of(context).secondary,
             tabs: const [
               Tab(
                 text: 'Default',
@@ -55,24 +68,17 @@ class _Home extends StatelessWidget {
           ),
         ),
         body: FutureBuilder<Uint8List>(
-          // ignore: discarded_futures, build method cannot be marked async.
-          future: _getBytes(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final bytes = snapshot.data;
-
-              if (bytes != null) {
-                return TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    DefaultPage(bytes: bytes),
-                    CustomPage(bytes: bytes),
-                    NativePage(bytes: bytes),
-                  ],
-                );
-              }
-            }
-            return const LoadingIndicator();
+          future: _bytesFuture,
+          builder: (context, snapshot) => switch (snapshot.data) {
+            null => const LoadingIndicator(),
+            final bytes => TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                DefaultPage(bytes: bytes),
+                CustomPage(bytes: bytes),
+                NativePage(bytes: bytes),
+              ],
+            ),
           },
         ),
       ),

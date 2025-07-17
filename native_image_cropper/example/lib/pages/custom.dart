@@ -52,18 +52,19 @@ class _CustomPageState extends State<CustomPage> {
       maskOptions: MaskOptions(
         aspectRatio: _aspectRatio,
         backgroundColor: Colors.black,
-        borderColor: Theme.of(context).colorScheme.primary,
+        borderColor: ColorScheme.of(context).primary,
         minSize: 100,
         strokeWidth: 3,
       ),
       dragPointBuilder: _buildCropDragPoints,
     );
+
     return Column(
       children: [
         switch (Platform.operatingSystem) {
           'macos' => Expanded(
-              child: cropPreview,
-            ),
+            child: cropPreview,
+          ),
           _ => cropPreview,
         },
         Row(
@@ -93,7 +94,7 @@ class _CustomPageState extends State<CustomPage> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () => unawaited(_cropImage(context)),
-              child: const Text('CROP'),
+              child: const Text('Crop'),
             ),
           ),
         ),
@@ -149,7 +150,7 @@ class _CustomPageState extends State<CustomPage> {
     return CustomPaint(
       foregroundPainter: _CropDragPointPainter(
         points: points,
-        color: Theme.of(context).colorScheme.secondary,
+        color: ColorScheme.of(context).secondary,
       ),
     );
   }

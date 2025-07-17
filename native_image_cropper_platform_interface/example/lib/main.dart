@@ -2,8 +2,9 @@ import 'package:flutter/services.dart';
 import 'package:native_image_cropper_platform_interface/native_image_cropper_platform_interface.dart';
 
 final class NativeImageCropperExample extends NativeImageCropperPlatform {
-  final MethodChannel _methodChannel =
-      const MethodChannel('biz.cosee/native_image_cropper_android');
+  final MethodChannel _methodChannel = const MethodChannel(
+    'biz.cosee/native_image_cropper_android',
+  );
 
   static void registerWith() =>
       NativeImageCropperPlatform.instance = NativeImageCropperExample();
@@ -26,8 +27,10 @@ final class NativeImageCropperExample extends NativeImageCropperPlatform {
       'imageFormat': format.name,
     };
     try {
-      final croppedImage =
-          await _methodChannel.invokeMethod<Uint8List>('cropRect', arguments);
+      final croppedImage = await _methodChannel.invokeMethod<Uint8List>(
+        'cropRect',
+        arguments,
+      );
       if (croppedImage == null) {
         throw const NativeImageCropperException(
           'NullPointerException',
@@ -35,8 +38,11 @@ final class NativeImageCropperExample extends NativeImageCropperPlatform {
         );
       }
       return croppedImage;
-    } on PlatformException catch (e) {
-      throw NativeImageCropperException(e.code, e.message);
+    } on PlatformException catch (e, stackTrace) {
+      Error.throwWithStackTrace(
+        NativeImageCropperException(e.code, e.message),
+        stackTrace,
+      );
     }
   }
 
@@ -58,8 +64,10 @@ final class NativeImageCropperExample extends NativeImageCropperPlatform {
       'imageFormat': format.name,
     };
     try {
-      final croppedImage =
-          await _methodChannel.invokeMethod<Uint8List>('cropOval', arguments);
+      final croppedImage = await _methodChannel.invokeMethod<Uint8List>(
+        'cropOval',
+        arguments,
+      );
       if (croppedImage == null) {
         throw const NativeImageCropperException(
           'NullPointerException',
@@ -67,8 +75,11 @@ final class NativeImageCropperExample extends NativeImageCropperPlatform {
         );
       }
       return croppedImage;
-    } on PlatformException catch (e) {
-      throw NativeImageCropperException(e.code, e.message);
+    } on PlatformException catch (e, stackTrace) {
+      Error.throwWithStackTrace(
+        NativeImageCropperException(e.code, e.message),
+        stackTrace,
+      );
     }
   }
 }

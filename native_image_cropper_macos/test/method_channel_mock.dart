@@ -10,15 +10,18 @@ class MethodChannelMock {
   }
 
   final Map<String, dynamic> methods;
-  final MethodChannel methodChannel =
-      const MethodChannel('biz.cosee/native_image_cropper_macos');
+  final MethodChannel methodChannel = const MethodChannel(
+    'biz.cosee/native_image_cropper_macos',
+  );
   final List<MethodCall> log = [];
 
   Future<Object?> _handler(MethodCall methodCall) {
     log.add(methodCall);
     if (!methods.containsKey(methodCall.method)) {
-      throw MissingPluginException('No implementation found for method '
-          '${methodCall.method} on channel ${methodChannel.name}');
+      throw MissingPluginException(
+        'No implementation found for method '
+        '${methodCall.method} on channel ${methodChannel.name}',
+      );
     }
     final result = methods[methodCall.method];
     if (result is Exception) {

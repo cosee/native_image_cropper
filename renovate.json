@@ -1,12 +1,11 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":automergePatch"
   ],
-  "patch": {
-    "automerge": true
-  },
   "schedule": [
-    "before 5am on monday"
+    "before 7am on monday"
   ],
   "timezone": "Europe/Berlin",
   "lockFileMaintenance": {

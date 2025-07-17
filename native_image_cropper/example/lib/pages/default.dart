@@ -41,7 +41,7 @@ class _DefaultPageState extends State<DefaultPage> {
 
   @override
   Widget build(BuildContext context) {
-    final secondaryColor = Theme.of(context).colorScheme.secondary;
+    final secondaryColor = ColorScheme.of(context).secondary;
     final cropPreview = CropPreview(
       controller: _controller,
       bytes: widget.bytes,
@@ -56,8 +56,8 @@ class _DefaultPageState extends State<DefaultPage> {
       children: [
         switch (Platform.operatingSystem) {
           'macos' => Expanded(
-              child: cropPreview,
-            ),
+            child: cropPreview,
+          ),
           _ => cropPreview,
         },
         Row(
@@ -87,7 +87,7 @@ class _DefaultPageState extends State<DefaultPage> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () => unawaited(_cropImage(context)),
-              child: const Text('CROP'),
+              child: const Text('Crop'),
             ),
           ),
         ),

@@ -17,15 +17,14 @@ final class NativeImageCropper {
     required int width,
     required int height,
     ImageFormat format = ImageFormat.jpg,
-  }) =>
-      NativeImageCropperPlatform.instance.cropRect(
-        bytes: bytes,
-        x: x,
-        y: y,
-        width: width,
-        height: height,
-        format: format,
-      );
+  }) => NativeImageCropperPlatform.instance.cropRect(
+    bytes: bytes,
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    format: format,
+  );
 
   /// Completes with a [Uint8List] of the cropped bytes in an oval shape.
   static Future<Uint8List> cropOval({
@@ -35,13 +34,12 @@ final class NativeImageCropper {
     required int width,
     required int height,
     ImageFormat format = ImageFormat.jpg,
-  }) =>
-      NativeImageCropperPlatform.instance.cropOval(
-        bytes: bytes,
-        x: x,
-        y: y,
-        width: width,
-        height: height,
-        format: format,
-      );
+  }) => NativeImageCropperPlatform.instance.cropOval(
+    bytes: bytes,
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    format: format,
+  );
 }

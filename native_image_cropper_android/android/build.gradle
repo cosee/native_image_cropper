@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlin_version = '2.2.0'
-        ktlintPluginVersion = '12.3.0'
+        ktlintPluginVersion = '13.0.0'
     }
 
     repositories {
@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.0'
+        classpath 'com.android.tools.build:gradle:8.11.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 
