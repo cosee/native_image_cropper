@@ -1,6 +1,10 @@
 name: native_image_cropper_platform_interface
 
 on:
+  pull_request:
+    paths:
+      - 'native_image_cropper_platform_interface/**'
+      - '.github/workflows/native_image_cropper_platform_interface.yaml'
   push:
     paths:
       - 'native_image_cropper_platform_interface/**'
