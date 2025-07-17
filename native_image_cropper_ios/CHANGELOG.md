@@ -1,3 +1,7 @@
+## 0.3.0
+
+* Add Swift Package Manager compatibility.
+
 ## 0.2.0
 
 * Upgrade to Dart 3.
