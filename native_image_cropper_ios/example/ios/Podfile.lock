@@ -1,16 +1,9 @@
 PODS:
   - Flutter (1.0.0)
-  - gal (1.0.0):
-    - Flutter
-    - FlutterMacOS
-  - native_image_cropper_ios (0.1.0):
-    - Flutter
   - SwiftLint (0.55.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - gal (from `.symlinks/plugins/gal/darwin`)
-  - native_image_cropper_ios (from `.symlinks/plugins/native_image_cropper_ios/ios`)
   - SwiftLint
 
 SPEC REPOS:
@@ -20,15 +13,9 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  gal:
-    :path: ".symlinks/plugins/gal/darwin"
-  native_image_cropper_ios:
-    :path: ".symlinks/plugins/native_image_cropper_ios/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  gal: baecd024ebfd13c441269ca7404792a7152fde89
-  native_image_cropper_ios: 584715c55bc16f85cb9ce45e86891c6591f95217
   SwiftLint: 3fe909719babe5537c552ee8181c0031392be933
 
 PODFILE CHECKSUM: 3cbe212a4bdbd16d11c4053f254f53fb944d1a09

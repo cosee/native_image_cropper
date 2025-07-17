@@ -13,7 +13,7 @@ The iOS implementation of native_image_cropper. It allows you to crop an image t
   s.license          = { :type => 'BSD-3', :file => '../LICENSE' }
   s.author           = { 'cosee GmbH' => 'mobile.cosee@gmail.com' }
   s.source           = { :http => 'https://github.com/cosee/native_image_cropper/tree/main/native_image_cropper_ios' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'native_image_cropper_ios/Sources/**/*.swift'
   s.dependency 'Flutter'
   s.platform = :ios, '12.0'
 
