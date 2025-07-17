@@ -1,3 +1,7 @@
+## 0.7.0
+
+* Add Swift Package Manager compatibility.
+
 ## 0.6.0
 
 * Fix wrong rotation after cropping on some Android devices.
