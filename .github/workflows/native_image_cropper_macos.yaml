@@ -1,6 +1,10 @@
 name: native_image_cropper_macos
 
 on:
+  pull_request:
+    paths:
+      - 'native_image_cropper_macos/**'
+      - '.github/workflows/native_image_cropper_macos.yaml'
   push:
     paths:
       - 'native_image_cropper_macos/**'
