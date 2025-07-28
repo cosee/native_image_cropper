@@ -19,4 +19,4 @@ dependencies:
 
 dev_dependencies:
   cosee_lints: ^0.10.0
-  dart_code_linter: ^2.0.0
+  dart_code_linter: ^3.0.0
