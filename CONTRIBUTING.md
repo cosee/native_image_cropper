@@ -1,7 +1,7 @@
 # Contributing to native_image_cropper
 
 Thank you for your interest in contributing to native_image_cropper! We welcome community contributions to help improve
-the app.
+the plugin.
 
 ## General Guidelines
 
@@ -51,6 +51,17 @@ understand and address the issue effectively.
   very helpful in quickly identifying problems.
 - **Additional information**: Provide any other context or information that might be relevant. This could include error
   logs, console output, or conditions under which the bug does not occur.
+
+## Request a feature
+
+When requesting a feature, please use the provided [template](.github/ISSUE_TEMPLATE/feature-request.yml) to ensure
+that all necessary information is included. This template is designed to guide you in articulating your suggestion
+clearly and effectively.
+
+- **Clearly articulate your request**: Provide a clear and concise description of your request, including how it would
+  improve the plugin.
+- **Explain use cases**: Share specific scenarios where your request would be useful.
+- **Be open to feedback**: Encourage discussion and be willing to refine your r.
 
 ---
 
