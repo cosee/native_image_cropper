@@ -29,6 +29,29 @@ Before creating a pull request, please follow these steps:
 8. **Create the pull request**: Submit your PR and include a detailed description of the changes made.
 9. **Verify status checks**: Ensure all status checks are passing before finalizing your PR.
 
+## Report a bug
+
+When reporting a bug, please use the provided [template](.github/ISSUE_TEMPLATE/bug.yml) to ensure that
+all necessary information is included. This template is designed to guide you through providing the details needed to
+understand and address the issue effectively.
+
+- **Affected plugin module**: Indicate the specific package where the bug occurs, such as `native_image_cropper`,
+  `native_image_cropper_ios`. etc.
+- **Plugin version**: Specify the version of the affected plugin where you encountered the bug. This helps us understand
+  if the issue is version-specific.
+- **Device information**: Provide details about the device you are using, such as the model and operating system. This
+  information is crucial for reproducing hardware-specific or OS-specific bugs.
+- **Description**: Give a clear and detailed description of the bug. The more specific you are, the easier it will be
+  for us to understand the issue.
+- **Steps to reproduce**: List the steps you took when you encountered the bug. This should be a clear, step-by-step
+  process to help us replicate the issue.
+- **Expected behavior**: Describe what you expected to happen when you followed the steps above. This helps clarify the
+  discrepancy between expected and actual behavior.
+- **Screenshots**: If possible, include links to screenshots or images that illustrate the issue. Visual evidence can be
+  very helpful in quickly identifying problems.
+- **Additional information**: Provide any other context or information that might be relevant. This could include error
+  logs, console output, or conditions under which the bug does not occur.
+
 ---
 
 By following these guidelines and utilizing the provided templates, you contribute to a more organized and efficient
