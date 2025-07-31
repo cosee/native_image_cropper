@@ -63,6 +63,16 @@ clearly and effectively.
 - **Explain use cases**: Share specific scenarios where your request would be useful.
 - **Be open to feedback**: Encourage discussion and be willing to refine your r.
 
+## Request help
+
+When requesting help, please use the provided [template](.github/DISCUSSION_TEMPLATE/request-help.yml) to ensure that
+all necessary information is included. This template is designed to guide you in explaining your question clearly and
+effectively.
+
+- **Detail your question**: Describe your issue in detail, explaining what you are trying to achieve and where you are
+  stuck.
+- **Include code snippets**: If relevant, provide code snippets to give context.
+
 ---
 
 By following these guidelines and utilizing the provided templates, you contribute to a more organized and efficient
