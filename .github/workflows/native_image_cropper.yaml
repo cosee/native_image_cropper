@@ -6,6 +6,8 @@ on:
       - 'native_image_cropper/**'
       - '.github/workflows/native_image_cropper.yaml'
   push:
+    branches:
+      - main
     paths:
       - 'native_image_cropper/**'
       - '.github/workflows/native_image_cropper.yaml'
