@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - SwiftLint (0.55.1)
+  - SwiftLint (0.59.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -15,9 +15,9 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  SwiftLint: 3fe909719babe5537c552ee8181c0031392be933
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  SwiftLint: 3d48e2fb2a3468fdaccf049e5e755df22fb40c2c
 
-PODFILE CHECKSUM: 3cbe212a4bdbd16d11c4053f254f53fb944d1a09
+PODFILE CHECKSUM: 1575e802fdbcaf37a79f2469afa226723f7f9358
 
 COCOAPODS: 1.16.2
