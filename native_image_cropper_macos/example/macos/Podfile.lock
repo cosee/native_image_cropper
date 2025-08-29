@@ -1,9 +1,16 @@
 PODS:
   - FlutterMacOS (1.0.0)
-  - SwiftLint (0.55.1)
+  - gal (1.0.0):
+    - Flutter
+    - FlutterMacOS
+  - native_image_cropper_macos (0.1.0):
+    - FlutterMacOS
+  - SwiftLint (0.59.1)
 
 DEPENDENCIES:
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - gal (from `Flutter/ephemeral/.symlinks/plugins/gal/darwin`)
+  - native_image_cropper_macos (from `Flutter/ephemeral/.symlinks/plugins/native_image_cropper_macos/macos`)
   - SwiftLint
 
 SPEC REPOS:
@@ -13,10 +20,16 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   FlutterMacOS:
     :path: Flutter/ephemeral
+  gal:
+    :path: Flutter/ephemeral/.symlinks/plugins/gal/darwin
+  native_image_cropper_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/native_image_cropper_macos/macos
 
 SPEC CHECKSUMS:
-  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  SwiftLint: 3fe909719babe5537c552ee8181c0031392be933
+  FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
+  gal: baecd024ebfd13c441269ca7404792a7152fde89
+  native_image_cropper_macos: cfba1280f3e2587a418aafc2d93ca247aebe28c1
+  SwiftLint: 3d48e2fb2a3468fdaccf049e5e755df22fb40c2c
 
 PODFILE CHECKSUM: 5313c16452fc8b37f4b23203207c40b4ca7223c7
 
