@@ -33,7 +33,7 @@ dependencies:
     sdk: flutter
   native_image_cropper_android: ^0.3.0
   native_image_cropper_ios: ^0.3.0
-  native_image_cropper_macos: ^0.2.0
+  native_image_cropper_macos: ^0.3.0
   native_image_cropper_web: ^0.2.0
   native_image_cropper_platform_interface: ^0.2.0
 
