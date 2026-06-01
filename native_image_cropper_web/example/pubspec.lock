@@ -337,12 +337,11 @@ packages:
     source: hosted
     version: "2.0.0"
   native_image_cropper_platform_interface:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: native_image_cropper_platform_interface
-      sha256: "3ac1484f83abd62be7ff1d74c475137c59008aa01e671d8678d5e25c46c98d59"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../native_image_cropper_platform_interface"
+      relative: true
+    source: path
     version: "0.2.0"
   native_image_cropper_web:
     dependency: "direct main"
