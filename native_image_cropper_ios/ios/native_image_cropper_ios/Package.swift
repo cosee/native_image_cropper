@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "native_image_cropper_ios",
     platforms: [
-        .iOS("12.0"),
+        .iOS("13.0"),
     ],
     products: [
         .library(name: "native-image-cropper-ios", targets: ["native_image_cropper_ios"])
