@@ -11,11 +11,15 @@ let package = Package(
     products: [
         .library(name: "native-image-cropper-ios", targets: ["native_image_cropper_ios"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(name: "FlutterFramework", path: "../FlutterFramework")
+    ],
     targets: [
         .target(
             name: "native_image_cropper_ios",
-            dependencies: []
+            dependencies: [
+                .product(name: "FlutterFramework", package: "FlutterFramework")
+            ]
         )
     ]
 )
