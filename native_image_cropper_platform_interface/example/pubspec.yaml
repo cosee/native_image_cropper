@@ -12,5 +12,5 @@ dependencies:
   native_image_cropper_platform_interface: ^0.2.0
 
 dev_dependencies:
-  cosee_lints: ^0.13.0
+  cosee_lints: ^0.14.0
   dart_code_linter: ^4.0.0
