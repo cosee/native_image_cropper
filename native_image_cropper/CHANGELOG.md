@@ -1,3 +1,9 @@
+## 0.8.0
+
+* Set Dart constraint to `^3.0.0`.
+* Set Flutter constraint to `^3.41.0`.
+* Bump platform plugin versions.
+
 ## 0.7.1
 
 * Fix Swift Package Manager compatibility.

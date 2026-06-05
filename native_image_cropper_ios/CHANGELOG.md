@@ -1,3 +1,9 @@
+## 0.4.0
+
+* Set Dart constraint to `^3.0.0`.
+* Set Flutter constraint to `^3.41.0`.
+* Fix Swift Package Manager warning.
+
 ## 0.3.0
 
 * Add Swift Package Manager compatibility.

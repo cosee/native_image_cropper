@@ -1,3 +1,10 @@
+## 0.4.0
+
+* Set Dart constraint to `^3.0.0`.
+* Set Flutter constraint to `^3.41.0`.
+* Migrate Android Gradle configuration to built-in Kotlin support.
+* Migrate Android build script to Kotlin DSL.
+
 ## 0.3.1
 
 * Fix can't compress a recycled bitmap.
