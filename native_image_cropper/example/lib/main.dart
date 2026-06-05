@@ -72,13 +72,13 @@ class _HomeState extends State<_Home> {
           builder: (context, snapshot) => switch (snapshot.data) {
             null => const LoadingIndicator(),
             final bytes => TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                DefaultPage(bytes: bytes),
-                CustomPage(bytes: bytes),
-                NativePage(bytes: bytes),
-              ],
-            ),
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  DefaultPage(bytes: bytes),
+                  CustomPage(bytes: bytes),
+                  NativePage(bytes: bytes),
+                ],
+              ),
           },
         ),
       ),

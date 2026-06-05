@@ -44,8 +44,7 @@ class _CropDragPoints extends StatelessWidget {
                     delta: details.delta,
                     moveSpecificCropCornerFnc: cropUtils.moveTopLeftCorner,
                   ),
-                  child:
-                      dragPointBuilder?.call(
+                  child: dragPointBuilder?.call(
                         dragPointSize,
                         CropDragPointPosition.topLeft,
                       ) ??
@@ -61,8 +60,7 @@ class _CropDragPoints extends StatelessWidget {
                     delta: details.delta,
                     moveSpecificCropCornerFnc: cropUtils.moveTopRightCorner,
                   ),
-                  child:
-                      dragPointBuilder?.call(
+                  child: dragPointBuilder?.call(
                         dragPointSize,
                         CropDragPointPosition.topRight,
                       ) ??
@@ -78,8 +76,7 @@ class _CropDragPoints extends StatelessWidget {
                     delta: details.delta,
                     moveSpecificCropCornerFnc: cropUtils.moveBottomLeftCorner,
                   ),
-                  child:
-                      dragPointBuilder?.call(
+                  child: dragPointBuilder?.call(
                         dragPointSize,
                         CropDragPointPosition.bottomLeft,
                       ) ??
@@ -95,8 +92,7 @@ class _CropDragPoints extends StatelessWidget {
                     delta: details.delta,
                     moveSpecificCropCornerFnc: cropUtils.moveBottomRightCorner,
                   ),
-                  child:
-                      dragPointBuilder?.call(
+                  child: dragPointBuilder?.call(
                         dragPointSize,
                         CropDragPointPosition.bottomRight,
                       ) ??
@@ -116,13 +112,13 @@ class _CropDragPoints extends StatelessWidget {
       required Offset delta,
       Rect? cropRect,
       Rect? imageRect,
-    })
-    moveSpecificCropCornerFnc,
-  }) => controller.cropRect = moveSpecificCropCornerFnc(
-    cropRect: controller.cropRect,
-    imageRect: controller.imageRectNotifier.value,
-    delta: delta,
-  );
+    }) moveSpecificCropCornerFnc,
+  }) =>
+      controller.cropRect = moveSpecificCropCornerFnc(
+        cropRect: controller.cropRect,
+        imageRect: controller.imageRectNotifier.value,
+        delta: delta,
+      );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

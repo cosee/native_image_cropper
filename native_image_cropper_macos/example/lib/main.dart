@@ -125,8 +125,7 @@ class _MyAppState extends State<MyApp> {
       required int width,
       required int height,
       required ImageFormat format,
-    })
-    method,
+    }) method,
   }) async {
     final croppedBytes = await method(
       bytes: bytes,

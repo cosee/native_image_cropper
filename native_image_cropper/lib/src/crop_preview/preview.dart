@@ -11,11 +11,10 @@ part 'image.dart';
 
 /// Type alias for a callback function.
 /// Used to build a custom drag point in a [CropPreview].
-typedef CropDragPointBuilder =
-    Widget Function(
-      double size,
-      CropDragPointPosition position,
-    );
+typedef CropDragPointBuilder = Widget Function(
+  double size,
+  CropDragPointPosition position,
+);
 
 /// The [CropPreview] implements a preview screen for image cropping.
 /// It allows the user to crop the image using a movable and resizable
