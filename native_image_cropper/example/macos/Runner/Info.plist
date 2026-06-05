@@ -30,5 +30,7 @@
 	<string>NSApplication</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Needed to save cropped image in gallery.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Needed to save cropped image in gallery.</string>
 </dict>
 </plist>

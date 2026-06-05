@@ -28,6 +28,8 @@
 	<string>MainMenu</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Needed to save cropped image in gallery.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Needed to save cropped image in gallery.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

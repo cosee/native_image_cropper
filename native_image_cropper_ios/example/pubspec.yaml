@@ -10,13 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  native_image_cropper_ios:
-    # When depending on this package from a real application you should use:
-    #   native_image_cropper_ios: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
-    path: ../
+  native_image_cropper_ios: ^0.3.0
   cupertino_icons: ^1.0.6
   # Saving cropped image to gallery.
   gal: ^2.3.0
@@ -24,8 +18,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  cosee_lints: ^0.11.0
-  dart_code_linter: ^3.0.0
+  cosee_lints: ^0.14.0
+  dart_code_linter: ^4.0.0
 
 flutter:
   assets:

@@ -1,3 +1,7 @@
+## 0.7.1
+
+* Fix Swift Package Manager compatibility.
+
 ## 0.7.0
 
 * Add Swift Package Manager compatibility.
