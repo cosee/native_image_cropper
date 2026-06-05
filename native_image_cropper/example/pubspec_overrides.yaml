@@ -1,0 +1,13 @@
+dependency_overrides:
+  native_image_cropper:
+    path: ../
+  native_image_cropper_android:
+    path: ../../native_image_cropper_android
+  native_image_cropper_ios:
+    path: ../../native_image_cropper_ios
+  native_image_cropper_macos:
+    path: ../../native_image_cropper_macos
+  native_image_cropper_web:
+    path: ../../native_image_cropper_web
+  native_image_cropper_platform_interface:
+    path: ../../native_image_cropper_platform_interface

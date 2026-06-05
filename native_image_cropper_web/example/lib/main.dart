@@ -24,6 +24,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _nativeImageCropperWeb = NativeImageCropperPlugin();
   ImageFormat _format = ImageFormat.jpg;
+  late Future<Uint8List> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = _getBytes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +41,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Native Image Cropper Web Example'),
         ),
         body: FutureBuilder<Uint8List>(
-          // ignore: discarded_futures, build method cannot be marked async.
-          future: _getBytes(),
+          future: _future,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final bytes = snapshot.data;
