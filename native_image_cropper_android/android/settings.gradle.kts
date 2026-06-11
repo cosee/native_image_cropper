@@ -6,7 +6,7 @@ pluginManagement {
     }
 
     plugins {
-        id("com.android.library") version "8.13.2"
+        id("com.android.library") version "9.2.1"
     }
 }
 
