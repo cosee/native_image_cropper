@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  native_image_cropper_macos: ^0.3.0
+  native_image_cropper_macos: ^0.4.0
   cupertino_icons: ^1.0.6
   # Saving cropped image to gallery.
   gal: ^2.3.0
