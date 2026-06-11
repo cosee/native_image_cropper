@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  native_image_cropper_android: ^0.3.0
+  native_image_cropper_android: ^0.4.0
   # Saving cropped image to gallery.
   gal: ^2.3.0
 
