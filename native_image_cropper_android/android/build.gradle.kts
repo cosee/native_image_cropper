@@ -2,7 +2,7 @@ group = "biz.cosee.native_image_cropper_android"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    val kotlinVersion = "2.4.0"
+    val kotlinVersion = "2.4.10"
 
     repositories {
         google()
