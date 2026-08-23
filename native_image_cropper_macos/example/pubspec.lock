@@ -133,10 +133,10 @@ packages:
     dependency: "direct dev"
     description:
       name: dart_code_linter
-      sha256: be76941cc3d3051a562cf5b8eed1668922dc3de42d602e97a4d9a3125be9d00f
+      sha256: "8b9574e550ea20e18c1c990e4302590aedb868a7262ec2fee355eeffc912b8ba"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.0"
+    version: "4.2.1"
   dart_style:
     dependency: transitive
     description:
@@ -434,10 +434,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "0016aef94fc66495ac78af5859181e3f3bf2026bd8eecc72b9565601e19ab360"
+      sha256: "5f37239c4851efcef929cea7824e76df7f2f0970aef85d66bbc430afa40e72f0"
       url: "https://pub.dev"
     source: hosted
-    version: "15.2.0"
+    version: "15.3.0"
   watcher:
     dependency: transitive
     description:
