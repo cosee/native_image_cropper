@@ -109,10 +109,10 @@ packages:
     dependency: "direct dev"
     description:
       name: cosee_lints
-      sha256: "4369ad0964e217729530356f4323ca936ed08b89180d29fd59391cd91bbafe7d"
+      sha256: c368a5f2e20aea8f5cfbe1ffccb70dc302c94b4ed5e00f1118e1f36f1a856d27
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.0"
+    version: "0.16.0"
   crypto:
     dependency: transitive
     description:
@@ -664,5 +664,5 @@ packages:
     source: hosted
     version: "2.2.4"
 sdks:
-  dart: ">=3.11.0 <4.0.0"
+  dart: ">=3.13.0 <4.0.0"
   flutter: ">=3.41.0"
